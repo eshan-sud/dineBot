@@ -1,4 +1,4 @@
-# Restraunt Bot
+# Restaurant Bot
 
 My final project for my internship at Celebal Technologies 2025.
 
@@ -46,11 +46,12 @@ This handy restaurant bot simplifies your dining experience. It helps you find r
   - [x] Initialise Node.js Project
   - [x] Configure MySQL Database
   - [x] Connect Node.js to MySQL (using mysql2)
+  - [x] Basic User Authentication
 
 - [] Restaurant Discovery
 
-  - [] Design MySQL relations (restaurants, locations, cuisines, reviews, etc).
-  - [] Implement search intent using user input (e.g., "Chinese food near me").
+  - [x] Design MySQL relations (restaurants, locations, cuisines, reviews, etc).
+  - [] Implement search intent using user input (eg, "Chinese food near me").
   - [] Query MySQL based on cuisine, location, price range, or keywords.
   - [] Return restaurant options formatted as adaptive cards in chat.
 
