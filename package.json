@@ -1,0 +1,29 @@
+{
+  "name": "restraunt-bot",
+  "version": "1.0.0",
+  "description": "Final project for my remote internship at Celebal Technologies 2025",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "repository": {
+    "type": "git",
+    "url": ".."
+  },
+  "license": "ISC",
+  "author": "Eshan Sud",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "dev:frontend": "npm --prefix frontend run dev",
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:contracts": "npm --prefix contracts run hardhat",
+    "dev:all": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "dependencies": {
+    "botbuilder": "^4.23.2"
+  }
+}
