@@ -4,7 +4,7 @@ My final project for my internship at Celebal Technologies 2025.
 
 ### Start the backend:
 
-- Run this on the terminal in theroot directory of the project
+- Run this on the terminal in the root directory of the project
 
   npm run dev:backend
 
@@ -12,11 +12,14 @@ My final project for my internship at Celebal Technologies 2025.
 
 - Node.js
 - MySQL
+- REST APIs
+- Postman (testing APIs)
 
 #### Other dependencies:
 
 - bcrypt
 - body-parser
+- botbuilder
 - cors
 - dotenv
 - express
@@ -39,10 +42,10 @@ This handy restaurant bot simplifies your dining experience. It helps you find r
 
 ### TODO
 
-- [] Core Setup & Tools
+- [x] Core Setup & Tools
 
-  - [] Install Bot Framework SDK (Node.js version)
-  - [] Set up Bot Framework Emulator for local testing
+  - [x] Install JavaScript dependencies (express, cors, botbuilder, bcrypt, nodemon)
+  - [x] Set up Bot Framework Emulator for local testing
   - [x] Initialise Node.js Project
   - [x] Configure MySQL Database
   - [x] Connect Node.js to MySQL (using mysql2)
