@@ -20,6 +20,7 @@ My final project for my internship at Celebal Technologies 2025.
 - bcrypt
 - body-parser
 - botbuilder
+- chrono-node
 - cors
 - dotenv
 - express
@@ -54,19 +55,20 @@ This handy restaurant bot simplifies your dining experience. It helps you find r
 - [] Restaurant Discovery
 
   - [x] Design MySQL relations (restaurants, locations, cuisines, reviews, etc).
+  - [x] Implement basic restraunt discovery using user inputs
   - [] Implement search intent using user input (eg, "Chinese food near me").
   - [] Query MySQL based on cuisine, location, price range, or keywords.
   - [] Return restaurant options formatted as adaptive cards in chat.
 
 - [] Menu Exploration
 
-  - [] Create MySQL relations (menus, menu_items, item_images, item_reviews).
-  - [] Implement dialog to show menu for selected restaurant.
+  - [x] Create MySQL relations (menus, menu_items, item_images, item_reviews).
+  - [x] Implement dialog to show menu for selected restaurant.
   - [] Show item details: description, image, price, user ratings.
 
 - [] Reservation Management
 
-  - [] Create reservations table: Includes user ID, date, time, party size, and notes.
+  - [x] Create MySQL reservations relation (user ID, date, time, party size, notes).
   - [] Add dialogs to handle making a reservation (with validation for time slots).
   - [] Allow user to modify or cancel existing reservations.
 
@@ -79,8 +81,8 @@ This handy restaurant bot simplifies your dining experience. It helps you find r
 
 - [] Payment Integration
 
-  - [] Integrate with dummy/test payment gateway (e.g., Stripe test mode).
-  - [] Capture payment info securely (tokenized method recommended).
+  - [] Integrate with dummy/test payment gateway (eg, Stripe test mode).
+  - [] Capture payment info securely (tokenized method).
   - [] Link payments to specific order IDs.
 
 - [] Order Tracking
@@ -98,7 +100,7 @@ This handy restaurant bot simplifies your dining experience. It helps you find r
 
   - [] Track user behavior: restaurant visits, ordered items, ratings.
   - [] Store user preferences in a user_preferences table.
-  - [] Recommend dishes/restaurants based on past behavior using basic rules or ML model (optional for now).
+  - [] Recommend dishes/restaurants based on past behavior using basic rules or ML model (optional).
 
 - [] Deployment & Final Touches
 

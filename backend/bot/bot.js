@@ -2,7 +2,9 @@
 
 const { ActivityHandler } = require("botbuilder");
 const { getMenuByRestaurantName } = require("../controllers/menuController");
-// const { createReservationFromText } = require("../controllers/reservationController");
+const {
+  createReservationFromText,
+} = require("../controllers/reservationController");
 
 class RestaurantBot extends ActivityHandler {
   constructor() {

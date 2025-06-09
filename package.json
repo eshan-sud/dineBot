@@ -22,8 +22,5 @@
   },
   "devDependencies": {
     "concurrently": "^9.1.2"
-  },
-  "dependencies": {
-    "botbuilder": "^4.23.2"
   }
 }

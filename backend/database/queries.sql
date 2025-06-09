@@ -136,3 +136,82 @@ CREATE TABLE user_behaviour (
     FOREIGN KEY (restaurant_id) REFERENCES restaurants(id) ON DELETE CASCADE,
     FOREIGN KEY (menu_item_id) REFERENCES menu_items(id) ON DELETE CASCADE
 );
+
+
+-- Dummy data for restaurant_bot
+INSERT INTO users (name, email, password)
+VALUES
+  ('Alice', 'alice@example.com', 'hashed_pass1'),
+  ('Bob', 'bob@example.com', 'hashed_pass2');
+
+-- Locations
+INSERT INTO locations (city, area)
+VALUES
+  ('Jaipur', 'Malviya Nagar'),
+  ('Delhi', 'Connaught Place');
+
+-- Cuisines
+INSERT INTO cuisines (name)
+VALUES
+  ('Italian'),
+  ('Indian');
+
+-- Restaurants
+INSERT INTO restaurants (name, location_id, cuisine_id, price_range, rating)
+VALUES
+  ('Pizza Palace', 1, 1, '₹₹', 4.5),
+  ('Curry Corner', 2, 2, '₹', 4.0);
+
+-- Menus
+INSERT INTO menus (restaurant_id, name, description)
+VALUES
+  (1, 'Main Menu', 'Delicious pizzas and pastas'),
+  (2, 'Daily Specials', 'Authentic Indian dishes');
+
+-- Menu Items
+INSERT INTO menu_items (menu_id, name, description, price)
+VALUES
+  (1, 'Margherita Pizza', 'Classic pizza with tomato and mozzarella', 299.00),
+  (1, 'Penne Alfredo', 'Creamy pasta with mushrooms', 349.00),
+  (2, 'Paneer Butter Masala', 'Cottage cheese in creamy tomato gravy', 199.00),
+  (2, 'Garlic Naan', 'Leavened bread with garlic topping', 49.00);
+
+-- Item Images
+INSERT INTO item_images (menu_item_id, image_url)
+VALUES
+  (1, 'http://example.com/images/margherita.jpg'),
+  (2, 'http://example.com/images/alfredo.jpg');
+
+-- Reviews
+INSERT INTO reviews (user_id, restaurant_id, rating, comment)
+VALUES
+  (1, 1, 5, 'Amazing pizza!'),
+  (2, 2, 4, 'Good food, but service was slow');
+
+-- Item Reviews
+INSERT INTO item_reviews (user_id, menu_item_id, rating, comment)
+VALUES
+  (1, 1, 5, 'Perfectly cheesy!'),
+  (2, 3, 4, 'Spicy and flavorful');
+
+-- Reservations
+INSERT INTO reservations (user_id, restaurant_id, reservation_date, reservation_time, party_size, notes)
+VALUES
+  (1, 1, '2025-06-10', '19:30:00', 2, 'Window seat preferred');
+
+-- Orders
+INSERT INTO orders (user_id, restaurant_id, status, total_amount)
+VALUES
+  (2, 2, 'delivered', 248.00);
+
+-- Order Items
+INSERT INTO order_items (order_id, menu_item_id, quantity)
+VALUES
+  (1, 3, 1),
+  (1, 4, 1);
+
+-- User Behaviour
+INSERT INTO user_behaviour (user_id, restaurant_id, menu_item_id, action_type)
+VALUES
+  (1, 1, 1, 'view'),
+  (2, 2, 3, 'order');
