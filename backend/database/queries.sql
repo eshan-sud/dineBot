@@ -141,8 +141,8 @@ CREATE TABLE user_behaviour (
 -- Dummy data for restaurant_bot
 INSERT INTO users (name, email, password)
 VALUES
-  ('Alice', 'alice@example.com', 'hashed_pass1'),
-  ('Bob', 'bob@example.com', 'hashed_pass2');
+  ('Alice', 'alice@example.com', '$2b$10$42mZxcEOiOSiCBXmBgVEo.DLy.4oXvYsuHGhUczSRY8AaOvJb4z9G'),
+  ('Bob', 'bob@example.com', '$2b$10$lhS6v4Zuk3LP.jqwq9.6hufvJZLui65TW2xhvtU8xwbyODnSzzYdm');
 
 -- Locations
 INSERT INTO locations (city, area)
@@ -159,8 +159,8 @@ VALUES
 -- Restaurants
 INSERT INTO restaurants (name, location_id, cuisine_id, price_range, rating)
 VALUES
-  ('Pizza Palace', 1, 1, '₹₹', 4.5),
-  ('Curry Corner', 2, 2, '₹', 4.0);
+  ('Pizza Palace', 1, 1, '200-500', 4.5),
+  ('Curry Corner', 2, 2, '0-200', 4.0);
 
 -- Menus
 INSERT INTO menus (restaurant_id, name, description)
@@ -207,8 +207,8 @@ VALUES
 -- Order Items
 INSERT INTO order_items (order_id, menu_item_id, quantity)
 VALUES
-  (1, 3, 1),
-  (1, 4, 1);
+  (2, 3, 1),
+  (2, 4, 1);
 
 -- User Behaviour
 INSERT INTO user_behaviour (user_id, restaurant_id, menu_item_id, action_type)
