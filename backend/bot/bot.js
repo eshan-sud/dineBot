@@ -1,6 +1,8 @@
 // backend/bot/bot.js
 
 const { ActivityHandler } = require("botbuilder");
+const cluClient = require("./cluClient");
+
 const { getMenuByRestaurantName } = require("../controllers/menuController");
 const {
   makeReservation,
@@ -26,6 +28,28 @@ function convertTo24Hour(timeStr) {
     .padStart(2, "0")}:00`;
 }
 
+async function getIntentAndEntities(text) {
+  const result = await cluClient.analyzeConversation({
+    kind: "conversational",
+    analysisInput: {
+      conversationItem: {
+        id: "1",
+        text,
+      },
+    },
+    parameters: {
+      projectName: process.env.AZURE_CLU_PROJECT_NAME,
+      deploymentName: process.env.AZURE_CLU_ENDPOINT_NAME,
+      stringIndexType: "Utf16CodeUnit",
+    },
+  });
+  const prediction = result.result.prediction;
+  return {
+    topIntent: prediction.topIntent,
+    entities: prediction.entities,
+  };
+}
+
 class RestaurantBot extends ActivityHandler {
   constructor() {
     super();
@@ -35,7 +59,12 @@ class RestaurantBot extends ActivityHandler {
       console.log("User said : ", text);
       let reply = "I'm sorry, I didn't understand that.";
 
-      if (text.includes("hello") || text.includes("hi")) {
+      if (text.includes("cancel order")) {
+        const cancelled = await cancelLatestOrder(1);
+        reply = cancelled
+          ? "❌ Your latest order has been cancelled."
+          : "You have no order that can be cancelled.";
+      } else if (text.includes("hello") || text.includes("hi")) {
         reply =
           "Hello! How can I help you with restaurant reservations or food orders today?";
       } else if (
@@ -136,11 +165,6 @@ class RestaurantBot extends ActivityHandler {
         } else {
           reply = `📦 Your latest order from ${orders.name} is currently *${orders.status}*. Total: ₹${orders.total_amount}`;
         }
-      } else if (text.includes("cancel order")) {
-        const cancelled = await cancelLatestOrder(1);
-        reply = cancelled
-          ? "❌ Your latest order has been cancelled."
-          : "You have no order that can be cancelled.";
       } else if (text.includes("recommend") || text.includes("suggest")) {
         const recommendations = await getRecommendedItems();
         if (recommendations.length === 0) {
@@ -200,7 +224,14 @@ class RestaurantBot extends ActivityHandler {
       for (let member of membersAdded) {
         if (member.id !== context.activity.recipient.id) {
           await context.sendActivity(
-            "Welcome to the Restaurant Bot! Type something to begin."
+            `Welcome to the Restaurant Bot! Here's what all I can help you with:\n\n` +
+              `✅ Book a reservation\n\n` +
+              `📅 Show my reservations\n\n` +
+              `❌ Cancel orders\n\n` +
+              `🍔 Recommend me something\n\n` +
+              `🛍️ Order an item\n\n` +
+              `🍕 View a menu \n\n\n` +
+              `Try typing one of these to get started!`
           );
         }
       }

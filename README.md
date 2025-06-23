@@ -12,6 +12,7 @@ My final project for my internship at Celebal Technologies 2025.
 
 - Node.js
 - MySQL
+- Microsoft Azure (Conversation Language Understanding)
 - REST APIs
 - Postman (testing APIs)
 
@@ -51,6 +52,8 @@ This handy restaurant bot simplifies your dining experience. It helps you find r
   - [x] Configure MySQL Database
   - [x] Connect Node.js to MySQL (using mysql2)
   - [x] Basic User Authentication
+  - [x] Setup Azure CLU service
+  - [x] Integrat Azure CLU service to bot
 
 - [] Restaurant Discovery
 
@@ -75,7 +78,7 @@ This handy restaurant bot simplifies your dining experience. It helps you find r
 - [] Ordering System
 
   - [] Build ordering flow: Add/remove menu items to a cart.
-  - [] Create orders and order_items tables.
+  - [x] Create orders and order_items tables.
   - [] Support pickup vs. delivery options.
   - [] Enable order summary and final confirmation step.
 
