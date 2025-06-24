@@ -1,9 +1,9 @@
 // backend/models/restaurantModel.js
 
-const db = require("../config/db");
+const pool = require("../config/db");
 
 exports.getAllRestaurants = async () => {
-  const [rows] = await db.query(`
+  const [rows] = await pool.query(`
     SELECT r.id, r.name, r.price_range, r.rating,
            l.city, l.area, c.name AS cuisine
     FROM restaurants r
@@ -37,6 +37,6 @@ exports.searchRestaurants = async ({ name, location, cuisine }) => {
     params.push(`%${cuisine}%`);
   }
 
-  const [rows] = await db.query(sql, params);
+  const [rows] = await pool.query(sql, params);
   return rows;
 };

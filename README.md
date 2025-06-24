@@ -12,12 +12,14 @@ My final project for my internship at Celebal Technologies 2025.
 
 - Node.js
 - MySQL
-- Microsoft Azure (Conversation Language Understanding)
+- Microsoft Azure (conversation language understanding)
 - REST APIs
+- Microsoft Bot Emulator
 - Postman (testing APIs)
 
 #### Other dependencies:
 
+- azure/ai-language-conversations
 - bcrypt
 - body-parser
 - botbuilder
@@ -27,7 +29,8 @@ My final project for my internship at Celebal Technologies 2025.
 - express
 - jsonwebtoken
 - mysql2
-- nodemon (dev)
+- stripe
+- nodemon (dev dependency)
 
 ### Instructions:
 
@@ -53,64 +56,66 @@ This handy restaurant bot simplifies your dining experience. It helps you find r
   - [x] Connect Node.js to MySQL (using mysql2)
   - [x] Basic User Authentication
   - [x] Setup Azure CLU service
-  - [x] Integrat Azure CLU service to bot
+  - [x] Integrate Azure CLU service to bot
+  - [x] Setup Payment Gateway (Stripe Test)
+  - [] Integrate Payement Gateway
 
 - [] Restaurant Discovery
 
-  - [x] Design MySQL relations (restaurants, locations, cuisines, reviews, etc).
+  - [x] Design MySQL relations (restaurants, locations, cuisines, reviews, etc)
   - [x] Implement basic restraunt discovery using user inputs
-  - [] Implement search intent using user input (eg, "Chinese food near me").
-  - [] Query MySQL based on cuisine, location, price range, or keywords.
-  - [] Return restaurant options formatted as adaptive cards in chat.
+  - [] Implement search intent using user input (eg, "Chinese food near me")
+  - [] Query MySQL based on cuisine, location, price range, or keywords
+  - [] Return restaurant options formatted as adaptive cards in chat
 
 - [] Menu Exploration
 
-  - [x] Create MySQL relations (menus, menu_items, item_images, item_reviews).
-  - [x] Implement dialog to show menu for selected restaurant.
-  - [] Show item details: description, image, price, user ratings.
+  - [x] Create MySQL relations (menus, menu_items, item_images, item_reviews)
+  - [x] Implement dialog to show menu for selected restaurant
+  - [] Show item details: description, image, price, user ratings
 
 - [] Reservation Management
 
-  - [x] Create MySQL reservations relation (user ID, date, time, party size, notes).
-  - [] Add dialogs to handle making a reservation (with validation for time slots).
-  - [] Allow user to modify or cancel existing reservations.
+  - [x] Create MySQL reservations relation (user ID, date, time, party size, notes)
+  - [] Add dialogs to handle making a reservation (with validation for time slots)
+  - [] Allow user to modify or cancel existing reservations
 
 - [] Ordering System
 
-  - [] Build ordering flow: Add/remove menu items to a cart.
-  - [x] Create orders and order_items tables.
-  - [] Support pickup vs. delivery options.
-  - [] Enable order summary and final confirmation step.
+  - [] Build ordering flow: Add/remove menu items to a cart
+  - [x] Create orders and order_items tables
+  - [] Support pickup vs. delivery options
+  - [] Enable order summary and final confirmation step
 
 - [] Payment Integration
 
-  - [] Integrate with dummy/test payment gateway (eg, Stripe test mode).
-  - [] Capture payment info securely (tokenized method).
-  - [] Link payments to specific order IDs.
+  - [x] Integrate with dummy/test payment gateway (eg, Stripe test mode)
+  - [] Capture payment info securely (tokenized method)
+  - [] Link payments to specific order IDs in database
 
 - [] Order Tracking
 
-  - [] Create order status tracking system (status: pending, accepted, on the way, delivered).
-  - [] Send real-time status updates to user via the bot.
-  - [] Allow user to view current order status anytime.
+  - [] Create order status tracking system (status: pending, accepted, on the way, delivered)
+  - [] Send real-time status updates to user via the bot
+  - [] Allow user to view current order status anytime
 
 - [] Table Management (Reservations + Orders)
 
-  - [] Add dashboard intent for user to view current & past orders/reservations.
-  - [] Enable easy cancellations/modifications through dialog options.
+  - [] Add dashboard intent for user to view current & past orders/reservations
+  - [] Enable easy cancellations/modifications through dialog options
 
 - [] Personalized Recommendations
 
-  - [] Track user behavior: restaurant visits, ordered items, ratings.
-  - [] Store user preferences in a user_preferences table.
-  - [] Recommend dishes/restaurants based on past behavior using basic rules or ML model (optional).
+  - [] Track user behavior: restaurant visits, ordered items, ratings
+  - [] Store user preferences in a user_preferences table
+  - [] Recommend dishes/restaurants based on past behavior using basic rules or ML model (optional)
 
 - [] Deployment & Final Touches
 
-  - [] Deploy the bot to Azure Bot Services.
-  - [] Connect bot to Microsoft Teams or Web Chat Channel.
-  - [] Write documentation for code, database schema, and deployment.
-  - [] Test all major scenarios and handle edge cases (invalid input, DB down, etc).
+  - [] Deploy the bot to Azure Bot Services
+  - [] Connect bot to Microsoft Teams or Web Chat Channel
+  - [] Write documentation for code, database schema, and deployment
+  - [] Test all major scenarios and handle edge cases (invalid input, DB down, etc)
 
 <!-- - [] Complete Frontend
 

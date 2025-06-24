@@ -1,9 +1,9 @@
 // backend/models/menuModel.js
 
-const db = require("../config/db");
+const pool = require("../config/db");
 
 exports.getMenusByRestaurantId = async (restaurantId) => {
-  const [rows] = await db.query(
+  const [rows] = await pool.query(
     `SELECT id, name, description FROM menus WHERE restaurant_id = ?`,
     [restaurantId]
   );
@@ -11,7 +11,7 @@ exports.getMenusByRestaurantId = async (restaurantId) => {
 };
 
 exports.getItemsByMenuId = async (menuId) => {
-  const [rows] = await db.query(
+  const [rows] = await pool.query(
     `SELECT mi.id, mi.name, mi.description, mi.price, ii.image_url
      FROM menu_items mi
      LEFT JOIN item_images ii ON mi.id = ii.menu_item_id
