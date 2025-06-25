@@ -1,0 +1,288 @@
+[
+  {
+    "intent": "RemoveFromCart",
+    "language": "en-us",
+    "text": "Remove the pizza from my cart",
+    "entities": [
+      { "category": "quantity", "offset": 7, "length": 3 },
+      { "category": "menuItem", "offset": 11, "length": 5 }
+    ]
+  },
+  {
+    "intent": "RemoveFromCart",
+    "language": "en-us",
+    "text": "I don't want the salad anymore",
+    "entities": [
+      { "category": "quantity", "offset": 13, "length": 3 },
+      { "category": "menuItem", "offset": 17, "length": 5 }
+    ]
+  },
+  {
+    "intent": "RemoveFromCart",
+    "language": "en-us",
+    "text": "Cancel the burger in my order",
+    "entities": [
+      { "category": "quantity", "offset": 7, "length": 3 },
+      { "category": "menuItem", "offset": 13, "length": 6 }
+    ]
+  },
+  {
+    "intent": "RemoveFromCart",
+    "language": "en-us",
+    "text": "Remove one item from the cart",
+    "entities": [{ "category": "quantity", "offset": 7, "length": 3 }]
+  },
+  {
+    "intent": "RemoveFromCart",
+    "language": "en-us",
+    "text": "Take out the sushi roll from my order",
+    "entities": [
+      { "category": "quantity", "offset": 9, "length": 3 },
+      { "category": "menuItem", "offset": 13, "length": 10 }
+    ]
+  },
+  {
+    "intent": "RemoveFromCart",
+    "language": "en-us",
+    "text": "I want to remove an item",
+    "entities": [{ "category": "quantity", "offset": 17, "length": 2 }]
+  },
+  {
+    "intent": "RemoveFromCart",
+    "language": "en-us",
+    "text": "Remove the drink from the order",
+    "entities": [
+      { "category": "quantity", "offset": 7, "length": 2 },
+      { "category": "menuItem", "offset": 11, "length": 5 }
+    ]
+  },
+  {
+    "intent": "RemoveFromCart",
+    "language": "en-us",
+    "text": "Delete the pizza from my cart",
+    "entities": [
+      { "category": "quantity", "offset": 7, "length": 3 },
+      { "category": "menuItem", "offset": 11, "length": 5 }
+    ]
+  },
+  {
+    "intent": "RemoveFromCart",
+    "language": "en-us",
+    "text": "Get rid of the dessert",
+    "entities": [
+      { "category": "quantity", "offset": 11, "length": 3 },
+      { "category": "menuItem", "offset": 15, "length": 7 }
+    ]
+  },
+  {
+    "intent": "RemoveFromCart",
+    "language": "en-us",
+    "text": "Cancel the garlic bread",
+    "entities": [
+      { "category": "quantity", "offset": 7, "length": 3 },
+      { "category": "menuItem", "offset": 11, "length": 12 }
+    ]
+  },
+  {
+    "intent": "RemoveFromCart",
+    "language": "en-us",
+    "text": "Remove the Pasta from my cart",
+    "entities": [
+      { "category": "quantity", "offset": 7, "length": 3 },
+      { "category": "menuItem", "offset": 11, "length": 5 }
+    ]
+  },
+  {
+    "intent": "RemoveFromCart",
+    "language": "en-us",
+    "text": "Take out the Pizza from order id #456",
+    "entities": [
+      { "category": "quantity", "offset": 9, "length": 3 },
+      { "category": "menuItem", "offset": 13, "length": 5 },
+      { "category": "orderID", "offset": 34, "length": 3 }
+    ]
+  },
+  {
+    "intent": "RemoveFromCart",
+    "language": "en-us",
+    "text": "Remove the Pasta added for 5 people",
+    "entities": [
+      { "category": "quantity", "offset": 7, "length": 3 },
+      { "category": "menuItem", "offset": 11, "length": 5 },
+      { "category": "partySize", "offset": 27, "length": 1 }
+    ]
+  },
+  {
+    "intent": "RemoveFromCart",
+    "language": "en-us",
+    "text": "Cancel the Veggies for user 123",
+    "entities": [
+      { "category": "quantity", "offset": 7, "length": 3 },
+      { "category": "menuItem", "offset": 11, "length": 7 },
+      { "category": "userID", "offset": 28, "length": 3 }
+    ]
+  },
+  {
+    "intent": "RemoveFromCart",
+    "language": "en-us",
+    "text": "Remove the item Pizza from Pizza Palace",
+    "entities": [
+      { "category": "quantity", "offset": 7, "length": 3 },
+      { "category": "menuItem", "offset": 16, "length": 5 },
+      { "category": "restaurantName", "offset": 27, "length": 12 }
+    ]
+  },
+  {
+    "intent": "RemoveFromCart",
+    "language": "en-us",
+    "text": "Take the Burger out of my cart for 15:00 PM",
+    "entities": [
+      { "category": "quantity", "offset": 5, "length": 3 },
+      { "category": "menuItem", "offset": 9, "length": 6 },
+      { "category": "time", "offset": 35, "length": 8 }
+    ]
+  },
+  {
+    "intent": "RemoveFromCart",
+    "language": "en-us",
+    "text": "Remove 2 pizza from my cart",
+    "entities": [
+      { "category": "quantity", "offset": 7, "length": 1 },
+      { "category": "menuItem", "offset": 9, "length": 6 }
+    ]
+  },
+  {
+    "intent": "RemoveFromCart",
+    "language": "en-us",
+    "text": "Delete 3 burgers from the order",
+    "entities": [
+      { "category": "quantity", "offset": 7, "length": 1 },
+      { "category": "menuItem", "offset": 9, "length": 6 }
+    ]
+  },
+  {
+    "intent": "RemoveFromCart",
+    "language": "en-us",
+    "text": "Take out 1 salad from my cart",
+    "entities": [
+      { "category": "quantity", "offset": 9, "length": 1 },
+      { "category": "menuItem", "offset": 11, "length": 5 }
+    ]
+  },
+  {
+    "intent": "RemoveFromCart",
+    "language": "en-us",
+    "text": "Cancel 4 drinks from the order",
+    "entities": [
+      { "category": "quantity", "offset": 7, "length": 1 },
+      { "category": "menuItem", "offset": 9, "length": 6 }
+    ]
+  },
+  {
+    "intent": "RemoveFromCart",
+    "language": "en-us",
+    "text": "Remove 2 pasta dishes from my order",
+    "entities": [
+      { "category": "quantity", "offset": 7, "length": 1 },
+      { "category": "menuItem", "offset": 9, "length": 5 }
+    ]
+  },
+  {
+    "intent": "RemoveFromCart",
+    "language": "en-us",
+    "text": "Get rid of 1 dessert in the cart",
+    "entities": [
+      { "category": "quantity", "offset": 11, "length": 1 },
+      { "category": "menuItem", "offset": 13, "length": 7 }
+    ]
+  },
+  {
+    "intent": "RemoveFromCart",
+    "language": "en-us",
+    "text": "Cancel 3 sushi rolls from my order",
+    "entities": [
+      { "category": "quantity", "offset": 7, "length": 1 },
+      { "category": "menuItem", "offset": 9, "length": 5 }
+    ]
+  },
+  {
+    "intent": "RemoveFromCart",
+    "language": "en-us",
+    "text": "Remove 5 garlic breads from the cart",
+    "entities": [
+      { "category": "quantity", "offset": 8, "length": 1 },
+      { "category": "menuItem", "offset": 9, "length": 12 }
+    ]
+  },
+  {
+    "intent": "RemoveFromCart",
+    "language": "en-us",
+    "text": "Delete 2 items of pizza from the cart",
+    "entities": [
+      { "category": "quantity", "offset": 7, "length": 1 },
+      { "category": "menuItem", "offset": 18, "length": 5 }
+    ]
+  },
+  {
+    "intent": "RemoveFromCart",
+    "language": "en-us",
+    "text": "Take out 3 sodas from my order",
+    "entities": [
+      { "category": "quantity", "offset": 9, "length": 1 },
+      { "category": "menuItem", "offset": 11, "length": 5 }
+    ]
+  },
+  {
+    "intent": "RemoveFromCart",
+    "language": "en-us",
+    "text": "Please remove 2 gluten free brownies from my cart",
+    "entities": [
+      { "category": "quantity", "offset": 14, "length": 1 },
+      { "category": "category", "offset": 16, "length": 11 },
+      { "category": "menuItem", "offset": 28, "length": 8 }
+    ]
+  },
+  {
+    "intent": "RemoveFromCart",
+    "language": "en-us",
+    "text": "Cancel 1 Indian curry from Tandoori Express at 9 PM",
+    "entities": [
+      { "category": "quantity", "offset": 7, "length": 1 },
+      { "category": "cuisine", "offset": 9, "length": 6 },
+      { "category": "menuItem", "offset": 16, "length": 5 },
+      { "category": "restaurantName", "offset": 27, "length": 16 },
+      { "category": "time", "offset": 47, "length": 4 }
+    ]
+  },
+  {
+    "intent": "RemoveFromCart",
+    "language": "en-us",
+    "text": "Delete my 3 non veg burgers for user 456",
+    "entities": [
+      { "category": "quantity", "offset": 10, "length": 1 },
+      { "category": "category", "offset": 12, "length": 7 },
+      { "category": "menuItem", "offset": 20, "length": 7 },
+      { "category": "userID", "offset": 37, "length": 3 }
+    ]
+  },
+  {
+    "intent": "RemoveFromCart",
+    "language": "en-us",
+    "text": "Remove 2 sushi rolls rated 4 stars from my order",
+    "entities": [
+      { "category": "quantity", "offset": 7, "length": 1 },
+      { "category": "menuItem", "offset": 9, "length": 11 },
+      { "category": "ratingValue", "offset": 27, "length": 7 }
+    ]
+  },
+  {
+    "intent": "RemoveFromCart",
+    "language": "en-us",
+    "text": "Take out 4 pasta plates from the cart worth ₹800",
+    "entities": [
+      { "category": "quantity", "offset": 9, "length": 1 },
+      { "category": "menuItem", "offset": 11, "length": 12 },
+      { "category": "priceRange", "offset": 45, "length": 4 }
+    ]
+  }
+]

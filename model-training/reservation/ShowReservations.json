@@ -1,0 +1,248 @@
+[
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "Show my reservations",
+    "entities": []
+  },
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "Check my reservation status",
+    "entities": []
+  },
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "What reservations do I have?",
+    "entities": []
+  },
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "Do I have any dinner reservations?",
+    "entities": []
+  },
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "List all my upcoming table bookings",
+    "entities": []
+  },
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "Do I have any bookings?",
+    "entities": []
+  },
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "List my upcoming reservations",
+    "entities": []
+  },
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "What are my confirmed reservations?",
+    "entities": []
+  },
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "Show booked tables",
+    "entities": []
+  },
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "What's my reservation status?",
+    "entities": []
+  },
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "Do I have any tables booked?",
+    "entities": []
+  },
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "Show me all my upcoming bookings",
+    "entities": []
+  },
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "List my table bookings",
+    "entities": []
+  },
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "What are my active reservations?",
+    "entities": []
+  },
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "Do I have any pending reservations?",
+    "entities": []
+  },
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "What tables have I booked?",
+    "entities": []
+  },
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "Let me see my confirmed reservations",
+    "entities": []
+  },
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "What is my reservation for tonight?",
+    "entities": []
+  },
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "What are my reservations for this weekend?",
+    "entities": []
+  },
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "Do I have any reservations for tomorrow?",
+    "entities": []
+  },
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "List all booked tables for me",
+    "entities": []
+  },
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "What's the status of my reservation?",
+    "entities": []
+  },
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "Do I have any table bookings soon?",
+    "entities": []
+  },
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "Show all reservations in my name",
+    "entities": []
+  },
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "What tables have I reserved?",
+    "entities": []
+  },
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "What are my reservations for next month?",
+    "entities": []
+  },
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "List my pending or confirmed bookings",
+    "entities": []
+  },
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "Do I have any upcoming dinner reservations?",
+    "entities": []
+  },
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "Show my reservation with ID 123",
+    "entities": [{ "category": "reservationID", "offset": 28, "length": 3 }]
+  },
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "Show all my reservations for Italian restaurants on 25th December",
+    "entities": [
+      { "category": "cuisine", "offset": 29, "length": 7 },
+      { "category": "date", "offset": 52, "length": 13 }
+    ]
+  },
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "What are my reservation times for 4 people at Pizza Palace?",
+    "entities": [
+      { "category": "partySize", "offset": 34, "length": 1 },
+      { "category": "restaurantName", "offset": 46, "length": 12 }
+    ]
+  },
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "List my reservations at New York for this weekend.",
+    "entities": [
+      { "category": "userLocation", "offset": 24, "length": 8 },
+      { "category": "date", "offset": 42, "length": 7 }
+    ]
+  },
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "Check reservation id R12345 for status and details.",
+    "entities": [{ "category": "reservationID", "offset": 21, "length": 6 }]
+  },
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "Show all confirmed reservations for U456 with a rating of 4 or more.",
+    "entities": [
+      { "category": "userID", "offset": 36, "length": 4 },
+      { "category": "ratingValue", "offset": 58, "length": 1 }
+    ]
+  },
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "List my active reservations",
+    "entities": []
+  },
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "Show all my bookings",
+    "entities": []
+  },
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "Show reservations",
+    "entities": []
+  },
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "What are my upcoming bookings?",
+    "entities": []
+  },
+  {
+    "intent": "ShowReservations",
+    "language": "en-us",
+    "text": "Do I have any table booked tonight?",
+    "entities": []
+  }
+]

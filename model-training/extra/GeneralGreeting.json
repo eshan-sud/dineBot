@@ -1,0 +1,188 @@
+[
+  {
+    "intent": "GeneralGreeting",
+    "language": "en-us",
+    "text": "Hi",
+    "entities": []
+  },
+  {
+    "intent": "GeneralGreeting",
+    "language": "en-us",
+    "text": "Hello",
+    "entities": []
+  },
+  {
+    "intent": "GeneralGreeting",
+    "language": "en-us",
+    "text": "Hey",
+    "entities": []
+  },
+  {
+    "intent": "GeneralGreeting",
+    "language": "en-us",
+    "text": "Good morning",
+    "entities": []
+  },
+  {
+    "intent": "GeneralGreeting",
+    "language": "en-us",
+    "text": "Good evening",
+    "entities": []
+  },
+  {
+    "intent": "GeneralGreeting",
+    "language": "en-us",
+    "text": "Good afternoon",
+    "entities": []
+  },
+  {
+    "intent": "GeneralGreeting",
+    "language": "en-us",
+    "text": "Hey there",
+    "entities": []
+  },
+  {
+    "intent": "GeneralGreeting",
+    "language": "en-us",
+    "text": "Hi, can you help me?",
+    "entities": []
+  },
+  {
+    "intent": "GeneralGreeting",
+    "language": "en-us",
+    "text": "Hi, how can you help me?",
+    "entities": []
+  },
+  {
+    "intent": "GeneralGreeting",
+    "language": "en-us",
+    "text": "Greetings",
+    "entities": []
+  },
+  {
+    "intent": "GeneralGreeting",
+    "language": "en-us",
+    "text": "Hi bot",
+    "entities": []
+  },
+  {
+    "intent": "GeneralGreeting",
+    "language": "en-us",
+    "text": "Good day",
+    "entities": []
+  },
+  {
+    "intent": "GeneralGreeting",
+    "language": "en-us",
+    "text": "What's up?",
+    "entities": []
+  },
+  {
+    "intent": "GeneralGreeting",
+    "language": "en-us",
+    "text": "Hi, I need help",
+    "entities": []
+  },
+  {
+    "intent": "GeneralGreeting",
+    "language": "en-us",
+    "text": "Hey, are you online?",
+    "entities": []
+  },
+  {
+    "intent": "GeneralGreeting",
+    "language": "en-us",
+    "text": "Hello, I have a question",
+    "entities": []
+  },
+  {
+    "intent": "GeneralGreeting",
+    "language": "en-us",
+    "text": "Yo",
+    "entities": []
+  },
+  {
+    "intent": "GeneralGreeting",
+    "language": "en-us",
+    "text": "Howdy",
+    "entities": []
+  },
+  {
+    "intent": "GeneralGreeting",
+    "language": "en-us",
+    "text": "Good to see you",
+    "entities": []
+  },
+  {
+    "intent": "GeneralGreeting",
+    "language": "en-us",
+    "text": "Hey bot, I'm here",
+    "entities": []
+  },
+  {
+    "intent": "GeneralGreeting",
+    "language": "en-us",
+    "text": "Hello, are you available?",
+    "entities": []
+  },
+  {
+    "intent": "GeneralGreeting",
+    "language": "en-us",
+    "text": "Good evening, I'd like some help",
+    "entities": []
+  },
+  {
+    "intent": "GeneralGreeting",
+    "language": "en-us",
+    "text": "Hi, can you help me book a table?",
+    "entities": []
+  },
+  {
+    "intent": "GeneralGreeting",
+    "language": "en-us",
+    "text": "Good morning, I have an inquiry",
+    "entities": []
+  },
+  {
+    "intent": "GeneralGreeting",
+    "language": "en-us",
+    "text": "Hey, I'd like to ask something",
+    "entities": []
+  },
+  {
+    "intent": "GeneralGreeting",
+    "language": "en-us",
+    "text": "Hi bot, I have a request",
+    "entities": []
+  },
+  {
+    "intent": "GeneralGreeting",
+    "language": "en-us",
+    "text": "Good morning, I have a quick question.",
+    "entities": []
+  },
+  {
+    "intent": "GeneralGreeting",
+    "language": "en-us",
+    "text": "Hey, are you available?",
+    "entities": []
+  },
+  {
+    "intent": "GeneralGreeting",
+    "language": "en-us",
+    "text": "Hi bot, can you help?",
+    "entities": []
+  },
+  {
+    "intent": "GeneralGreeting",
+    "language": "en-us",
+    "text": "Good evening, I'm looking for information.",
+    "entities": []
+  },
+  {
+    "intent": "GeneralGreeting",
+    "language": "en-us",
+    "text": "Yo, what can you do for me?",
+    "entities": []
+  }
+]

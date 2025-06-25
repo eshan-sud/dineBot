@@ -1,0 +1,70 @@
+Entities:-
+
+    category        =>  {vegan, veg, non-veg, gluten-free, low carbs}
+    cuisine         =>  {indian, italian, chinese, etc}
+    date            => [Date]
+    deliveryMethod  =>  {delivery, pickup}                                                  [NEW]
+    menuItem        => [String]
+    orderID         => [Number]
+    orderStatus     =>  {placed, pending, accepted, prepared, out-for-delivery, delivered, cancelled}
+    partySize       => [Number]
+    priceRange      => [Number Range]
+    quantity        => [Number]
+    ratingComment   => [String]
+    ratingValue     => [Number]
+    reservationID   => [Number]
+    restaurantName  => [String]
+    time            => [Time]
+    userID          => [Number]
+    userLocation    => [Location]
+
+
+
+            Reservations    => specialRequests
+            Reservations    => Manage reservations (cancellations or modifications) 
+            Orders          => delivery OR take-away / pickup
+            Orders          => Real-time updates on the status of your order, from confirmation to delivery (or pickup notification)
+            
+            Recommendations => Personalised recommendations based on past choices & preferences ; suggest relevant restaurants & dishes
+
+
+Intents:-
+
+    CART
+        AddToCart
+        RemoveFromCart
+        ViewCart
+        EditCart
+        ClearCart
+
+    EXTRA
+        None    (FallbackIntent)
+        GeneralGreeting
+
+    MENU
+        ShowMenu => Add Entities (category)
+
+    ORDER
+        CancelOrder
+        CheckOrderStatus
+        ConfirmOrder (automatically does the work of MakePayment)
+
+    PAYMENT
+        CheckPaymentStatus
+        MakePayment
+
+    RECOMMENDATION
+        RecommendItem => Add Entities (category)
+
+    RESERVATION
+        BookTable
+        CancelReservation
+        ModifyReservation
+        ShowReservations
+
+    RESTAURANT
+        ReviewRestaurant
+        SearchRestaurant
+
+    REVIEW
+        RateItem

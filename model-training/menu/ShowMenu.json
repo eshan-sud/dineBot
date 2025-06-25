@@ -1,0 +1,218 @@
+[
+  {
+    "intent": "ShowMenu",
+    "language": "en-us",
+    "text": "What's on the menu at Curry Corner?",
+    "entities": [{ "category": "restaurantName", "offset": 22, "length": 12 }]
+  },
+  {
+    "intent": "ShowMenu",
+    "language": "en-us",
+    "text": "I want to see the menu for The Spice Route",
+    "entities": [{ "category": "restaurantName", "offset": 27, "length": 15 }]
+  },
+  {
+    "intent": "ShowMenu",
+    "language": "en-us",
+    "text": "Get me the menu of Italian Garden",
+    "entities": [{ "category": "restaurantName", "offset": 19, "length": 14 }]
+  },
+  {
+    "intent": "ShowMenu",
+    "language": "en-us",
+    "text": "Menu of Pizza Palace, please",
+    "entities": [{ "category": "restaurantName", "offset": 8, "length": 12 }]
+  },
+  {
+    "intent": "ShowMenu",
+    "language": "en-us",
+    "text": "Show menu for Pizza Palace",
+    "entities": [{ "category": "restaurantName", "offset": 14, "length": 12 }]
+  },
+  {
+    "intent": "ShowMenu",
+    "language": "en-us",
+    "text": "What can I order from Pizza Palace?",
+    "entities": [{ "category": "restaurantName", "offset": 22, "length": 12 }]
+  },
+  {
+    "intent": "ShowMenu",
+    "language": "en-us",
+    "text": "Show menu of The Burger Spot",
+    "entities": [{ "category": "restaurantName", "offset": 13, "length": 15 }]
+  },
+  {
+    "intent": "ShowMenu",
+    "language": "en-us",
+    "text": "Show me the menu",
+    "entities": []
+  },
+  {
+    "intent": "ShowMenu",
+    "language": "en-us",
+    "text": "Let me see the menu for Noodle House",
+    "entities": [{ "category": "restaurantName", "offset": 24, "length": 12 }]
+  },
+  {
+    "intent": "ShowMenu",
+    "language": "en-us",
+    "text": "Menu for Pasta Place",
+    "entities": [{ "category": "restaurantName", "offset": 9, "length": 11 }]
+  },
+  {
+    "intent": "ShowMenu",
+    "language": "en-us",
+    "text": "Show the menu for Pizza Palace",
+    "entities": [{ "category": "restaurantName", "offset": 18, "length": 12 }]
+  },
+  {
+    "intent": "ShowMenu",
+    "language": "en-us",
+    "text": "What is the menu at Curry Corner?",
+    "entities": [{ "category": "restaurantName", "offset": 20, "length": 12 }]
+  },
+  {
+    "intent": "ShowMenu",
+    "language": "en-us",
+    "text": "What's on the menu?",
+    "entities": []
+  },
+  {
+    "intent": "ShowMenu",
+    "language": "en-us",
+    "text": "Menu for The Pizza Palace",
+    "entities": [{ "category": "restaurantName", "offset": 9, "length": 16 }]
+  },
+  {
+    "intent": "ShowMenu",
+    "language": "en-us",
+    "text": "Show menu for Curry Corner",
+    "entities": [{ "category": "restaurantName", "offset": 14, "length": 12 }]
+  },
+  {
+    "intent": "ShowMenu",
+    "language": "en-us",
+    "text": "I'd like to see the menu",
+    "entities": []
+  },
+  {
+    "intent": "ShowMenu",
+    "language": "en-us",
+    "text": "What can I order?",
+    "entities": []
+  },
+  {
+    "intent": "ShowMenu",
+    "language": "en-us",
+    "text": "List the menu for Pasta House",
+    "entities": [{ "category": "restaurantName", "offset": 18, "length": 11 }]
+  },
+  {
+    "intent": "ShowMenu",
+    "language": "en-us",
+    "text": "What's available in The Grill menu?",
+    "entities": [{ "category": "restaurantName", "offset": 20, "length": 9 }]
+  },
+  {
+    "intent": "ShowMenu",
+    "language": "en-us",
+    "text": "Show available menu items",
+    "entities": []
+  },
+  {
+    "intent": "ShowMenu",
+    "language": "en-us",
+    "text": "Let me see the menu",
+    "entities": []
+  },
+  {
+    "intent": "ShowMenu",
+    "language": "en-us",
+    "text": "What do you have to eat?",
+    "entities": []
+  },
+  {
+    "intent": "ShowMenu",
+    "language": "en-us",
+    "text": "What's on the menu tonight?",
+    "entities": []
+  },
+  {
+    "intent": "ShowMenu",
+    "language": "en-us",
+    "text": "Show the specials",
+    "entities": []
+  },
+  {
+    "intent": "ShowMenu",
+    "language": "en-us",
+    "text": "What dishes are available?",
+    "entities": []
+  },
+  {
+    "intent": "ShowMenu",
+    "language": "en-us",
+    "text": "Menu for The Burger Shack",
+    "entities": [{ "category": "restaurantName", "offset": 9, "length": 16 }]
+  },
+  {
+    "intent": "ShowMenu",
+    "language": "en-us",
+    "text": "List menu options for Sushi Spot",
+    "entities": [{ "category": "restaurantName", "offset": 22, "length": 10 }]
+  },
+  {
+    "intent": "ShowMenu",
+    "language": "en-us",
+    "text": "What can I order from The Dessert Bar?",
+    "entities": [{ "category": "restaurantName", "offset": 22, "length": 15 }]
+  },
+  {
+    "intent": "ShowMenu",
+    "language": "en-us",
+    "text": "Let me browse the menu",
+    "entities": []
+  },
+  {
+    "intent": "ShowMenu",
+    "language": "en-us",
+    "text": "What are the offerings tonight?",
+    "entities": []
+  },
+  {
+    "intent": "ShowMenu",
+    "language": "en-us",
+    "text": "Show menu for The Noodle Bowl",
+    "entities": [{ "category": "restaurantName", "offset": 14, "length": 15 }]
+  },
+  {
+    "intent": "ShowMenu",
+    "language": "en-us",
+    "text": "What do you have on the menu?",
+    "entities": []
+  },
+  {
+    "intent": "ShowMenu",
+    "language": "en-us",
+    "text": "Show available dishes",
+    "entities": []
+  },
+  {
+    "intent": "ShowMenu",
+    "language": "en-us",
+    "text": "What are the menu options?",
+    "entities": []
+  },
+  {
+    "intent": "ShowMenu",
+    "language": "en-us",
+    "text": "What can I get from The Pasta House menu?",
+    "entities": [{ "category": "restaurantName", "offset": 20, "length": 15 }]
+  },
+  {
+    "intent": "ShowMenu",
+    "language": "en-us",
+    "text": "Let me see today's menu",
+    "entities": []
+  }
+]

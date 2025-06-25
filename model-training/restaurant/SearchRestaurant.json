@@ -1,0 +1,141 @@
+[
+  {
+    "intent": "SearchRestaurant",
+    "language": "en-us",
+    "text": "Find Chinese restaurants nearby",
+    "entities": [{ "category": "cuisine", "offset": 5, "length": 7 }]
+  },
+  {
+    "intent": "SearchRestaurant",
+    "language": "en-us",
+    "text": "Search for Italian places in downtown",
+    "entities": [{ "category": "cuisine", "offset": 11, "length": 7 }]
+  },
+  {
+    "intent": "SearchRestaurant",
+    "language": "en-us",
+    "text": "Are there any sushi restaurants open tonight?",
+    "entities": [{ "category": "cuisine", "offset": 14, "length": 5 }]
+  },
+  {
+    "intent": "SearchRestaurant",
+    "language": "en-us",
+    "text": "List restaurants with a price range of $$",
+    "entities": [{ "category": "priceRange", "offset": 39, "length": 2 }]
+  },
+  {
+    "intent": "SearchRestaurant",
+    "language": "en-us",
+    "text": "Show me restaurants in the area",
+    "entities": []
+  },
+  {
+    "intent": "SearchRestaurant",
+    "language": "en-us",
+    "text": "Find restaurants serving vegan meals",
+    "entities": []
+  },
+  {
+    "intent": "SearchRestaurant",
+    "language": "en-us",
+    "text": "I'm looking for a good pizza place",
+    "entities": [{ "category": "menuItem", "offset": 23, "length": 5 }]
+  },
+  {
+    "intent": "SearchRestaurant",
+    "language": "en-us",
+    "text": "List restaurants with a rating of 4 stars and above",
+    "entities": [{ "category": "ratingValue", "offset": 34, "length": 7 }]
+  },
+  {
+    "intent": "SearchRestaurant",
+    "language": "en-us",
+    "text": "Search restaurants in the city center",
+    "entities": []
+  },
+  {
+    "intent": "SearchRestaurant",
+    "language": "en-us",
+    "text": "Recommend a place to eat nearby",
+    "entities": []
+  },
+  {
+    "intent": "SearchRestaurant",
+    "language": "en-us",
+    "text": "Find me a Chinese restaurant in Jangpura",
+    "entities": [
+      { "category": "cuisine", "offset": 10, "length": 7 },
+      { "category": "userLocation", "offset": 32, "length": 8 }
+    ]
+  },
+  {
+    "intent": "SearchRestaurant",
+    "language": "en-us",
+    "text": "Search for Indian places near India Gate with a 400-1000 price range",
+    "entities": [
+      { "category": "cuisine", "offset": 11, "length": 6 },
+      { "category": "userLocation", "offset": 30, "length": 10 },
+      { "category": "priceRange", "offset": 49, "length": 8 }
+    ]
+  },
+  {
+    "intent": "SearchRestaurant",
+    "language": "en-us",
+    "text": "Are there any 5-star restaurants in Agra?",
+    "entities": [
+      { "category": "ratingValue", "offset": 14, "length": 6 },
+      { "category": "userLocation", "offset": 36, "length": 4 }
+    ]
+  },
+  {
+    "intent": "SearchRestaurant",
+    "language": "en-us",
+    "text": "Search for Italian restaurants available tonight at 4 PM",
+    "entities": [
+      { "category": "cuisine", "offset": 11, "length": 7 },
+      { "category": "time", "offset": 52, "length": 4 }
+    ]
+  },
+  {
+    "intent": "SearchRestaurant",
+    "language": "en-us",
+    "text": "List Italian restaurants with 4 stars",
+    "entities": [
+      { "category": "cuisine", "offset": 5, "length": 7 },
+      { "category": "ratingValue", "offset": 30, "length": 7 }
+    ]
+  },
+  {
+    "intent": "SearchRestaurant",
+    "language": "en-us",
+    "text": "Find a Continental spot with a price range of $200-400",
+    "entities": [
+      { "category": "cuisine", "offset": 7, "length": 11 },
+      { "category": "priceRange", "offset": 46, "length": 8 }
+    ]
+  },
+  {
+    "intent": "SearchRestaurant",
+    "language": "en-us",
+    "text": "Search restaurants in India Gate serving Donuts",
+    "entities": [
+      { "category": "userLocation", "offset": 22, "length": 10 },
+      { "category": "menuItem", "offset": 41, "length": 6 }
+    ]
+  },
+  {
+    "intent": "SearchRestaurant",
+    "language": "en-us",
+    "text": "List top-rated Italian restaurants in Janpath",
+    "entities": [
+      { "category": "cuisine", "offset": 15, "length": 7 },
+      { "category": "userLocation", "offset": 38, "length": 7 }
+    ]
+  },
+  {
+    "intent": "SearchRestaurant",
+    "language": "en-us",
+    "text": "Where can I get Pizza?",
+    "entities": [{ "category": "menuItem", "offset": 16, "length": 5 }]
+  }
+]

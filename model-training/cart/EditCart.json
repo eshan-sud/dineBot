@@ -1,0 +1,146 @@
+[
+  {
+    "intent": "EditCart",
+    "language": "en-us",
+    "text": "Edit my cart",
+    "entities": []
+  },
+  {
+    "intent": "EditCart",
+    "language": "en-us",
+    "text": "I want to change an item in my cart",
+    "entities": []
+  },
+  {
+    "intent": "EditCart",
+    "language": "en-us",
+    "text": "Increase quantity of the pizza to 5",
+    "entities": [
+      { "category": "menuItem", "offset": 25, "length": 5 },
+      { "category": "quantity", "offset": 34, "length": 1 }
+    ]
+  },
+  {
+    "intent": "EditCart",
+    "language": "en-us",
+    "text": "Decrease quantity of burgers",
+    "entities": [{ "category": "menuItem", "offset": 21, "length": 6 }]
+  },
+  {
+    "intent": "EditCart",
+    "language": "en-us",
+    "text": "Change quantity of the drink.",
+    "entities": [{ "category": "menuItem", "offset": 23, "length": 5 }]
+  },
+  {
+    "intent": "EditCart",
+    "language": "en-us",
+    "text": "Modify the quantity of pasta.",
+    "entities": [{ "category": "menuItem", "offset": 23, "length": 5 }]
+  },
+  {
+    "intent": "EditCart",
+    "language": "en-us",
+    "text": "Replace pizza with a sandwich",
+    "entities": [
+      { "category": "menuItem", "offset": 8, "length": 5 },
+      { "category": "menuItem", "offset": 21, "length": 8 }
+    ]
+  },
+  {
+    "intent": "EditCart",
+    "language": "en-us",
+    "text": "Update the quantity for my order",
+    "entities": []
+  },
+  {
+    "intent": "EditCart",
+    "language": "en-us",
+    "text": "Edit item quantity in the cart",
+    "entities": []
+  },
+  {
+    "intent": "EditCart",
+    "language": "en-us",
+    "text": "Change item quantity to 3",
+    "entities": [{ "category": "quantity", "offset": 24, "length": 1 }]
+  },
+  {
+    "intent": "EditCart",
+    "language": "en-us",
+    "text": "I'd like to adjust my cart.",
+    "entities": []
+  },
+  {
+    "intent": "EditCart",
+    "language": "en-us",
+    "text": "Make changes to my order.",
+    "entities": []
+  },
+  {
+    "intent": "EditCart",
+    "language": "en-us",
+    "text": "Alter quantity of chicken rolls",
+    "entities": [{ "category": "menuItem", "offset": 18, "length": 13 }]
+  },
+  {
+    "intent": "EditCart",
+    "language": "en-us",
+    "text": "Replace item in my cart",
+    "entities": []
+  },
+  {
+    "intent": "EditCart",
+    "language": "en-us",
+    "text": "Edit item quantity in the cart.",
+    "entities": []
+  },
+  {
+    "intent": "EditCart",
+    "language": "en-us",
+    "text": "Modify quantity for burgers.",
+    "entities": [{ "category": "menuItem", "offset": 20, "length": 6 }]
+  },
+  {
+    "intent": "EditCart",
+    "language": "en-us",
+    "text": "Adjust quantity of drinks.",
+    "entities": [{ "category": "menuItem", "offset": 19, "length": 5 }]
+  },
+  {
+    "intent": "EditCart",
+    "language": "en-us",
+    "text": "Swap item in the cart.",
+    "entities": []
+  },
+  {
+    "intent": "EditCart",
+    "language": "en-us",
+    "text": "Edit the items in my cart.",
+    "entities": []
+  },
+  {
+    "intent": "EditCart",
+    "language": "en-us",
+    "text": "Change quantity for the pizza",
+    "entities": [{ "category": "menuItem", "offset": 24, "length": 5 }]
+  },
+  {
+    "intent": "EditCart",
+    "language": "en-us",
+    "text": "I want to make changes to the cart.",
+    "entities": []
+  },
+  {
+    "intent": "EditCart",
+    "language": "en-us",
+    "text": "Let me edit the cart",
+    "entities": []
+  },
+  {
+    "intent": "EditCart",
+    "language": "en-us",
+    "text": "Change quantity of sushi rolls.",
+    "entities": [{ "category": "menuItem", "offset": 19, "length": 11 }]
+  }
+]

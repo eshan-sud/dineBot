@@ -1,0 +1,146 @@
+[
+  {
+    "intent": "ClearCart",
+    "language": "en-us",
+    "text": "Clear my cart",
+    "entities": []
+  },
+  {
+    "intent": "ClearCart",
+    "language": "en-us",
+    "text": "Empty the cart",
+    "entities": []
+  },
+  {
+    "intent": "ClearCart",
+    "language": "en-us",
+    "text": "Delete everything in my cart.",
+    "entities": []
+  },
+  {
+    "intent": "ClearCart",
+    "language": "en-us",
+    "text": "Cancel all cart items.",
+    "entities": []
+  },
+  {
+    "intent": "ClearCart",
+    "language": "en-us",
+    "text": "I want to start fresh, clear the cart.",
+    "entities": []
+  },
+  {
+    "intent": "ClearCart",
+    "language": "en-us",
+    "text": "Reset the cart.",
+    "entities": []
+  },
+  {
+    "intent": "ClearCart",
+    "language": "en-us",
+    "text": "Get rid of all items in the cart.",
+    "entities": []
+  },
+  {
+    "intent": "ClearCart",
+    "language": "en-us",
+    "text": "Remove every item from the cart.",
+    "entities": []
+  },
+  {
+    "intent": "ClearCart",
+    "language": "en-us",
+    "text": "Clear the order list.",
+    "entities": []
+  },
+  {
+    "intent": "ClearCart",
+    "language": "en-us",
+    "text": "Wipe my cart.",
+    "entities": []
+  },
+  {
+    "intent": "ClearCart",
+    "language": "en-us",
+    "text": "Cancel the cart.",
+    "entities": []
+  },
+  {
+    "intent": "ClearCart",
+    "language": "en-us",
+    "text": "I don't want any items, empty the cart.",
+    "entities": []
+  },
+  {
+    "intent": "ClearCart",
+    "language": "en-us",
+    "text": "Clear all products from the cart.",
+    "entities": []
+  },
+  {
+    "intent": "ClearCart",
+    "language": "en-us",
+    "text": "Discard the items in the cart.",
+    "entities": []
+  },
+  {
+    "intent": "ClearCart",
+    "language": "en-us",
+    "text": "Remove the cart contents.",
+    "entities": []
+  },
+  {
+    "intent": "ClearCart",
+    "language": "en-us",
+    "text": "Clear the order.",
+    "entities": []
+  },
+  {
+    "intent": "ClearCart",
+    "language": "en-us",
+    "text": "Flush the cart.",
+    "entities": []
+  },
+  {
+    "intent": "ClearCart",
+    "language": "en-us",
+    "text": "Reset the cart contents.",
+    "entities": []
+  },
+  {
+    "intent": "ClearCart",
+    "language": "en-us",
+    "text": "Delete all cart items.",
+    "entities": []
+  },
+  {
+    "intent": "ClearCart",
+    "language": "en-us",
+    "text": "Clear the cart completely.",
+    "entities": []
+  },
+  {
+    "intent": "ClearCart",
+    "language": "en-us",
+    "text": "I want an empty cart.",
+    "entities": []
+  },
+  {
+    "intent": "ClearCart",
+    "language": "en-us",
+    "text": "Remove all things from my cart.",
+    "entities": []
+  },
+  {
+    "intent": "ClearCart",
+    "language": "en-us",
+    "text": "Get rid of the cart items.",
+    "entities": []
+  },
+  {
+    "intent": "ClearCart",
+    "language": "en-us",
+    "text": "Clear the cart now.",
+    "entities": []
+  }
+]

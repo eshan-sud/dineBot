@@ -1,0 +1,158 @@
+[
+  {
+    "intent": "ModifyReservation",
+    "language": "en-us",
+    "text": "Change my reservation",
+    "entities": []
+  },
+  {
+    "intent": "ModifyReservation",
+    "language": "en-us",
+    "text": "Change the time of my reservation to 12 PM",
+    "entities": [{ "category": "time", "offset": 37, "length": 5 }]
+  },
+  {
+    "intent": "ModifyReservation",
+    "language": "en-us",
+    "text": "Update my table booking for 3 people",
+    "entities": [{ "category": "partySize", "offset": 28, "length": 1 }]
+  },
+  {
+    "intent": "ModifyReservation",
+    "language": "en-us",
+    "text": "Move my reservation to 8 PM",
+    "entities": [{ "category": "partySize", "offset": 23, "length": 4 }]
+  },
+  {
+    "intent": "ModifyReservation",
+    "language": "en-us",
+    "text": "Edit the date for my reservation",
+    "entities": []
+  },
+  {
+    "intent": "ModifyReservation",
+    "language": "en-us",
+    "text": "Change the party size for my reservation",
+    "entities": []
+  },
+  {
+    "intent": "ModifyReservation",
+    "language": "en-us",
+    "text": "Update my reservation details",
+    "entities": []
+  },
+  {
+    "intent": "ModifyReservation",
+    "language": "en-us",
+    "text": "Reschedule my booking",
+    "entities": []
+  },
+  {
+    "intent": "ModifyReservation",
+    "language": "en-us",
+    "text": "I'd like to adjust my reservation",
+    "entities": []
+  },
+  {
+    "intent": "ModifyReservation",
+    "language": "en-us",
+    "text": "Change the reservation date to tomorrow",
+    "entities": [{ "category": "date", "offset": 31, "length": 8 }]
+  },
+  {
+    "intent": "ModifyReservation",
+    "language": "en-us",
+    "text": "Change the reservation for 20 people",
+    "entities": [{ "category": "partySize", "offset": 27, "length": 1 }]
+  },
+  {
+    "intent": "ModifyReservation",
+    "language": "en-us",
+    "text": "Update the reservation time to 8:00 AM",
+    "entities": [{ "category": "time", "offset": 31, "length": 7 }]
+  },
+  {
+    "intent": "ModifyReservation",
+    "language": "en-us",
+    "text": "Move the reservation date to 5-09-2025",
+    "entities": [{ "category": "date", "offset": 29, "length": 9 }]
+  },
+  {
+    "intent": "ModifyReservation",
+    "language": "en-us",
+    "text": "Edit the reservation id 1642.",
+    "entities": [{ "category": "reservationID", "offset": 24, "length": 4 }]
+  },
+  {
+    "intent": "ModifyReservation",
+    "language": "en-us",
+    "text": "Change the reservation for 453 reservation id",
+    "entities": [{ "category": "reservationID", "offset": 27, "length": 3 }]
+  },
+  {
+    "intent": "ModifyReservation",
+    "language": "en-us",
+    "text": "Modify the reservation for Lagpat Nagar location",
+    "entities": [{ "category": "userLocation", "offset": 27, "length": 12 }]
+  },
+  {
+    "intent": "ModifyReservation",
+    "language": "en-us",
+    "text": "Adjust the booking for 5 people at CoolRestro",
+    "entities": [
+      { "category": "partySize", "offset": 23, "length": 1 },
+      { "category": "restaurantName", "offset": 35, "length": 10 }
+    ]
+  },
+  {
+    "intent": "ModifyReservation",
+    "language": "en-us",
+    "text": "Update the reservation for order id 342",
+    "entities": [{ "category": "orderID", "offset": 36, "length": 3 }]
+  },
+  {
+    "intent": "ModifyReservation",
+    "language": "en-us",
+    "text": "Change reservation status from pending to confirmed.",
+    "entities": [
+      { "category": "orderStatus", "offset": 31, "length": 7 },
+      { "category": "orderStatus", "offset": 42, "length": 9 }
+    ]
+  },
+  {
+    "intent": "ModifyReservation",
+    "language": "en-us",
+    "text": "Edit the date for reservation id 132",
+    "entities": [{ "category": "reservationID", "offset": 33, "length": 3 }]
+  },
+  {
+    "intent": "ModifyReservation",
+    "language": "en-us",
+    "text": "Move the reservation for Lagpat Nagar to a new date",
+    "entities": [{ "category": "userLocation", "offset": 25, "length": 12 }]
+  },
+  {
+    "intent": "ModifyReservation",
+    "language": "en-us",
+    "text": "Change the party size for reservation id 1322",
+    "entities": [{ "category": "reservationID", "offset": 41, "length": 4 }]
+  },
+  {
+    "intent": "ModifyReservation",
+    "language": "en-us",
+    "text": "Update my reservation at CoolRestro for 5 people",
+    "entities": [{ "category": "partySize", "offset": 40, "length": 1 }]
+  },
+  {
+    "intent": "ModifyReservation",
+    "language": "en-us",
+    "text": "Reschedule the reservation for Location",
+    "entities": [{ "category": "userLocation", "offset": 31, "length": 8 }]
+  },
+  {
+    "intent": "ModifyReservation",
+    "language": "en-us",
+    "text": "Change reservation details for reservation id 13222",
+    "entities": [{ "category": "reservationID", "offset": 31, "length": 5 }]
+  }
+]

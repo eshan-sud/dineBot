@@ -1,0 +1,206 @@
+[
+  {
+    "intent": "RecommendItem",
+    "language": "en-us",
+    "text": "What are some popular menu items?",
+    "entities": []
+  },
+  {
+    "intent": "RecommendItem",
+    "language": "en-us",
+    "text": "What should I try tonight?",
+    "entities": []
+  },
+  {
+    "intent": "RecommendItem",
+    "language": "en-us",
+    "text": "What's the best dish here?",
+    "entities": []
+  },
+  {
+    "intent": "RecommendItem",
+    "language": "en-us",
+    "text": "Recommend me a pizza",
+    "entities": [{ "category": "menuItem", "offset": 15, "length": 5 }]
+  },
+  {
+    "intent": "RecommendItem",
+    "language": "en-us",
+    "text": "What do you recommend?",
+    "entities": []
+  },
+  {
+    "intent": "RecommendItem",
+    "language": "en-us",
+    "text": "Suggest a popular dish",
+    "entities": []
+  },
+  {
+    "intent": "RecommendItem",
+    "language": "en-us",
+    "text": "What should I order tonight?",
+    "entities": []
+  },
+  {
+    "intent": "RecommendItem",
+    "language": "en-us",
+    "text": "What's a good item to try?",
+    "entities": []
+  },
+  {
+    "intent": "RecommendItem",
+    "language": "en-us",
+    "text": "Recommend a vegetarian option",
+    "entities": [{ "category": "category", "offset": 12, "length": 10 }]
+  },
+  {
+    "intent": "RecommendItem",
+    "language": "en-us",
+    "text": "What's popular here?",
+    "entities": []
+  },
+  {
+    "intent": "RecommendItem",
+    "language": "en-us",
+    "text": "What do people like the most?",
+    "entities": []
+  },
+  {
+    "intent": "RecommendItem",
+    "language": "en-us",
+    "text": "What can I try tonight?",
+    "entities": []
+  },
+  {
+    "intent": "RecommendItem",
+    "language": "en-us",
+    "text": "What are your specials?",
+    "entities": []
+  },
+  {
+    "intent": "RecommendItem",
+    "language": "en-us",
+    "text": "What do you suggest for lunch?",
+    "entities": [{ "category": "menuItem", "offset": 24, "length": 5 }]
+  },
+  {
+    "intent": "RecommendItem",
+    "language": "en-us",
+    "text": "Recommend a dessert",
+    "entities": [{ "category": "menuItem", "offset": 12, "length": 7 }]
+  },
+  {
+    "intent": "RecommendItem",
+    "language": "en-us",
+    "text": "What do you recommend from the menu?",
+    "entities": []
+  },
+  {
+    "intent": "RecommendItem",
+    "language": "en-us",
+    "text": "Suggest a popular item",
+    "entities": []
+  },
+  {
+    "intent": "RecommendItem",
+    "language": "en-us",
+    "text": "What's the best item you have?",
+    "entities": []
+  },
+  {
+    "intent": "RecommendItem",
+    "language": "en-us",
+    "text": "What do you think I should order?",
+    "entities": []
+  },
+  {
+    "intent": "RecommendItem",
+    "language": "en-us",
+    "text": "What's a must-try dish?",
+    "entities": []
+  },
+  {
+    "intent": "RecommendItem",
+    "language": "en-us",
+    "text": "What do you recommend I order?",
+    "entities": []
+  },
+  {
+    "intent": "RecommendItem",
+    "language": "en-us",
+    "text": "What's popular in this restaurant?",
+    "entities": []
+  },
+  {
+    "intent": "RecommendItem",
+    "language": "en-us",
+    "text": "What's your best-selling item?",
+    "entities": []
+  },
+  {
+    "intent": "RecommendItem",
+    "language": "en-us",
+    "text": "What can you recommend for dinner?",
+    "entities": [{ "category": "menuItem", "offset": 27, "length": 6 }]
+  },
+  {
+    "intent": "RecommendItem",
+    "language": "en-us",
+    "text": "What's the chef's special?",
+    "entities": [{ "category": "menuItem", "offset": 18, "length": 7 }]
+  },
+  {
+    "intent": "RecommendItem",
+    "language": "en-us",
+    "text": "What do you recommend for a party of four?",
+    "entities": [{ "category": "partySize", "offset": 37, "length": 4 }]
+  },
+  {
+    "intent": "RecommendItem",
+    "language": "en-us",
+    "text": "What's a tasty option for tonight?",
+    "entities": []
+  },
+  {
+    "intent": "RecommendItem",
+    "language": "en-us",
+    "text": "Suggest a dish I can try",
+    "entities": []
+  },
+  {
+    "intent": "RecommendItem",
+    "language": "en-us",
+    "text": "What's a popular vegetarian option?",
+    "entities": [{ "category": "category", "offset": 9, "length": 25 }]
+  },
+  {
+    "intent": "RecommendItem",
+    "language": "en-us",
+    "text": "What's trending on the menu?",
+    "entities": []
+  },
+  {
+    "intent": "RecommendItem",
+    "language": "en-us",
+    "text": "What do you suggest I order?",
+    "entities": []
+  },
+  {
+    "intent": "RecommendItem",
+    "language": "en-us",
+    "text": "Give me recommendations for lunch",
+    "entities": []
+  },
+  {
+    "intent": "RecommendItem",
+    "language": "en-us",
+    "text": "What's a popular dish at Curry Corner?",
+    "entities": []
+  },
+  {
+    "intent": "RecommendItem",
+    "language": "en-us",
+    "text": "Recommend something for dinner tonight",
+    "entities": []
+  }
+]

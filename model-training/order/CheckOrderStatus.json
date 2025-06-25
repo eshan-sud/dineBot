@@ -1,0 +1,182 @@
+[
+  {
+    "intent": "CheckOrderStatus",
+    "language": "en-us",
+    "text": "Where is my order right now?",
+    "entities": []
+  },
+  {
+    "intent": "CheckOrderStatus",
+    "language": "en-us",
+    "text": "What's the status of order #123?",
+    "entities": [{ "category": "orderID", "offset": 28, "length": 3 }]
+  },
+  {
+    "intent": "CheckOrderStatus",
+    "language": "en-us",
+    "text": "Check the status of my delivery",
+    "entities": []
+  },
+  {
+    "intent": "CheckOrderStatus",
+    "language": "en-us",
+    "text": "Is my order on its way?",
+    "entities": []
+  },
+  {
+    "intent": "CheckOrderStatus",
+    "language": "en-us",
+    "text": "Where is the pizza I ordered?",
+    "entities": []
+  },
+  {
+    "intent": "CheckOrderStatus",
+    "language": "en-us",
+    "text": "What's happening with order #456?",
+    "entities": [{ "category": "orderID", "offset": 29, "length": 3 }]
+  },
+  {
+    "intent": "CheckOrderStatus",
+    "language": "en-us",
+    "text": "Status for order ID 987",
+    "entities": [{ "category": "orderID", "offset": 20, "length": 3 }]
+  },
+  {
+    "intent": "CheckOrderStatus",
+    "language": "en-us",
+    "text": "Is my order being prepared?",
+    "entities": []
+  },
+  {
+    "intent": "CheckOrderStatus",
+    "language": "en-us",
+    "text": "Will my order arrive soon?",
+    "entities": []
+  },
+  {
+    "intent": "CheckOrderStatus",
+    "language": "en-us",
+    "text": "What's the estimated delivery time for order #101?",
+    "entities": [{ "category": "orderID", "offset": 46, "length": 3 }]
+  },
+  {
+    "intent": "CheckOrderStatus",
+    "language": "en-us",
+    "text": "Check my takeaway status",
+    "entities": []
+  },
+  {
+    "intent": "CheckOrderStatus",
+    "language": "en-us",
+    "text": "Update me on my order",
+    "entities": []
+  },
+  {
+    "intent": "CheckOrderStatus",
+    "language": "en-us",
+    "text": "Is my order confirmed?",
+    "entities": []
+  },
+  {
+    "intent": "CheckOrderStatus",
+    "language": "en-us",
+    "text": "When will I get my food?",
+    "entities": []
+  },
+  {
+    "intent": "CheckOrderStatus",
+    "language": "en-us",
+    "text": "What's the status of my lunch order?",
+    "entities": []
+  },
+  {
+    "intent": "CheckOrderStatus",
+    "language": "en-us",
+    "text": "Check if my order has left the kitchen",
+    "entities": []
+  },
+  {
+    "intent": "CheckOrderStatus",
+    "language": "en-us",
+    "text": "Let me know about my order status",
+    "entities": []
+  },
+  {
+    "intent": "CheckOrderStatus",
+    "language": "en-us",
+    "text": "When will my order be delivered?",
+    "entities": []
+  },
+  {
+    "intent": "CheckOrderStatus",
+    "language": "en-us",
+    "text": "Status of my recent order",
+    "entities": []
+  },
+  {
+    "intent": "CheckOrderStatus",
+    "language": "en-us",
+    "text": "Is the order ready for pickup?",
+    "entities": []
+  },
+  {
+    "intent": "CheckOrderStatus",
+    "language": "en-us",
+    "text": "What's going on with my delivery?",
+    "entities": []
+  },
+  {
+    "intent": "CheckOrderStatus",
+    "language": "en-us",
+    "text": "What is happening with order ID 202?",
+    "entities": [{ "category": "orderID", "offset": 32, "length": 3 }]
+  },
+  {
+    "intent": "CheckOrderStatus",
+    "language": "en-us",
+    "text": "Check if the order is delayed",
+    "entities": []
+  },
+  {
+    "intent": "CheckOrderStatus",
+    "language": "en-us",
+    "text": "Is the order on its way?",
+    "entities": []
+  },
+  {
+    "intent": "CheckOrderStatus",
+    "language": "en-us",
+    "text": "What's the estimated delivery time for order #305?",
+    "entities": [{ "category": "orderID", "offset": 46, "length": 3 }]
+  },
+  {
+    "intent": "CheckOrderStatus",
+    "language": "en-us",
+    "text": "What's the status of my order #890?",
+    "entities": [{ "category": "orderID", "offset": 31, "length": 3 }]
+  },
+  {
+    "intent": "CheckOrderStatus",
+    "language": "en-us",
+    "text": "When will order number 777 arrive?",
+    "entities": [{ "category": "orderID", "offset": 23, "length": 3 }]
+  },
+  {
+    "intent": "CheckOrderStatus",
+    "language": "en-us",
+    "text": "Is my sushi order confirmed?",
+    "entities": []
+  },
+  {
+    "intent": "CheckOrderStatus",
+    "language": "en-us",
+    "text": "Check where order id 101 is right now.",
+    "entities": [{ "category": "orderID", "offset": 21, "length": 3 }]
+  },
+  {
+    "intent": "CheckOrderStatus",
+    "language": "en-us",
+    "text": "Will my order be delivered soon?",
+    "entities": []
+  }
+]

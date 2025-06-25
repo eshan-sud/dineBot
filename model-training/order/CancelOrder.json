@@ -1,0 +1,274 @@
+[
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "Can you cancel my order from Pizza Palace?",
+    "entities": [{ "category": "restaurantName", "offset": 29, "length": 12 }]
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "I'd like to cancel my order from earlier",
+    "entities": []
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "Cancel my pizza order",
+    "entities": []
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "Please cancel order number 123",
+    "entities": [{ "category": "orderID", "offset": 27, "length": 3 }]
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "I want to cancel the order I placed",
+    "entities": []
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "Cancel my latest order",
+    "entities": []
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "Cancel my order",
+    "entities": []
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "I want to cancel my recent order",
+    "entities": []
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "Cancel the pizza I ordered",
+    "entities": [{ "category": "menuItem", "offset": 11, "length": 5 }]
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "Cancel order id 123",
+    "entities": [{ "category": "orderID", "offset": 16, "length": 3 }]
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "Cancel order 123",
+    "entities": [{ "category": "orderID", "offset": 13, "length": 3 }]
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "Cancel the order #123",
+    "entities": [{ "category": "orderID", "offset": 18, "length": 3 }]
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "I'd like to cancel my takeaway",
+    "entities": []
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "Cancel my delivery order",
+    "entities": []
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "Can I cancel the order I placed?",
+    "entities": []
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "I want to cancel order number 456",
+    "entities": [{ "category": "orderID", "offset": 30, "length": 3 }]
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "Cancel the sushi order",
+    "entities": [{ "category": "menuItem", "offset": 11, "length": 5 }]
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "Cancel order for pasta",
+    "entities": [{ "category": "menuItem", "offset": 17, "length": 5 }]
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "Cancel the dinner I booked",
+    "entities": []
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "Please cancel my order",
+    "entities": []
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "I don't want the order anymore",
+    "entities": []
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "Cancel my order for tonight",
+    "entities": [{ "category": "date", "offset": 20, "length": 7 }]
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "Cancel order ID 789",
+    "entities": [{ "category": "orderID", "offset": 16, "length": 3 }]
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "I'd like to cancel the food order",
+    "entities": []
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "Cancel the burgers I ordered",
+    "entities": [{ "category": "menuItem", "offset": 11, "length": 6 }]
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "Remove my order from the system",
+    "entities": []
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "Cancel my lunch order",
+    "entities": []
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "Cancel tonight's order",
+    "entities": []
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "Cancel this takeaway order",
+    "entities": []
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "I want to cancel my reservation and order",
+    "entities": []
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "Cancel the pending order",
+    "entities": []
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "Cancel the confirmed order",
+    "entities": []
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "Can you cancel order ID 1010?",
+    "entities": [{ "category": "orderID", "offset": 24, "length": 4 }]
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "Cancel the order I made this morning.",
+    "entities": [{ "category": "date", "offset": 29, "length": 7 }]
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "I'd like to cancel the order for pizza from last night.",
+    "entities": [
+      { "category": "menuItem", "offset": 33, "length": 5 },
+      { "category": "date", "offset": 44, "length": 10 }
+    ]
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "Please remove order number #555.",
+    "entities": [{ "category": "orderID", "offset": 28, "length": 3 }]
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "Cancel my lunch takeaway order.",
+    "entities": []
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "I want to cancel the order I placed at Curry Corner",
+    "entities": [{ "category": "restaurantName", "offset": 39, "length": 12 }]
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "Cancel order ID 8799 for 3 gluten free burgers.",
+    "entities": [
+      { "category": "orderID", "offset": 16, "length": 4 },
+      { "category": "quantity", "offset": 24, "length": 1 },
+      { "category": "category", "offset": 27, "length": 11 },
+      { "category": "menuItem", "offset": 39, "length": 6 }
+    ]
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "Please cancel my takeaway order of 2 pepperoni pizzas from Dominos at 8 PM.",
+    "entities": [
+      { "category": "quantity", "offset": 35, "length": 1 },
+      { "category": "menuItem", "offset": 37, "length": 16 },
+      { "category": "restaurantName", "offset": 59, "length": 7 },
+      { "category": "time", "offset": 70, "length": 4 }
+    ]
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "I'd like to cancel the Chinese meal order scheduled for 2025-08-15.",
+    "entities": [
+      { "category": "cuisine", "offset": 23, "length": 7 },
+      { "category": "date", "offset": 56, "length": 10 }
+    ]
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "Cancel my non-veg reservation at Meat Feast for user 789.",
+    "entities": [
+      { "category": "category", "offset": 10, "length": 7 },
+      { "category": "restaurantName", "offset": 33, "length": 10 },
+      { "category": "userID", "offset": 53, "length": 3 }
+    ]
+  }
+]

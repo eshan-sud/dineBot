@@ -1,0 +1,243 @@
+[
+  {
+    "intent": "RateItem",
+    "language": "en-us",
+    "text": "I'd like to rate the pizza",
+    "entities": [{ "category": "menuItem", "offset": 21, "length": 5 }]
+  },
+  {
+    "intent": "RateItem",
+    "language": "en-us",
+    "text": "Give 4 stars to the sandwich I tried",
+    "entities": [
+      { "category": "ratingValue", "offset": 5, "length": 7 },
+      { "category": "menuItem", "offset": 20, "length": 8 }
+    ]
+  },
+  {
+    "intent": "RateItem",
+    "language": "en-us",
+    "text": "Rate my recent order with 5 stars",
+    "entities": [{ "category": "ratingValue", "offset": 26, "length": 7 }]
+  },
+  {
+    "intent": "RateItem",
+    "language": "en-us",
+    "text": "Can I give a rating for the burger I had?",
+    "entities": [{ "category": "menuItem", "offset": 28, "length": 6 }]
+  },
+  {
+    "intent": "RateItem",
+    "language": "en-us",
+    "text": "Rate the burger as 5 stars",
+    "entities": [
+      { "category": "menuItem", "offset": 9, "length": 6 },
+      { "category": "ratingValue", "offset": 19, "length": 7 }
+    ]
+  },
+  {
+    "intent": "RateItem",
+    "language": "en-us",
+    "text": "I'd like to rate the pasta I tried",
+    "entities": [{ "category": "menuItem", "offset": 21, "length": 5 }]
+  },
+  {
+    "intent": "RateItem",
+    "language": "en-us",
+    "text": "I want to give a review for the sushi",
+    "entities": [{ "category": "menuItem", "offset": 32, "length": 5 }]
+  },
+  {
+    "intent": "RateItem",
+    "language": "en-us",
+    "text": "Rate the pasta 4 stars",
+    "entities": [
+      { "category": "menuItem", "offset": 9, "length": 5 },
+      { "category": "ratingValue", "offset": 15, "length": 7 }
+    ]
+  },
+  {
+    "intent": "RateItem",
+    "language": "en-us",
+    "text": "Let me review the pizza I ordered",
+    "entities": [{ "category": "menuItem", "offset": 18, "length": 5 }]
+  },
+  {
+    "intent": "RateItem",
+    "language": "en-us",
+    "text": "Give a 3-star rating for the salad",
+    "entities": [
+      { "category": "ratingValue", "offset": 7, "length": 6 },
+      { "category": "menuItem", "offset": 29, "length": 5 }
+    ]
+  },
+  {
+    "intent": "RateItem",
+    "language": "en-us",
+    "text": "I want to rate my order",
+    "entities": []
+  },
+  {
+    "intent": "RateItem",
+    "language": "en-us",
+    "text": "Rate the pizza as 2 stars",
+    "entities": [
+      { "category": "menuItem", "offset": 9, "length": 5 },
+      { "category": "ratingValue", "offset": 18, "length": 7 }
+    ]
+  },
+  {
+    "intent": "RateItem",
+    "language": "en-us",
+    "text": "I want to review the dessert",
+    "entities": [{ "category": "menuItem", "offset": 21, "length": 7 }]
+  },
+  {
+    "intent": "RateItem",
+    "language": "en-us",
+    "text": "Rate the item \"Garlic Bread\" 5 stars",
+    "entities": [
+      { "category": "menuItem", "offset": 15, "length": 12 },
+      { "category": "ratingValue", "offset": 29, "length": 7 }
+    ]
+  },
+  {
+    "intent": "RateItem",
+    "language": "en-us",
+    "text": "1 star for the burger",
+    "entities": [
+      { "category": "ratingValue", "offset": 1, "length": 6 },
+      { "category": "menuItem", "offset": 15, "length": 6 }
+    ]
+  },
+  {
+    "intent": "RateItem",
+    "language": "en-us",
+    "text": "4 stars for the spaghetti",
+    "entities": [
+      { "category": "ratingValue", "offset": 1, "length": 7 },
+      { "category": "menuItem", "offset": 16, "length": 9 }
+    ]
+  },
+  {
+    "intent": "RateItem",
+    "language": "en-us",
+    "text": "3 stars for the spring rolls",
+    "entities": [
+      { "category": "ratingValue", "offset": 0, "length": 7 },
+      { "category": "menuItem", "offset": 16, "length": 12 }
+    ]
+  },
+  {
+    "intent": "RateItem",
+    "language": "en-us",
+    "text": "I want to review the cheesecake",
+    "entities": [{ "category": "menuItem", "offset": 21, "length": 10 }]
+  },
+  {
+    "intent": "RateItem",
+    "language": "en-us",
+    "text": "Give this item 5 stars",
+    "entities": [{ "category": "ratingValue", "offset": 15, "length": 7 }]
+  },
+  {
+    "intent": "RateItem",
+    "language": "en-us",
+    "text": "Rate the dumplings",
+    "entities": [{ "category": "menuItem", "offset": 9, "length": 9 }]
+  },
+  {
+    "intent": "RateItem",
+    "language": "en-us",
+    "text": "I'd like to review the noodles",
+    "entities": [{ "category": "menuItem", "offset": 23, "length": 7 }]
+  },
+  {
+    "intent": "RateItem",
+    "language": "en-us",
+    "text": "Rate the pizza with 3 stars",
+    "entities": [
+      { "category": "menuItem", "offset": 9, "length": 5 },
+      { "category": "ratingValue", "offset": 20, "length": 7 }
+    ]
+  },
+  {
+    "intent": "RateItem",
+    "language": "en-us",
+    "text": "Give 2 stars for the burger",
+    "entities": [
+      { "category": "ratingValue", "offset": 5, "length": 7 },
+      { "category": "menuItem", "offset": 21, "length": 6 }
+    ]
+  },
+  {
+    "intent": "RateItem",
+    "language": "en-us",
+    "text": "5-star review for the sushi",
+    "entities": [
+      { "category": "ratingValue", "offset": 1, "length": 6 },
+      { "category": "menuItem", "offset": 22, "length": 5 }
+    ]
+  },
+  {
+    "intent": "RateItem",
+    "language": "en-us",
+    "text": "Let me rate the item",
+    "entities": []
+  },
+  {
+    "intent": "RateItem",
+    "language": "en-us",
+    "text": "I want to rate the steak",
+    "entities": [{ "category": "menuItem", "offset": 19, "length": 5 }]
+  },
+  {
+    "intent": "RateItem",
+    "language": "en-us",
+    "text": "Rate this item as excellent",
+    "entities": [{ "category": "ratingValue", "offset": 18, "length": 9 }]
+  },
+  {
+    "intent": "RateItem",
+    "language": "en-us",
+    "text": "Rate the salad as average",
+    "entities": [
+      { "category": "menuItem", "offset": 9, "length": 5 },
+      { "category": "ratingValue", "offset": 18, "length": 7 }
+    ]
+  },
+  {
+    "intent": "RateItem",
+    "language": "en-us",
+    "text": "3 stars for this item",
+    "entities": [{ "category": "ratingValue", "offset": 1, "length": 7 }]
+  },
+  {
+    "intent": "RateItem",
+    "language": "en-us",
+    "text": "5 stars for the pasta",
+    "entities": [
+      { "category": "ratingValue", "offset": 1, "length": 7 },
+      { "category": "menuItem", "offset": 16, "length": 5 }
+    ]
+  },
+  {
+    "intent": "RateItem",
+    "language": "en-us",
+    "text": "1-star review for the fries",
+    "entities": [
+      { "category": "ratingValue", "offset": 1, "length": 6 },
+      { "category": "menuItem", "offset": 22, "length": 5 }
+    ]
+  },
+  {
+    "intent": "RateItem",
+    "language": "en-us",
+    "text": "Rate the pizza I had at Pizza Palace 5 stars",
+    "entities": [
+      { "category": "ratingValue", "offset": 37, "length": 7 },
+      { "category": "menuItem", "offset": 9, "length": 5 },
+      { "category": "restaurantName", "offset": 24, "length": 12 }
+    ]
+  }
+]

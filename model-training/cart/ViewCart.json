@@ -1,0 +1,152 @@
+[
+  {
+    "intent": "ViewCart",
+    "language": "en-us",
+    "text": "What's in my order?",
+    "entities": []
+  },
+  {
+    "intent": "ViewCart",
+    "language": "en-us",
+    "text": "Let me see my cart",
+    "entities": []
+  },
+  {
+    "intent": "ViewCart",
+    "language": "en-us",
+    "text": "What have I added to the cart?",
+    "entities": []
+  },
+  {
+    "intent": "ViewCart",
+    "language": "en-us",
+    "text": "Do I have any items in my cart?",
+    "entities": []
+  },
+  {
+    "intent": "ViewCart",
+    "language": "en-us",
+    "text": "Check my cart.",
+    "entities": []
+  },
+  {
+    "intent": "ViewCart",
+    "language": "en-us",
+    "text": "View cart details",
+    "entities": []
+  },
+  {
+    "intent": "ViewCart",
+    "language": "en-us",
+    "text": "Show all the items I've ordered.",
+    "entities": []
+  },
+  {
+    "intent": "ViewCart",
+    "language": "en-us",
+    "text": "What are the contents of my cart?",
+    "entities": []
+  },
+  {
+    "intent": "ViewCart",
+    "language": "en-us",
+    "text": "Let me review the cart.",
+    "entities": []
+  },
+  {
+    "intent": "ViewCart",
+    "language": "en-us",
+    "text": "Show cart contents.",
+    "entities": []
+  },
+  {
+    "intent": "ViewCart",
+    "language": "en-us",
+    "text": "What am I ordering right now?",
+    "entities": []
+  },
+  {
+    "intent": "ViewCart",
+    "language": "en-us",
+    "text": "Read back my cart.",
+    "entities": []
+  },
+  {
+    "intent": "ViewCart",
+    "language": "en-us",
+    "text": "What's in my cart?",
+    "entities": []
+  },
+  {
+    "intent": "ViewCart",
+    "language": "en-us",
+    "text": "List the products in the cart",
+    "entities": []
+  },
+  {
+    "intent": "ViewCart",
+    "language": "en-us",
+    "text": "Display my cart.",
+    "entities": []
+  },
+  {
+    "intent": "ViewCart",
+    "language": "en-us",
+    "text": "Give me a summary of my cart.",
+    "entities": []
+  },
+  {
+    "intent": "ViewCart",
+    "language": "en-us",
+    "text": "Show the cart items.",
+    "entities": []
+  },
+  {
+    "intent": "ViewCart",
+    "language": "en-us",
+    "text": "Let me review the cart",
+    "entities": []
+  },
+  {
+    "intent": "ViewCart",
+    "language": "en-us",
+    "text": "Do I have anything in the cart?",
+    "entities": []
+  },
+  {
+    "intent": "ViewCart",
+    "language": "en-us",
+    "text": "Can I see the cart now?",
+    "entities": []
+  },
+  {
+    "intent": "ViewCart",
+    "language": "en-us",
+    "text": "List cart items for review.",
+    "entities": []
+  },
+  {
+    "intent": "ViewCart",
+    "language": "en-us",
+    "text": "Show cart status.",
+    "entities": []
+  },
+  {
+    "intent": "ViewCart",
+    "language": "en-us",
+    "text": "What is currently in my cart?",
+    "entities": []
+  },
+  {
+    "intent": "ViewCart",
+    "language": "en-us",
+    "text": "Show cart?",
+    "entities": []
+  },
+  {
+    "intent": "ViewCart",
+    "language": "en-us",
+    "text": "Display cart",
+    "entities": []
+  }
+]

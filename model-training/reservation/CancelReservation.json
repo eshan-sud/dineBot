@@ -1,0 +1,187 @@
+[
+  {
+    "intent": "CancelReservation",
+    "language": "en-us",
+    "text": "Cancel my reservation for tonight.",
+    "entities": []
+  },
+  {
+    "intent": "CancelReservation",
+    "language": "en-us",
+    "text": "I'd like to cancel the booking for 10 people.",
+    "entities": [{ "category": "partySize", "offset": 35, "length": 2 }]
+  },
+  {
+    "intent": "CancelReservation",
+    "language": "en-us",
+    "text": "Cancel reservation id 123.",
+    "entities": [{ "category": "reservationID", "offset": 22, "length": 3 }]
+  },
+  {
+    "intent": "CancelReservation",
+    "language": "en-us",
+    "text": "Please cancel my table at Pizza Palace.",
+    "entities": [{ "category": "restaurantName", "offset": 26, "length": 12 }]
+  },
+  {
+    "intent": "CancelReservation",
+    "language": "en-us",
+    "text": "I want to cancel the reservation on 25th.",
+    "entities": [{ "category": "date", "offset": 36, "length": 4 }]
+  },
+  {
+    "intent": "CancelReservation",
+    "language": "en-us",
+    "text": "Cancel the booking for #1234.",
+    "entities": [{ "category": "userID", "offset": 24, "length": 4 }]
+  },
+  {
+    "intent": "CancelReservation",
+    "language": "en-us",
+    "text": "Cancel my lunch reservation for 1 PM.",
+    "entities": [{ "category": "time", "offset": 32, "length": 4 }]
+  },
+  {
+    "intent": "CancelReservation",
+    "language": "en-us",
+    "text": "Remove my table booking for Defence Colony.",
+    "entities": [{ "category": "userLocation", "offset": 28, "length": 14 }]
+  },
+  {
+    "intent": "CancelReservation",
+    "language": "en-us",
+    "text": "Cancel the reservation we made for 4 people.",
+    "entities": [{ "category": "partySize", "offset": 35, "length": 1 }]
+  },
+  {
+    "intent": "CancelReservation",
+    "language": "en-us",
+    "text": "I'd like to cancel the reservation at Hishi Cafe.",
+    "entities": [{ "category": "restaurantName", "offset": 38, "length": 10 }]
+  },
+  {
+    "intent": "CancelReservation",
+    "language": "en-us",
+    "text": "Cancel the reservation for this Saturday evening.",
+    "entities": [{ "category": "date", "offset": 32, "length": 16 }]
+  },
+  {
+    "intent": "CancelReservation",
+    "language": "en-us",
+    "text": "Cancel my table for 5 people tonight.",
+    "entities": [
+      { "category": "partySize", "offset": 20, "length": 1 },
+      { "category": "date", "offset": 29, "length": 7 }
+    ]
+  },
+  {
+    "intent": "CancelReservation",
+    "language": "en-us",
+    "text": "I don't need the reservation anymore. Cancel it.",
+    "entities": []
+  },
+  {
+    "intent": "CancelReservation",
+    "language": "en-us",
+    "text": "Cancel my reservation for the 25th of December.",
+    "entities": [{ "category": "date", "offset": 30, "length": 16 }]
+  },
+  {
+    "intent": "CancelReservation",
+    "language": "en-us",
+    "text": "I want to cancel my dinner booking for Mad Over Donuts",
+    "entities": [{ "category": "restaurantName", "offset": 39, "length": 15 }]
+  },
+  {
+    "intent": "CancelReservation",
+    "language": "en-us",
+    "text": "Cancel reservation at Pizza Palace",
+    "entities": [{ "category": "restaurantName", "offset": 22, "length": 12 }]
+  },
+  {
+    "intent": "CancelReservation",
+    "language": "en-us",
+    "text": "Delete my upcoming table booking",
+    "entities": []
+  },
+  {
+    "intent": "CancelReservation",
+    "language": "en-us",
+    "text": "I want to cancel my latest reservation",
+    "entities": []
+  },
+  {
+    "intent": "CancelReservation",
+    "language": "en-us",
+    "text": "Cancel the booking I made for 25th December",
+    "entities": [{ "category": "date", "offset": 24, "length": 13 }]
+  },
+  {
+    "intent": "CancelReservation",
+    "language": "en-us",
+    "text": "Cancel my reservation for tonight",
+    "entities": [{ "category": "date", "offset": 26, "length": 7 }]
+  },
+  {
+    "intent": "CancelReservation",
+    "language": "en-us",
+    "text": "Cancel my reservation at Olive Bistro for 2 people on 2025-07-10.",
+    "entities": [
+      { "category": "restaurantName", "offset": 25, "length": 12 },
+      { "category": "partySize", "offset": 42, "length": 1 },
+      { "category": "date", "offset": 54, "length": 10 }
+    ]
+  },
+  {
+    "intent": "CancelReservation",
+    "language": "en-us",
+    "text": "I need to cancel our Indian cuisine dinner reservation at Spice Route for tonight.",
+    "entities": [
+      { "category": "cuisine", "offset": 21, "length": 6 },
+      { "category": "restaurantName", "offset": 58, "length": 11 },
+      { "category": "date", "offset": 74, "length": 7 }
+    ]
+  },
+  {
+    "intent": "CancelReservation",
+    "language": "en-us",
+    "text": "Cancel my reservation for order ID 8898 at Tandoori Nights for 5 people.",
+    "entities": [
+      { "category": "orderID", "offset": 35, "length": 4 },
+      { "category": "restaurantName", "offset": 43, "length": 15 },
+      { "category": "partySize", "offset": 63, "length": 1 }
+    ]
+  },
+  {
+    "intent": "CancelReservation",
+    "language": "en-us",
+    "text": "Cancel reservation ID 5566 with rating 2 because food was cold.",
+    "entities": [
+      { "category": "reservationID", "offset": 22, "length": 4 },
+      { "category": "ratingValue", "offset": 39, "length": 1 },
+      { "category": "ratingComment", "offset": 49, "length": 13 }
+    ]
+  },
+  {
+    "intent": "CancelReservation",
+    "language": "en-us",
+    "text": "Cancel my vegan booking at The Herb Garden on Sunday for 6 people.",
+    "entities": [
+      { "category": "category", "offset": 10, "length": 5 },
+      { "category": "restaurantName", "offset": 27, "length": 15 },
+      { "category": "date", "offset": 46, "length": 6 },
+      { "category": "partySize", "offset": 57, "length": 1 }
+    ]
+  },
+  {
+    "intent": "CancelOrder",
+    "language": "en-us",
+    "text": "Cancel the gluten free pancake order from Café Bliss on 2025-09-05.",
+    "entities": [
+      { "category": "category", "offset": 11, "length": 11 },
+      { "category": "menuItem", "offset": 23, "length": 7 },
+      { "category": "restaurantName", "offset": 42, "length": 10 },
+      { "category": "date", "offset": 56, "length": 10 }
+    ]
+  }
+]

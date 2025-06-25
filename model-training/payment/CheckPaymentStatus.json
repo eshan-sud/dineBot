@@ -1,0 +1,152 @@
+[
+  {
+    "intent": "CheckPaymentStatus",
+    "language": "en-us",
+    "text": "Check if my payment went through",
+    "entities": []
+  },
+  {
+    "intent": "CheckPaymentStatus",
+    "language": "en-us",
+    "text": "Has my payment been confirmed?",
+    "entities": []
+  },
+  {
+    "intent": "CheckPaymentStatus",
+    "language": "en-us",
+    "text": "What is the status of my payment?",
+    "entities": []
+  },
+  {
+    "intent": "CheckPaymentStatus",
+    "language": "en-us",
+    "text": "Check my payment status for order #123",
+    "entities": [{ "category": "orderID", "offset": 35, "length": 3 }]
+  },
+  {
+    "intent": "CheckPaymentStatus",
+    "language": "en-us",
+    "text": "Is my payment complete?",
+    "entities": []
+  },
+  {
+    "intent": "CheckPaymentStatus",
+    "language": "en-us",
+    "text": "Did my transaction go through?",
+    "entities": []
+  },
+  {
+    "intent": "CheckPaymentStatus",
+    "language": "en-us",
+    "text": "Check the status of my recent payment",
+    "entities": []
+  },
+  {
+    "intent": "CheckPaymentStatus",
+    "language": "en-us",
+    "text": "Have I paid for the order?",
+    "entities": []
+  },
+  {
+    "intent": "CheckPaymentStatus",
+    "language": "en-us",
+    "text": "Verify the payment status",
+    "entities": []
+  },
+  {
+    "intent": "CheckPaymentStatus",
+    "language": "en-us",
+    "text": "Check payment for order ID 456",
+    "entities": [{ "category": "orderID", "offset": 27, "length": 3 }]
+  },
+  {
+    "intent": "CheckPaymentStatus",
+    "language": "en-us",
+    "text": "Check the status of the payment for order id 132",
+    "entities": [{ "category": "orderID", "offset": 45, "length": 3 }]
+  },
+  {
+    "intent": "CheckPaymentStatus",
+    "language": "en-us",
+    "text": "What is the status of my payment for reservation id 1234?",
+    "entities": [{ "category": "reservationID", "offset": 52, "length": 4 }]
+  },
+  {
+    "intent": "CheckPaymentStatus",
+    "language": "en-us",
+    "text": "Has the order for Sweet Potato been paid?",
+    "entities": [{ "category": "menuItem", "offset": 18, "length": 12 }]
+  },
+  {
+    "intent": "CheckPaymentStatus",
+    "language": "en-us",
+    "text": "Check if my payment for order id 145 went through",
+    "entities": [{ "category": "orderID", "offset": 33, "length": 3 }]
+  },
+  {
+    "intent": "CheckPaymentStatus",
+    "language": "en-us",
+    "text": "Check status for 1432 payment",
+    "entities": [{ "category": "userID", "offset": 17, "length": 4 }]
+  },
+  {
+    "intent": "CheckPaymentStatus",
+    "language": "en-us",
+    "text": "Check the payment status for the order at CoolRestro",
+    "entities": [{ "category": "restaurantName", "offset": 42, "length": 10 }]
+  },
+  {
+    "intent": "CheckPaymentStatus",
+    "language": "en-us",
+    "text": "What's the status of my payment for the order placed on 15th?",
+    "entities": [{ "category": "date", "offset": 56, "length": 5 }]
+  },
+  {
+    "intent": "CheckPaymentStatus",
+    "language": "en-us",
+    "text": "Did the payment for order id 1234 succeed?",
+    "entities": [{ "category": "orderID", "offset": 29, "length": 4 }]
+  },
+  {
+    "intent": "CheckPaymentStatus",
+    "language": "en-us",
+    "text": "Is the payment confirmed for reservation id 243?",
+    "entities": [{ "category": "reservationID", "offset": 44, "length": 3 }]
+  },
+  {
+    "intent": "CheckPaymentStatus",
+    "language": "en-us",
+    "text": "Check if the payment for Toast has been received",
+    "entities": [{ "category": "menuItem", "offset": 25, "length": 5 }]
+  },
+  {
+    "intent": "CheckPaymentStatus",
+    "language": "en-us",
+    "text": "What's the status of the transaction for the order id 4321?",
+    "entities": [{ "category": "orderID", "offset": 54, "length": 4 }]
+  },
+  {
+    "intent": "CheckPaymentStatus",
+    "language": "en-us",
+    "text": "Verify if the payment was successful",
+    "entities": []
+  },
+  {
+    "intent": "CheckPaymentStatus",
+    "language": "en-us",
+    "text": "Check payment confirmation for 452",
+    "entities": [{ "category": "orderID", "offset": 31, "length": 3 }]
+  },
+  {
+    "intent": "CheckPaymentStatus",
+    "language": "en-us",
+    "text": "Update me on the status of the payment",
+    "entities": []
+  },
+  {
+    "intent": "CheckPaymentStatus",
+    "language": "en-us",
+    "text": "Has the transaction gone through for reservation id 123?",
+    "entities": [{ "category": "reservationID", "offset": 52, "length": 3 }]
+  }
+]

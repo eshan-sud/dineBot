@@ -1,0 +1,205 @@
+[
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "I'd like to add garlic bread",
+    "entities": [{ "category": "menuItem", "offset": 16, "length": 12 }]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "Add one more cheeseburger to the cart",
+    "entities": [
+      { "category": "quantity", "offset": 4, "length": 3 },
+      { "category": "menuItem", "offset": 13, "length": 12 }
+    ]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "Add 2 cokes to my order",
+    "entities": [
+      { "category": "quantity", "offset": 4, "length": 1 },
+      { "category": "menuItem", "offset": 6, "length": 5 }
+    ]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "Add the chicken salad to my cart",
+    "entities": [{ "category": "menuItem", "offset": 8, "length": 13 }]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "Put a dessert in the cart",
+    "entities": [{ "category": "menuItem", "offset": 6, "length": 7 }]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "Add sushi rolls to my order",
+    "entities": [{ "category": "menuItem", "offset": 4, "length": 11 }]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "Add one more item",
+    "entities": [
+      { "category": "quantity", "offset": 4, "length": 3 },
+      { "category": "menuItem", "offset": 13, "length": 4 }
+    ]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "I'd like to order a pizza",
+    "entities": [
+      { "category": "quantity", "offset": 18, "length": 1 },
+      { "category": "menuItem", "offset": 20, "length": 5 }
+    ]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "Add a drink for me",
+    "entities": [
+      { "category": "quantity", "offset": 4, "length": 1 },
+      { "category": "menuItem", "offset": 6, "length": 5 }
+    ]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "Add Pizza to my cart",
+    "entities": [{ "category": "menuItem", "offset": 4, "length": 5 }]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "Add Large Pepporoni Pizza for 5 people",
+    "entities": [
+      { "category": "menuItem", "offset": 4, "length": 21 },
+      { "category": "partySize", "offset": 30, "length": 1 }
+    ]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "Add a Burger for the order id 123",
+    "entities": [
+      { "category": "quantity", "offset": 4, "length": 1 },
+      { "category": "menuItem", "offset": 6, "length": 6 },
+      { "category": "orderID", "offset": 30, "length": 3 }
+    ]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "Add one more Burger",
+    "entities": [
+      { "category": "quantity", "offset": 4, "length": 3 },
+      { "category": "menuItem", "offset": 13, "length": 6 }
+    ]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "Add the Donut from DunkinDonuts",
+    "entities": [
+      { "category": "menuItem", "offset": 8, "length": 5 },
+      { "category": "restaurantName", "offset": 19, "length": 12 }
+    ]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "Add Coffee with 4 stars",
+    "entities": [
+      { "category": "menuItem", "offset": 4, "length": 6 },
+      { "category": "ratingValue", "offset": 16, "length": 7 }
+    ]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "Add Tea for #23",
+    "entities": [
+      { "category": "menuItem", "offset": 4, "length": 3 },
+      { "category": "userID", "offset": 13, "length": 2 }
+    ]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "Add a margherita pizza to my order.",
+    "entities": [
+      { "category": "quantity", "offset": 4, "length": 1 },
+      { "category": "menuItem", "offset": 6, "length": 16 }
+    ]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "I'd like to add 2 garlic breads to the cart",
+    "entities": [
+      { "category": "quantity", "offset": 16, "length": 1 },
+      { "category": "menuItem", "offset": 18, "length": 13 }
+    ]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "Add one more cheeseburger to my cart.",
+    "entities": [
+      { "category": "quantity", "offset": 4, "length": 3 },
+      { "category": "menuItem", "offset": 4, "length": 3 }
+    ]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "Add 2 cans of Coke to my order.",
+    "entities": [
+      { "category": "quantity", "offset": 4, "length": 3 },
+      { "category": "menuItem", "offset": 4, "length": 3 }
+    ]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "Add the chicken salad (2 portions) to my cart.",
+    "entities": [
+      { "category": "quantity", "offset": 4, "length": 3 },
+      { "category": "menuItem", "offset": 4, "length": 3 }
+    ]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "Add a large pepperoni pizza for 5 people.",
+    "entities": [
+      { "category": "quantity", "offset": 4, "length": 3 },
+      { "category": "menuItem", "offset": 4, "length": 3 }
+    ]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "Add 3 donuts from Dunkin' Donuts to my order.",
+    "entities": [
+      { "category": "quantity", "offset": 4, "length": 3 },
+      { "category": "menuItem", "offset": 4, "length": 3 }
+    ]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "Add 1 margherita pizza from pizza palace to my cart",
+    "entities": [
+      { "category": "quantity", "offset": 4, "length": 1 },
+      { "category": "menuItem", "offset": 6, "length": 16 },
+      { "category": "restaurantName", "offset": 28, "length": 12 }
+    ]
+  }
+]
