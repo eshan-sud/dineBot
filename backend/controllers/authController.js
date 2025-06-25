@@ -1,18 +1,23 @@
 // backend/controllers/authController.js
 
-const authModel = require("../models/authModel");
+const pool = require("../config/db");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
-exports.loginUser = async (email, password) => {
-  const user = await authModel.findUserByEmail(email);
-  if (!user) return null;
+const findUserByEmail = async (email) => {
+  const [rows] = await pool.query("SELECT * FROM users WHERE email = ?", [
+    email,
+  ]);
+  return rows[0];
+};
 
+exports.loginUser = async (email, password) => {
+  const user = await findUserByEmail(email);
+  if (!user) return null;
   const match = await bcrypt.compare(password, user.password);
   if (!match) return null;
-
   const token = jwt.sign({ userId: user.id, email: user.email }, JWT_SECRET, {
     expiresIn: "2h",
   });
@@ -20,10 +25,14 @@ exports.loginUser = async (email, password) => {
 };
 
 exports.signupUser = async (name, email, password) => {
-  const existingUser = await authModel.findUserByEmail(email);
+  const existingUser = await findUserByEmail(email);
   if (existingUser) return null;
   const hashedPassword = await bcrypt.hash(password, 10);
-  return await authModel.createUser(name, email, hashedPassword);
+  const [results] = await pool.query(
+    "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
+    [name, email, hashedPassword]
+  );
+  return results;
 };
 
 exports.logoutUser = async () => {

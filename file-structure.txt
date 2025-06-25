@@ -1,0 +1,40 @@
+restaurant-bot-backend/
+├── backend/
+│   ├── bot/
+│   │   ├── bot.js
+│   │   └── cluClient.js
+│   ├── config/
+│   │   └── db.js
+│   ├── controllers/
+│   │   ├── authController.js
+│   │   ├── menuController.js
+│   │   ├── ordersController.js
+│   │   ├── paymentController.js
+│   │   ├── ratingController.js
+│   │   ├── recommendationController.js
+│   │   ├── reservationController.js
+│   │   └── restaurantController.js
+│   ├── database/
+│   │   └── queries.sql
+│   ├── middlewares/
+│   │   └── errorHandler.js
+│   ├── models/
+│   │   ├── authModel.js
+│   │   ├── menuModel.js
+│   │   └── restaurantModel.js
+│   ├── public
+│   │   ├── images
+│   │   |   |── 
+│   │   |   |── 
+│   │   │   └── 
+│   │   └── 
+│   ├── routes/
+│   │   └── botRoutes.js
+│   ├── utils/utils.js (tokens/hashing)
+│   ├── .env
+│   ├── appp.js
+│   ├── package.json
+│   └── server.js
+├── package-lock.json
+├── package.json
+└── README.md

@@ -33,6 +33,7 @@ CREATE TABLE restaurants (
     cuisine_id INT,
     price_range VARCHAR(10),
     rating FLOAT DEFAULT 0,
+    accepting_orders TINYINT(1) NOT NULL DEFAULT 1,
     FOREIGN KEY (location_id) REFERENCES locations(id) ON DELETE CASCADE,
     FOREIGN KEY (cuisine_id) REFERENCES cuisines(id) ON DELETE CASCADE
 );
@@ -107,8 +108,8 @@ CREATE TABLE orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
     restaurant_id INT,
-    status ENUM('pending', 'accepted', 'on the way', 'delivered') DEFAULT 'pending',
-    total_amount DECIMAL(10, 2),
+    status ENUM('placed','pending','accepted','on the way','delivered','cancelled') DEFAULT 'placed',
+    total_amount DECIMAL(10,2),
     order_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (restaurant_id) REFERENCES restaurants(id) ON DELETE CASCADE

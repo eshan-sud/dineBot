@@ -3,6 +3,8 @@
 const pool = require("../config/db");
 // const chrono = require("chrono-node");
 
+// Reservation w/ date, time, special requests
+
 exports.getUserReservations = async (userId) => {
   try {
     const [rows] = await pool.query(

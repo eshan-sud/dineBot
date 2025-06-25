@@ -4,4 +4,4 @@ frontend/
 backend/.env
 node_modules/
 
-data/
+model-training/future-intents.txt
