@@ -1,12 +1,14 @@
 Entities:-
 
-    category        =>  {vegan, veg, non-veg, gluten-free, low carbs}
+    # action_type     =>  {view, order, rate}                                   [__NEW__]
+
     cuisine         =>  {indian, italian, chinese, etc}
     date            => [Date]
-    deliveryMethod  =>  {delivery, pickup}                                                  [NEW]
+    deliveryMethod  =>  {delivery, pickup}                                      [__NEW__]
+    dietType        =>  {veg, non-veg, vegan, egg-free, gluten-free, lactose-free, low carbs}
     menuItem        => [String]
     orderID         => [Number]
-    orderStatus     =>  {placed, pending, accepted, prepared, out-for-delivery, delivered, cancelled}
+    orderStatus     =>  {placed, pending, accepted, prepared, on the way, delivered, cancelled}
     partySize       => [Number]
     priceRange      => [Number Range]
     quantity        => [Number]
@@ -17,15 +19,6 @@ Entities:-
     time            => [Time]
     userID          => [Number]
     userLocation    => [Location]
-
-
-
-            Reservations    => specialRequests
-            Reservations    => Manage reservations (cancellations or modifications) 
-            Orders          => delivery OR take-away / pickup
-            Orders          => Real-time updates on the status of your order, from confirmation to delivery (or pickup notification)
-            
-            Recommendations => Personalised recommendations based on past choices & preferences ; suggest relevant restaurants & dishes
 
 
 Intents:-
@@ -42,22 +35,22 @@ Intents:-
         GeneralGreeting
 
     MENU
-        ShowMenu => Add Entities (category)
+        ShowMenu
 
     ORDER
         CancelOrder
         CheckOrderStatus
-        ConfirmOrder (automatically does the work of MakePayment)
 
     PAYMENT
         CheckPaymentStatus
         MakePayment
 
     RECOMMENDATION
-        RecommendItem => Add Entities (category)
+        # SetUserBehavior                                                   [NEW]
+        RecommendItem
 
     RESERVATION
-        BookTable
+        MakeReservation
         CancelReservation
         ModifyReservation
         ShowReservations
@@ -68,3 +61,12 @@ Intents:-
 
     REVIEW
         RateItem
+
+
+
+            Reservations    => specialRequests
+            Reservations    => Manage reservations (cancellations or modifications) 
+            Orders          => delivery OR take-away / pickup
+            Orders          => Real-time updates on the status of your order, from confirmation to delivery (or pickup notification)
+            
+            Recommendations => Personalised recommendations based on past choices & preferences ; suggest relevant restaurants & dishes

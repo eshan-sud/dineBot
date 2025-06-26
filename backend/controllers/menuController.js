@@ -59,6 +59,20 @@ const getMenuItems = async (req, res, next) => {
   }
 };
 
+const getMenuItemByName = async (itemName) => {
+  const [items] = await pool.query(
+    `SELECT mi.id, mi.name, mi.description, mi.price,
+            IFNULL(AVG(ir.rating), 0) AS avg_rating,
+            COUNT(ir.id) AS review_count
+       FROM menu_items mi
+       LEFT JOIN item_reviews ir ON mi.id = ir.menu_item_id
+       WHERE mi.name = ?
+       GROUP BY mi.id`,
+    [itemName]
+  );
+  return items.length ? items[0] : null;
+};
+
 const getMenuItemDetails = async (itemName) => {
   const [items] = await pool.query(
     `SELECT mi.id, mi.name, mi.description, mi.price,
@@ -136,6 +150,7 @@ const getItemReviews = async (menuItemId) => {
 
 module.exports = {
   getMenuByRestaurantName,
+  getMenuItemByName,
   getMenus,
   getMenuItems,
   getMenuItemDetails,

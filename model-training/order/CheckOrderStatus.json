@@ -63,7 +63,7 @@
     "intent": "CheckOrderStatus",
     "language": "en-us",
     "text": "Check my takeaway status",
-    "entities": []
+    "entities": [{ "category": "deliveryMethod", "offset": 9, "length": 8 }]
   },
   {
     "intent": "CheckOrderStatus",
@@ -165,7 +165,7 @@
     "intent": "CheckOrderStatus",
     "language": "en-us",
     "text": "Is my sushi order confirmed?",
-    "entities": []
+    "entities": [{ "category": "menuItem", "offset": 6, "length": 5 }]
   },
   {
     "intent": "CheckOrderStatus",

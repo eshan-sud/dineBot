@@ -3,13 +3,19 @@
     "intent": "SearchRestaurant",
     "language": "en-us",
     "text": "Find Chinese restaurants nearby",
-    "entities": [{ "category": "cuisine", "offset": 5, "length": 7 }]
+    "entities": [
+      { "category": "cuisine", "offset": 5, "length": 7 },
+      { "category": "userLocation", "offset": 25, "length": 6 }
+    ]
   },
   {
     "intent": "SearchRestaurant",
     "language": "en-us",
     "text": "Search for Italian places in downtown",
-    "entities": [{ "category": "cuisine", "offset": 11, "length": 7 }]
+    "entities": [
+      { "category": "cuisine", "offset": 11, "length": 7 },
+      { "category": "userLocation", "offset": 29, "length": 8 }
+    ]
   },
   {
     "intent": "SearchRestaurant",
@@ -27,13 +33,13 @@
     "intent": "SearchRestaurant",
     "language": "en-us",
     "text": "Show me restaurants in the area",
-    "entities": []
+    "entities": [{ "category": "userLocation", "offset": 27, "length": 4 }]
   },
   {
     "intent": "SearchRestaurant",
     "language": "en-us",
     "text": "Find restaurants serving vegan meals",
-    "entities": []
+    "entities": [{ "category": "dietType", "offset": 25, "length": 5 }]
   },
   {
     "intent": "SearchRestaurant",
@@ -51,13 +57,13 @@
     "intent": "SearchRestaurant",
     "language": "en-us",
     "text": "Search restaurants in the city center",
-    "entities": []
+    "entities": [{ "category": "userLocation", "offset": 26, "length": 11 }]
   },
   {
     "intent": "SearchRestaurant",
     "language": "en-us",
     "text": "Recommend a place to eat nearby",
-    "entities": []
+    "entities": [{ "category": "userLocation", "offset": 25, "length": 6 }]
   },
   {
     "intent": "SearchRestaurant",
@@ -137,5 +143,77 @@
     "language": "en-us",
     "text": "Where can I get Pizza?",
     "entities": [{ "category": "menuItem", "offset": 16, "length": 5 }]
+  },
+  {
+    "intent": "SearchRestaurant",
+    "language": "en-us",
+    "text": "Find Italian restaurants in New York",
+    "entities": [
+      { "category": "cuisine", "offset": 5, "length": 7 },
+      { "category": "userLocation", "offset": 28, "length": 8 }
+    ]
+  },
+  {
+    "intent": "SearchRestaurant",
+    "language": "en-us",
+    "text": "Any vegan spots in Brooklyn?",
+    "entities": [
+      { "category": "dietType", "offset": 4, "length": 5 },
+      { "category": "userLocation", "offset": 19, "length": 8 }
+    ]
+  },
+  {
+    "intent": "SearchRestaurant",
+    "language": "en-us",
+    "text": "Find me a Thai restaurant near Union Station",
+    "entities": [
+      { "category": "dietType", "offset": 10, "length": 4 },
+      { "category": "userLocation", "offset": 31, "length": 13 }
+    ]
+  },
+  {
+    "intent": "SearchRestaurant",
+    "language": "en-us",
+    "text": "Show restaurants in the downtown area",
+    "entities": [{ "category": "userLocation", "offset": 24, "length": 13 }]
+  },
+  {
+    "intent": "SearchRestaurant",
+    "language": "en-us",
+    "text": "I want a fancy Italian place in Manhattan",
+    "entities": [
+      { "category": "cuisine", "offset": 15, "length": 7 },
+      { "category": "userLocation", "offset": 32, "length": 9 }
+    ]
+  },
+  {
+    "intent": "SearchRestaurant",
+    "language": "en-us",
+    "text": "Show all restaurants",
+    "entities": []
+  },
+  {
+    "intent": "SearchRestaurant",
+    "language": "en-us",
+    "text": "Search for Pizza Palace restaurant",
+    "entities": [{ "category": "restaurantName", "offset": 11, "length": 12 }]
+  },
+  {
+    "intent": "SearchRestaurant",
+    "language": "en-us",
+    "text": "Show me places called Pizza Palace",
+    "entities": [{ "category": "restaurantName", "offset": 22, "length": 12 }]
+  },
+  {
+    "intent": "SearchRestaurant",
+    "language": "en-us",
+    "text": "Show restaurants with price range < 1000",
+    "entities": [{ "category": "restaurantName", "offset": 34, "length": 6 }]
+  },
+  {
+    "intent": "SearchRestaurant",
+    "language": "en-us",
+    "text": "Find premium restaurants (price range $500-1000)",
+    "entities": [{ "category": "priceRange", "offset": 39, "length": 8 }]
   }
 ]

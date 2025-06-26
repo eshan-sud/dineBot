@@ -167,7 +167,7 @@
     "language": "en-us",
     "text": "Cancel my vegan booking at The Herb Garden on Sunday for 6 people.",
     "entities": [
-      { "category": "category", "offset": 10, "length": 5 },
+      { "category": "dietType", "offset": 10, "length": 5 },
       { "category": "restaurantName", "offset": 27, "length": 15 },
       { "category": "date", "offset": 46, "length": 6 },
       { "category": "partySize", "offset": 57, "length": 1 }
@@ -178,7 +178,7 @@
     "language": "en-us",
     "text": "Cancel the gluten free pancake order from Café Bliss on 2025-09-05.",
     "entities": [
-      { "category": "category", "offset": 11, "length": 11 },
+      { "category": "dietType", "offset": 11, "length": 11 },
       { "category": "menuItem", "offset": 23, "length": 7 },
       { "category": "restaurantName", "offset": 42, "length": 10 },
       { "category": "date", "offset": 56, "length": 10 }

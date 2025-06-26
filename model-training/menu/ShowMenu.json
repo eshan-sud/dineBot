@@ -214,5 +214,14 @@
     "language": "en-us",
     "text": "Let me see today's menu",
     "entities": []
+  },
+  {
+    "intent": "ShowMenu",
+    "language": "en-us",
+    "text": "Show me vegan options at Spice House",
+    "entities": [
+      { "category": "dietType", "offset": 8, "length": 5 },
+      { "category": "restaurantName", "offset": 25, "length": 11 }
+    ]
   }
 ]

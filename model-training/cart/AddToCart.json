@@ -77,20 +77,16 @@
   {
     "intent": "AddToCart",
     "language": "en-us",
-    "text": "Add Large Pepporoni Pizza for 5 people",
-    "entities": [
-      { "category": "menuItem", "offset": 4, "length": 21 },
-      { "category": "partySize", "offset": 30, "length": 1 }
-    ]
+    "text": "Add Large Pepporoni Pizza",
+    "entities": [{ "category": "menuItem", "offset": 4, "length": 21 }]
   },
   {
     "intent": "AddToCart",
     "language": "en-us",
-    "text": "Add a Burger for the order id 123",
+    "text": "Add 1 Burger to cart",
     "entities": [
       { "category": "quantity", "offset": 4, "length": 1 },
-      { "category": "menuItem", "offset": 6, "length": 6 },
-      { "category": "orderID", "offset": 30, "length": 3 }
+      { "category": "menuItem", "offset": 6, "length": 6 }
     ]
   },
   {
@@ -114,20 +110,14 @@
   {
     "intent": "AddToCart",
     "language": "en-us",
-    "text": "Add Coffee with 4 stars",
-    "entities": [
-      { "category": "menuItem", "offset": 4, "length": 6 },
-      { "category": "ratingValue", "offset": 16, "length": 7 }
-    ]
+    "text": "Add Coffee to cart",
+    "entities": [{ "category": "menuItem", "offset": 4, "length": 6 }]
   },
   {
     "intent": "AddToCart",
     "language": "en-us",
-    "text": "Add Tea for #23",
-    "entities": [
-      { "category": "menuItem", "offset": 4, "length": 3 },
-      { "category": "userID", "offset": 13, "length": 2 }
-    ]
+    "text": "Add Tea to cart",
+    "entities": [{ "category": "menuItem", "offset": 4, "length": 3 }]
   },
   {
     "intent": "AddToCart",
@@ -200,6 +190,121 @@
       { "category": "quantity", "offset": 4, "length": 1 },
       { "category": "menuItem", "offset": 6, "length": 16 },
       { "category": "restaurantName", "offset": 28, "length": 12 }
+    ]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "Add 2 gluten-free dishes to my cart",
+    "entities": [
+      { "category": "quantity", "offset": 4, "length": 1 },
+      { "category": "dietType", "offset": 6, "length": 11 }
+    ]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "Add some Italian food to cart",
+    "entities": [{ "category": "cuisine", "offset": 9, "length": 7 }]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "Add 2 margherita pizzas to my cart",
+    "entities": [
+      { "category": "quantity", "offset": 4, "length": 1 },
+      { "category": "menuItem", "offset": 6, "length": 17 }
+    ]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "I'd like 3 vegan burgers added to the cart",
+    "entities": [
+      { "category": "quantity", "offset": 9, "length": 1 },
+      { "category": "dietType", "offset": 11, "length": 5 },
+      { "category": "menuItem", "offset": 17, "length": 7 }
+    ]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "Please add one gluten-free pasta",
+    "entities": [
+      { "category": "quantity", "offset": 11, "length": 3 },
+      { "category": "dietType", "offset": 15, "length": 11 },
+      { "category": "menuItem", "offset": 27, "length": 5 }
+    ]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "Add 5 chicken wings",
+    "entities": [
+      { "category": "quantity", "offset": 4, "length": 1 },
+      { "category": "menuItem", "offset": 6, "length": 13 }
+    ]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "Put 1 vegetarian sushi roll in my cart",
+    "entities": [
+      { "category": "quantity", "offset": 4, "length": 1 },
+      { "category": "dietType", "offset": 6, "length": 10 },
+      { "category": "menuItem", "offset": 17, "length": 10 }
+    ]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "Add 3 low-carb salads",
+    "entities": [
+      { "category": "quantity", "offset": 4, "length": 1 },
+      { "category": "dietType", "offset": 6, "length": 8 },
+      { "category": "menuItem", "offset": 15, "length": 6 }
+    ]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "Add a margherita pizza and 2 sodas",
+    "entities": [
+      { "category": "quantity", "offset": 4, "length": 1 },
+      { "category": "menuItem", "offset": 6, "length": 16 },
+      { "category": "quantity", "offset": 27, "length": 1 },
+      { "category": "menuItem", "offset": 29, "length": 5 }
+    ]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "I want to order 1 vegan pizza",
+    "entities": [
+      { "category": "quantity", "offset": 16, "length": 1 },
+      { "category": "dietType", "offset": 18, "length": 5 },
+      { "category": "menuItem", "offset": 24, "length": 5 }
+    ]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "Add 4 cheeseburgers and 1 coke",
+    "entities": [
+      { "category": "quantity", "offset": 4, "length": 1 },
+      { "category": "menuItem", "offset": 5, "length": 13 },
+      { "category": "quantity", "offset": 24, "length": 1 },
+      { "category": "menuItem", "offset": 26, "length": 4 }
+    ]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "Please put a vegetarian margherita pizza in my cart",
+    "entities": [
+      { "category": "quantity", "offset": 11, "length": 1 },
+      { "category": "dietType", "offset": 13, "length": 10 },
+      { "category": "menuItem", "offset": 24, "length": 16 }
     ]
   }
 ]

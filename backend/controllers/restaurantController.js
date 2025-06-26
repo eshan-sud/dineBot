@@ -2,9 +2,9 @@
 
 const pool = require("../config/db");
 
-//  Search by cuisine, location, price range, or other keywords
+//  Have to work on location keyword
 
-exports.getAllRestaurants = async () => {
+const getAllRestaurants = async () => {
   const [rows] = await pool.query(`
     SELECT r.id, r.name, r.price_range, r.rating,
            l.city, l.area, c.name AS cuisine
@@ -15,25 +15,25 @@ exports.getAllRestaurants = async () => {
   return rows;
 };
 
-exports.findRestaurant = async ({
-  name,
+const searchRestaurants = async ({
+  rName,
   location,
   cuisine,
-  /*price range, */
+  priceRange,
+  rating,
 }) => {
   let sql = `
-    SELECT r.id, r.name, r.price_range, r.rating, 
+    SELECT r.id, r.name, r.price_range, r.rating,
            l.city, l.area, c.name AS cuisine
     FROM restaurants r
     JOIN locations l ON r.location_id = l.id
     JOIN cuisines c ON r.cuisine_id = c.id
-    WHERE 1=1
+    WHERE 1 = 1
   `;
   const params = [];
-
-  if (name) {
+  if (rName) {
     sql += " AND r.name LIKE ?";
-    params.push(`%${name}%`);
+    params.push(`%${rName}%`);
   }
   if (location) {
     sql += " AND (l.city LIKE ? OR l.area LIKE ?)";
@@ -43,7 +43,19 @@ exports.findRestaurant = async ({
     sql += " AND c.name LIKE ?";
     params.push(`%${cuisine}%`);
   }
-
+  if (priceRange) {
+    sql += " AND r.price_range = ?";
+    params.push(priceRange);
+  }
+  if (rating) {
+    sql += " AND r.rating >= ?";
+    params.push(rating);
+  }
   const [rows] = await pool.query(sql, params);
   return rows;
+};
+
+module.exports = {
+  getAllRestaurants,
+  searchRestaurants,
 };

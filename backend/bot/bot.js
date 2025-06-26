@@ -35,10 +35,9 @@ const {
 const {
   getAllRestaurants,
   searchRestaurants,
-  findRestaurant,
 } = require("../controllers/restaurantController");
 
-const { convertTo24Hour } = require("../utils/utils");
+const { convertTo24Hour, displayRestaurants } = require("../utils/utils");
 
 const memoryStorage = new MemoryStorage();
 const conversationState = new ConversationState(memoryStorage); // Conversation state
@@ -160,7 +159,7 @@ class RestaurantBot extends ActivityHandler {
 
       // AUTHENTICATED USER LOGIC
       const { topIntent, entities } = await getIntentAndEntities(text);
-      // console.log(`CLU detected intent: ${topIntent}`);
+      console.log(`CLU detected intent: ${topIntent}`);
       console.log(`CLU entities: `, entities);
 
       // Extract common entities for convenience
@@ -175,6 +174,9 @@ class RestaurantBot extends ActivityHandler {
       const status = entity("orderStatus");
       const menuId = entity("menuID");
       const userLocation = entity("userLocation");
+      if (userLocation) {
+        userProfile.currentLocation = userLocation;
+      }
       const cuisine = entity("cuisine");
       const priceRange = entity("priceRange");
       const ratingValue = entity("ratingValue");
@@ -197,8 +199,6 @@ class RestaurantBot extends ActivityHandler {
         }
       }
       const dateStr = reservationDate.toISOString().split("T")[0];
-
-      console.log("\n" + topIntent + "\n");
       switch (topIntent) {
         // Cart ==>
         case "AddToCart": {
@@ -340,12 +340,15 @@ class RestaurantBot extends ActivityHandler {
             break;
           }
         }
+
         case "ViewCart": {
           break;
         }
+
         case "EditCart": {
           break;
         }
+
         case "ClearCart": {
           break;
         }
@@ -356,11 +359,11 @@ class RestaurantBot extends ActivityHandler {
             case undefined:
               reply =
                 "🤔 Sorry, I didn't understand your request.\n\n" +
-                "Here's what I can help you with:\n" +
-                "• 🗓️ Book a table\n" +
-                "• 🍔 Place an order\n" +
-                "• 📋 View your reservations\n" +
-                "• 💳 Make a payment\n" +
+                "Here's what I can help you with:\n\n" +
+                "• 🗓️ Book a table\n\n" +
+                "• 🍔 Place an order\n\n" +
+                "• 📋 View your reservations\n\n" +
+                "• 💳 Make a payment\n\n" +
                 "• ❓ Ask for help\n\n" +
                 "👉 You can also type 'menu' or 'help' for a full list of options.";
               break;
@@ -1146,27 +1149,85 @@ class RestaurantBot extends ActivityHandler {
         }
 
         case "SearchRestaurant": {
+          console.log(rName);
           try {
-            if (!cuisine && !location && !userProfile.awaitingSearchInput) {
-              reply =
-                "❓ Please specify a cuisine (e.g., Italian) or location (e.g., New York) for the search.";
-              userProfile.awaitingSearchInput = true;
-            } else {
-              const searchQuery = cuisine || location || text;
-              const results = await searchRestaurants(searchQuery);
+            // All Restaurants
+            if (/all\s+restaurants/i.test(text)) {
+              const results = await getAllRestaurants();
               if (results && results.length > 0) {
                 reply =
-                  `🔍 Here are some ${searchQuery}-based restaurants:\n\n` +
-                  results
-                    .map(
-                      (r) =>
-                        `• ${r.name} (${r.address})\n🌐 [View Details](${r.link})`
-                    )
-                    .join("\n\n") +
-                  `\n\n👉 Would you like to:\n• 👀 See more results\n• 📋 Get menu for a specific restaurant\n• 🗓️ Book a table?`;
+                  `🏁 Here are all available restaurants:\n\n` +
+                  displayRestaurants(results);
+                userProfile.lastSearchResults = results;
                 delete userProfile.awaitingSearchInput;
               } else {
-                reply = `🤔 No ${searchQuery}-based restaurants found. Try specifying another cuisine or location.`;
+                reply = "🤔 No restaurants found.";
+              }
+            }
+            // Keyword search
+            else if (
+              !userProfile.awaitingSearchInput &&
+              !rName &&
+              !cuisine &&
+              !userLocation &&
+              !userProfile.currentLocation &&
+              !priceRange &&
+              !ratingValue
+            ) {
+              reply =
+                "❓ Please specify a reastaurant name (eg, Pizza Palace), cuisine (eg, Italian), location (eg, New York), price range (eg, $$), or minimum rating (eg, 4) for the search";
+              userProfile.awaitingSearchInput = true;
+            } else {
+              let location =
+                userLocation || userProfile.currentLocation || null;
+              // Avoid overlap b/w cuisine & location
+              if (
+                cuisine &&
+                location &&
+                location.toLowerCase().includes(cuisine.toLowerCase())
+              ) {
+                location = null; // Ignore location
+              }
+              // Avoid overlap b/w rName & location
+              if (
+                rName &&
+                location &&
+                location.toLowerCase() === rName.toLowerCase()
+              ) {
+                location = null; // Ignore Location
+              }
+              const results = await searchRestaurants({
+                rName,
+                location,
+                cuisine,
+                priceRange,
+                rating: ratingValue,
+              });
+              if (results && results.length > 0) {
+                reply =
+                  `🔍 Here are some results` +
+                  `${rName ? ` for ${rName}` : ""}` +
+                  `${cuisine ? ` with ${cuisine} cuisine` : ""}` +
+                  `${location ? ` in ${location}` : ""}` +
+                  `${priceRange ? ` priced ${priceRange}` : ""}` +
+                  `${ratingValue ? ` rated ${ratingValue}+` : ""}` +
+                  `:\n\n` +
+                  displayRestaurants(results);
+                delete userProfile.awaitingSearchInput;
+                userProfile.lastSearchResults = results;
+              }
+              // No results
+              else {
+                reply =
+                  `🤔 No results found` +
+                  `${rName ? ` for ${rName}` : ""}` +
+                  `${cuisine ? ` with ${cuisine} cuisine` : ""}` +
+                  `${location ? ` in ${location}` : ""}` +
+                  `${priceRange ? ` priced ${priceRange}` : ""}` +
+                  `${
+                    ratingValue ? ` rated ${ratingValue}+` : ""
+                  }. Try another query.`;
+                delete userProfile.awaitingSearchInput; // Reset state
               }
             }
           } catch (error) {
@@ -1174,8 +1235,11 @@ class RestaurantBot extends ActivityHandler {
             reply =
               "⚠️ An error occurred while searching for restaurants. Please try again later.";
             delete userProfile.awaitingSearchInput;
+          } finally {
+            await this.userProfileAccessor.set(context, userProfile);
+            await this.conversationState.saveChanges(context);
+            break;
           }
-          break;
         }
 
         // Review ==>

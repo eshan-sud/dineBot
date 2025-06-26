@@ -51,7 +51,7 @@
     "intent": "RecommendItem",
     "language": "en-us",
     "text": "Recommend a vegetarian option",
-    "entities": [{ "category": "category", "offset": 12, "length": 10 }]
+    "entities": [{ "category": "dietType", "offset": 12, "length": 10 }]
   },
   {
     "intent": "RecommendItem",
@@ -171,7 +171,7 @@
     "intent": "RecommendItem",
     "language": "en-us",
     "text": "What's a popular vegetarian option?",
-    "entities": [{ "category": "category", "offset": 9, "length": 25 }]
+    "entities": [{ "category": "dietType", "offset": 9, "length": 25 }]
   },
   {
     "intent": "RecommendItem",

@@ -20,15 +20,6 @@
   {
     "intent": "RemoveFromCart",
     "language": "en-us",
-    "text": "Cancel the burger in my order",
-    "entities": [
-      { "category": "quantity", "offset": 7, "length": 3 },
-      { "category": "menuItem", "offset": 13, "length": 6 }
-    ]
-  },
-  {
-    "intent": "RemoveFromCart",
-    "language": "en-us",
     "text": "Remove one item from the cart",
     "entities": [{ "category": "quantity", "offset": 7, "length": 3 }]
   },
@@ -238,7 +229,7 @@
     "text": "Please remove 2 gluten free brownies from my cart",
     "entities": [
       { "category": "quantity", "offset": 14, "length": 1 },
-      { "category": "category", "offset": 16, "length": 11 },
+      { "category": "dietType", "offset": 16, "length": 11 },
       { "category": "menuItem", "offset": 28, "length": 8 }
     ]
   },
@@ -260,7 +251,7 @@
     "text": "Delete my 3 non veg burgers for user 456",
     "entities": [
       { "category": "quantity", "offset": 10, "length": 1 },
-      { "category": "category", "offset": 12, "length": 7 },
+      { "category": "dietType", "offset": 12, "length": 7 },
       { "category": "menuItem", "offset": 20, "length": 7 },
       { "category": "userID", "offset": 37, "length": 3 }
     ]
@@ -282,7 +273,16 @@
     "entities": [
       { "category": "quantity", "offset": 9, "length": 1 },
       { "category": "menuItem", "offset": 11, "length": 12 },
-      { "category": "priceRange", "offset": 45, "length": 4 }
+      { "category": "priceRange", "offset": 45, "length": 3 }
+    ]
+  },
+  {
+    "intent": "RemoveFromCart",
+    "language": "en-us",
+    "text": "I want to remove the vegetarian pizza",
+    "entities": [
+      { "category": "menuItem", "offset": 21, "length": 16 },
+      { "category": "dietType", "offset": 21, "length": 10 }
     ]
   }
 ]

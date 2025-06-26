@@ -125,8 +125,8 @@ CREATE TABLE order_items (
     FOREIGN KEY (menu_item_id) REFERENCES menu_items(id) ON DELETE CASCADE
 );
 
--- User Behaviour
-CREATE TABLE user_behaviour (
+-- User Behavior
+CREATE TABLE user_behavior (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
     restaurant_id INT,
@@ -150,11 +150,11 @@ CREATE TABLE payments (
 );
 
 
--- Dummy data for restaurant_bot
+-- Dummy database for restaurant_bot (testing)
+-- Users
 INSERT INTO users (name, email, password)
 VALUES
-  ('Alice', 'alice@example.com', '$2b$10$42mZxcEOiOSiCBXmBgVEo.DLy.4oXvYsuHGhUczSRY8AaOvJb4z9G'),
-  ('Bob', 'bob@example.com', '$2b$10$lhS6v4Zuk3LP.jqwq9.6hufvJZLui65TW2xhvtU8xwbyODnSzzYdm');
+  ('eshan', 'eshansud22@gmail.com', '$2b$10$42mZxcEOiOSiCBXmBgVEo.DLy.4oXvYsuHGhUczSRY8AaOvJb4z9G');
 
 -- Locations
 INSERT INTO locations (city, area)
@@ -348,7 +348,7 @@ VALUES
   (2, 4, 1);
 
 -- User Behaviour
-INSERT INTO user_behaviour (user_id, restaurant_id, menu_item_id, action_type)
+INSERT INTO user_behavior (user_id, restaurant_id, menu_item_id, action_type)
 VALUES
   (1, 1, 1, 'view'),
   (2, 2, 3, 'order');

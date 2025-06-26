@@ -237,7 +237,7 @@
     "entities": [
       { "category": "orderID", "offset": 16, "length": 4 },
       { "category": "quantity", "offset": 24, "length": 1 },
-      { "category": "category", "offset": 27, "length": 11 },
+      { "category": "dietType", "offset": 27, "length": 11 },
       { "category": "menuItem", "offset": 39, "length": 6 }
     ]
   },
@@ -266,7 +266,7 @@
     "language": "en-us",
     "text": "Cancel my non-veg reservation at Meat Feast for user 789.",
     "entities": [
-      { "category": "category", "offset": 10, "length": 7 },
+      { "category": "dietType", "offset": 10, "length": 7 },
       { "category": "restaurantName", "offset": 33, "length": 10 },
       { "category": "userID", "offset": 53, "length": 3 }
     ]

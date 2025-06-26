@@ -14,12 +14,6 @@
   {
     "intent": "None",
     "language": "en-us",
-    "text": "What can you do for me?",
-    "entities": []
-  },
-  {
-    "intent": "None",
-    "language": "en-us",
     "text": "Do you have a favorite color?",
     "entities": []
   },

@@ -1,6 +1,6 @@
 [
   {
-    "intent": "BookTable",
+    "intent": "MakeReservation",
     "language": "en-us",
     "text": "Book a table at Pizza Place for 2 people tonight",
     "entities": [
@@ -10,7 +10,7 @@
     ]
   },
   {
-    "intent": "BookTable",
+    "intent": "MakeReservation",
     "language": "en-us",
     "text": "Reserve a table for four at Curry Corner tomorrow",
     "entities": [
@@ -20,7 +20,7 @@
     ]
   },
   {
-    "intent": "BookTable",
+    "intent": "MakeReservation",
     "language": "en-us",
     "text": "I'd like to book a table for three at 8 PM",
     "entities": [
@@ -29,7 +29,7 @@
     ]
   },
   {
-    "intent": "BookTable",
+    "intent": "MakeReservation",
     "language": "en-us",
     "text": "Book a table for me and my friends tonight",
     "entities": [
@@ -38,7 +38,7 @@
     ]
   },
   {
-    "intent": "BookTable",
+    "intent": "MakeReservation",
     "language": "en-us",
     "text": "Can I reserve a table at Pasta House for Saturday?",
     "entities": [
@@ -47,7 +47,7 @@
     ]
   },
   {
-    "intent": "BookTable",
+    "intent": "MakeReservation",
     "language": "en-us",
     "text": "Make a reservation for 5 at The Grill tonight",
     "entities": [
@@ -57,7 +57,7 @@
     ]
   },
   {
-    "intent": "BookTable",
+    "intent": "MakeReservation",
     "language": "en-us",
     "text": "Book a table for 2 on 25th December at 10 PM",
     "entities": [
@@ -67,13 +67,13 @@
     ]
   },
   {
-    "intent": "BookTable",
+    "intent": "MakeReservation",
     "language": "en-us",
     "text": "Reserve a spot for lunch tomorrow",
     "entities": [{ "category": "date", "offset": 25, "length": 8 }]
   },
   {
-    "intent": "BookTable",
+    "intent": "MakeReservation",
     "language": "en-us",
     "text": "Book a table for tonight, 7 PM, 3 people",
     "entities": [
@@ -83,7 +83,7 @@
     ]
   },
   {
-    "intent": "BookTable",
+    "intent": "MakeReservation",
     "language": "en-us",
     "text": "I want a reservation for 2 at Sushi Spot",
     "entities": [
@@ -92,7 +92,7 @@
     ]
   },
   {
-    "intent": "BookTable",
+    "intent": "MakeReservation",
     "language": "en-us",
     "text": "Book a table for a party of 6 next Sunday",
     "entities": [
@@ -101,7 +101,7 @@
     ]
   },
   {
-    "intent": "BookTable",
+    "intent": "MakeReservation",
     "language": "en-us",
     "text": "Book a table for tonight at 9 PM",
     "entities": [
@@ -110,7 +110,7 @@
     ]
   },
   {
-    "intent": "BookTable",
+    "intent": "MakeReservation",
     "language": "en-us",
     "text": "Reserve for four people tomorrow evening",
     "entities": [
@@ -119,37 +119,37 @@
     ]
   },
   {
-    "intent": "BookTable",
+    "intent": "MakeReservation",
     "language": "en-us",
     "text": "Book a table for lunch at The Burger Shack",
     "entities": [{ "category": "restaurantName", "offset": 26, "length": 16 }]
   },
   {
-    "intent": "BookTable",
+    "intent": "MakeReservation",
     "language": "en-us",
     "text": "Book a spot for a date tomorrow",
     "entities": [{ "category": "date", "offset": 23, "length": 8 }]
   },
   {
-    "intent": "BookTable",
+    "intent": "MakeReservation",
     "language": "en-us",
     "text": "Book a table for New Year's Eve",
     "entities": [{ "category": "date", "offset": 17, "length": 14 }]
   },
   {
-    "intent": "BookTable",
+    "intent": "MakeReservation",
     "language": "en-us",
     "text": "Reserve a table for 8 for the reunion",
     "entities": [{ "category": "partySize", "offset": 20, "length": 1 }]
   },
   {
-    "intent": "BookTable",
+    "intent": "MakeReservation",
     "language": "en-us",
     "text": "Book a space for a group dinner",
     "entities": []
   },
   {
-    "intent": "BookTable",
+    "intent": "MakeReservation",
     "language": "en-us",
     "text": "Book a table for 2 this evening",
     "entities": [
@@ -158,7 +158,7 @@
     ]
   },
   {
-    "intent": "BookTable",
+    "intent": "MakeReservation",
     "language": "en-us",
     "text": "Book a table at Pizza Palace for tonight",
     "entities": [
@@ -167,7 +167,7 @@
     ]
   },
   {
-    "intent": "BookTable",
+    "intent": "MakeReservation",
     "language": "en-us",
     "text": "Book a table for tonight at The Steak House for 4 people.",
     "entities": [
@@ -177,7 +177,7 @@
     ]
   },
   {
-    "intent": "BookTable",
+    "intent": "MakeReservation",
     "language": "en-us",
     "text": "Reserve a spot for lunch at Noodle Bowl tomorrow",
     "entities": [
@@ -186,7 +186,7 @@
     ]
   },
   {
-    "intent": "BookTable",
+    "intent": "MakeReservation",
     "language": "en-us",
     "text": "I'd like to book a table for New Year's Eve at Pizza Palace.",
     "entities": [
@@ -195,7 +195,7 @@
     ]
   },
   {
-    "intent": "BookTable",
+    "intent": "MakeReservation",
     "language": "en-us",
     "text": "Book a table for three on 25th December",
     "entities": [
@@ -204,7 +204,7 @@
     ]
   },
   {
-    "intent": "BookTable",
+    "intent": "MakeReservation",
     "language": "en-us",
     "text": "Reserve a table for Saturday night at The Burger Shack",
     "entities": [
@@ -214,7 +214,7 @@
     ]
   },
   {
-    "intent": "BookTable",
+    "intent": "MakeReservation",
     "language": "en-us",
     "text": "Book a table for lunch tomorrow at 1 PM",
     "entities": [
@@ -223,7 +223,7 @@
     ]
   },
   {
-    "intent": "BookTable",
+    "intent": "MakeReservation",
     "language": "en-us",
     "text": "I'd like to make a reservation for 2 at The Spice Route tonight",
     "entities": [
@@ -233,7 +233,7 @@
     ]
   },
   {
-    "intent": "BookTable",
+    "intent": "MakeReservation",
     "language": "en-us",
     "text": "Book a table for 3 at Italian Garden on 25th December at 9 PM",
     "entities": [
@@ -244,7 +244,7 @@
     ]
   },
   {
-    "intent": "BookTable",
+    "intent": "MakeReservation",
     "language": "en-us",
     "text": "Reserve a table for 4 people at Curry Corner tomorrow",
     "entities": [
@@ -254,7 +254,7 @@
     ]
   },
   {
-    "intent": "BookTable",
+    "intent": "MakeReservation",
     "language": "en-us",
     "text": "Book a table at Pizza Palace for 2 at 7 PM today",
     "entities": [
@@ -262,6 +262,35 @@
       { "category": "partySize", "offset": 33, "length": 1 },
       { "category": "date", "offset": 43, "length": 5 },
       { "category": "time", "offset": 38, "length": 4 }
+    ]
+  },
+  {
+    "intent": "MakeReservation",
+    "language": "en-us",
+    "text": "Book a table for 2 people tomorrow at 7 PM",
+    "entities": [
+      { "category": "partySize", "offset": 17, "length": 1 },
+      { "category": "date", "offset": 26, "length": 8 },
+      { "category": "time", "offset": 38, "length": 4 }
+    ]
+  },
+  {
+    "intent": "MakeReservation",
+    "language": "en-us",
+    "text": "I'd like to reserve a table for 4 tonight",
+    "entities": [
+      { "category": "date", "offset": 34, "length": 7 },
+      { "category": "time", "offset": 32, "length": 1 }
+    ]
+  },
+  {
+    "intent": "MakeReservation",
+    "language": "en-us",
+    "text": "Make a reservation for 3 people at 8 PM on Saturday",
+    "entities": [
+      { "category": "partySize", "offset": 23, "length": 1 },
+      { "category": "date", "offset": 43, "length": 8 },
+      { "category": "time", "offset": 35, "length": 4 }
     ]
   }
 ]
