@@ -5,7 +5,7 @@ const pool = require("../config/db");
 
 // Reservation w/ date, time, special requests
 
-exports.getUserReservations = async (userId) => {
+const getUserReservations = async (userId) => {
   try {
     const [rows] = await pool.query(
       `SELECT r.reservation_date, r.reservation_time, r.party_size, rs.name
@@ -22,7 +22,7 @@ exports.getUserReservations = async (userId) => {
   }
 };
 
-exports.makeReservation = async (restaurantName, partySize, date, time) => {
+const makeReservation = async (restaurantName, partySize, date, time) => {
   try {
     const [restaurants] = await pool.query(
       "SELECT id FROM restaurants WHERE name LIKE ?",
@@ -43,9 +43,11 @@ exports.makeReservation = async (restaurantName, partySize, date, time) => {
   }
 };
 
-exports.cancelReservation = async (reservationId) => {
+const cancelReservation = async (reservationId) => {
   const result = await pool.query("DELETE FROM reservations WHERE id = ?", [
     reservationId,
   ]);
   return result.affectedRows > 0;
 };
+
+module.exports = { getUserReservations, makeReservation, cancelReservation };

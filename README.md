@@ -67,27 +67,27 @@ This handy restaurant bot simplifies your dining experience. It helps you find r
   - [x] Implement Intents
     - [x] None (or FallbackIntent)
     - [x] GeneralGreeting
+  - [x] Make the bot conversationally stateful (creating a sort of bias b/w each conversation thread from the intially indentified intent)
 
-- [] Restaurant
+- [x] Restaurant
 
   - [x] Design MySQL relations (restaurants, locations, cuisines, reviews)
   - [x] Implement basic restraunt discovery using user inputs
   - [x] Implement all restraunt discovery (eg, "Show all restaurants")
   - [x] Implement location based discovery using user input (eg, "Chinese food near me")
-  - [] Restaurant search based on
+  - [x] Restaurant search based on
     - [x] Restaurant Name
     - [x] Cuisine
     - [x] Location or City
     - [x] Price range
     - [x] Rating
-  - [] Implement Intents
-    - [] ReviewRestaurant
+  - [x] Implement Intents
     - [x] SearchRestaurant
 
-- [] Menu
+- [x] Menu
 
   - [x] Create MySQL relations (menus, menu_items, item_images, item_reviews)
-  - [] Display Menu description, image, price, user ratings
+  - [x] Display Menu description, image, price, user ratings
   - [x] Implement Intents
     - [x] ShowMenu
 
@@ -98,33 +98,27 @@ This handy restaurant bot simplifies your dining experience. It helps you find r
     - [] MakeReservation
     - [] CancelReservation
     - [] ModifyReservation
-    - [x] ShowReservations
+    - [] ShowReservations
 
 - [] Orders
 
   - [x] Create MySQL relation (orders)
   - [] Implement Intents
-    - [] ConfirmOrder
     - [] CancelOrder
     - [] CheckOrderStatus
-  - [] Display Order summary & final confirmation
-  - [] Show real-time status updates
+  - [] Display Order summary & final confirmation after Payment
+  - [] Show real-time status updates (pending => approved => ...)
 
-- [] Cart
+- [x] Cart
 
   - [x] Implement memory for conversation
-  - [] Implement Intents
-    - [] AddToCart
-    - [] RemoveFromCart
-    - [] ViewCart
-    - [] EditCart
-    - [] ClearCart
-
-- [] Reviews
-
-  - [x] Design MySQL relations (reviews, item_reviews)
-  - [] Implement Intents
-    - [] RateItem
+  - [x] Implement Intents
+    - [x] AddToCart
+    - [x] RemoveFromCart
+    - [x] ViewCart
+    - [x] EditCart
+    - [x] ClearCart
+  - [] Store pending cart in Database (order status as 'pending') (Optional)
 
 - [] Payment
 
@@ -139,7 +133,8 @@ This handy restaurant bot simplifies your dining experience. It helps you find r
 - [] Recommendations
 
   - [x] Implement MySQL relation (user_behavior)
-    - [] Track user behavior: restaurant visits, ordered items, ratings
+    - [] Track user behavior: restaurant visits, ordered items
+    <!-- Future : ratings -->
   - [] Implement Intents
     - [] SetUserBehavior
     - [] RecommendItem

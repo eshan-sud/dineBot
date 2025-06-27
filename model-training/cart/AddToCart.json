@@ -306,5 +306,51 @@
       { "category": "dietType", "offset": 13, "length": 10 },
       { "category": "menuItem", "offset": 24, "length": 16 }
     ]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "order 1 margherita pizza from pizza palace",
+    "entities": [
+      { "category": "quantity", "offset": 6, "length": 1 },
+      { "category": "menuItem", "offset": 8, "length": 16 },
+      { "category": "restaurantName", "offset": 30, "length": 12 }
+    ]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "order margherita pizza",
+    "entities": [{ "category": "menuItem", "offset": 6, "length": 16 }]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "I want to order Burger from Hishi Cafe",
+    "entities": [
+      { "category": "menuItem", "offset": 16, "length": 6 },
+      { "category": "restaurantName", "offset": 28, "length": 10 }
+    ]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "Order 1 coke for me",
+    "entities": [
+      { "category": "quantity", "offset": 6, "length": 1 },
+      { "category": "menuItem", "offset": 8, "length": 4 }
+    ]
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "Order food",
+    "entities": []
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "Order",
+    "entities": []
   }
 ]

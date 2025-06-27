@@ -2,7 +2,7 @@
 
 const pool = require("../config/db");
 
-exports.getRecommendedItems = async () => {
+const getRecommendedItems = async () => {
   const [rows] = await pool.query(
     `SELECT mi.name, mi.price, AVG(ir.rating) as rating
      FROM menu_items mi
@@ -12,3 +12,5 @@ exports.getRecommendedItems = async () => {
   );
   return rows;
 };
+
+module.exports = { getRecommendedItems };

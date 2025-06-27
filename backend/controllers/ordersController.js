@@ -2,7 +2,7 @@
 
 const pool = require("../config/db");
 
-exports.getUserOrders = async (userId) => {
+const getUserOrders = async (userId) => {
   try {
     const [orders] = await pool.query(
       `SELECT o.id, o.status, o.order_time, o.total_amount, r.name AS restaurant_name
@@ -19,7 +19,7 @@ exports.getUserOrders = async (userId) => {
   }
 };
 
-exports.getLatestOrder = async (userId) => {
+const getLatestOrder = async (userId) => {
   try {
     const [rows] = await pool.query(
       `SELECT o.id, o.status, o.total_amount, r.name
@@ -36,7 +36,7 @@ exports.getLatestOrder = async (userId) => {
   }
 };
 
-exports.isRestaurantAcceptingOrders = async (restaurantName) => {
+const isRestaurantAcceptingOrders = async (restaurantName) => {
   try {
     const [rows] = await pool.query(
       `SELECT accepting_orders FROM restaurants WHERE name = ?`,
@@ -49,7 +49,7 @@ exports.isRestaurantAcceptingOrders = async (restaurantName) => {
   }
 };
 
-exports.ConfirmOrder = async (restaurantName, userId, items) => {
+const ConfirmOrder = async (restaurantName, userId, items) => {
   try {
     // Find the restaurant
     const [restaurantRows] = await pool.query(
@@ -100,7 +100,7 @@ exports.ConfirmOrder = async (restaurantName, userId, items) => {
   }
 };
 
-exports.cancelLatestOrder = async (userId) => {
+const cancelLatestOrder = async (userId) => {
   try {
     const [res] = await pool.query(
       `UPDATE orders
@@ -115,4 +115,12 @@ exports.cancelLatestOrder = async (userId) => {
     console.error("[cancelLatestOrder Error]", error);
     return false;
   }
+};
+
+module.exports = {
+  getUserOrders,
+  getLatestOrder,
+  isRestaurantAcceptingOrders,
+  ConfirmOrder,
+  cancelLatestOrder,
 };

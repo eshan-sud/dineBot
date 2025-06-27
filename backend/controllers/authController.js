@@ -13,7 +13,7 @@ const findUserByEmail = async (email) => {
   return rows[0];
 };
 
-exports.loginUser = async (email, password) => {
+const loginUser = async (email, password) => {
   const user = await findUserByEmail(email);
   if (!user) return null;
   const match = await bcrypt.compare(password, user.password);
@@ -24,7 +24,7 @@ exports.loginUser = async (email, password) => {
   return { user, token };
 };
 
-exports.signupUser = async (name, email, password) => {
+const signupUser = async (name, email, password) => {
   const existingUser = await findUserByEmail(email);
   if (existingUser) return null;
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -35,6 +35,8 @@ exports.signupUser = async (name, email, password) => {
   return results;
 };
 
-exports.logoutUser = async () => {
+const logoutUser = async () => {
   // Remove login token from memory
 };
+
+module.exports = { loginUser, signupUser, logoutUser };

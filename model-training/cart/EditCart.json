@@ -142,5 +142,17 @@
     "language": "en-us",
     "text": "Change quantity of sushi rolls.",
     "entities": [{ "category": "menuItem", "offset": 19, "length": 11 }]
+  },
+  {
+    "intent": "EditCart",
+    "language": "en-us",
+    "text": "Change 1",
+    "entities": []
+  },
+  {
+    "intent": "EditCart",
+    "language": "en-us",
+    "text": "Edit 1",
+    "entities": []
   }
 ]

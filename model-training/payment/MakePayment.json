@@ -296,5 +296,35 @@
     "language": "en-us",
     "text": "I'd like to pay for my takeaway order",
     "entities": [{ "category": "deliveryMethod", "offset": 23, "length": 8 }]
+  },
+  {
+    "intent": "MakePayment",
+    "language": "en-us",
+    "text": "Proceed to checkout",
+    "entities": []
+  },
+  {
+    "intent": "MakePayment",
+    "language": "en-us",
+    "text": "Make payment",
+    "entities": []
+  },
+  {
+    "intent": "MakePayment",
+    "language": "en-us",
+    "text": "Pay for my cart",
+    "entities": []
+  },
+  {
+    "intent": "MakePayment",
+    "language": "en-us",
+    "text": "Confirm order",
+    "entities": []
+  },
+  {
+    "intent": "MakePayment",
+    "language": "en-us",
+    "text": "Pay for order",
+    "entities": []
   }
 ]

@@ -27,19 +27,6 @@ const getMenuByRestaurantName = async (restaurantName) => {
   return menuItems;
 };
 
-const getMenus = async (req, res, next) => {
-  try {
-    const { restaurantId } = req.params;
-    const [menus] = await pool.query(
-      `SELECT id, name, description FROM menus WHERE restaurant_id = ?`,
-      [restaurantId]
-    );
-    res.json(menus);
-  } catch (err) {
-    next(err);
-  }
-};
-
 const getMenuItems = async (req, res, next) => {
   try {
     const { menuId } = req.params;
@@ -59,54 +46,21 @@ const getMenuItems = async (req, res, next) => {
   }
 };
 
-const getMenuItemByName = async (itemName) => {
-  const [items] = await pool.query(
-    `SELECT mi.id, mi.name, mi.description, mi.price,
-            IFNULL(AVG(ir.rating), 0) AS avg_rating,
-            COUNT(ir.id) AS review_count
-       FROM menu_items mi
-       LEFT JOIN item_reviews ir ON mi.id = ir.menu_item_id
-       WHERE mi.name = ?
-       GROUP BY mi.id`,
-    [itemName]
-  );
-  return items.length ? items[0] : null;
-};
-
-const getMenuItemDetails = async (itemName) => {
-  const [items] = await pool.query(
-    `SELECT mi.id, mi.name, mi.description, mi.price,
-            IFNULL(AVG(ir.rating), 0) AS avg_rating,
-            COUNT(ir.id) AS review_count
-       FROM menu_items mi
-       LEFT JOIN item_reviews ir ON mi.id = ir.menu_item_id
-       WHERE mi.name = ?
-       GROUP BY mi.id`,
-    [itemName]
-  );
-  return items.length ? items[0] : null;
-};
-
-const getMenuSections = async (restaurantId) => {
-  const [sections] = await pool.query(
-    `SELECT id, name, description FROM menus WHERE restaurant_id = ?`,
-    [restaurantId]
-  );
-  return sections;
-};
-
-const searchMenuItems = async (keyword) => {
-  const [items] = await pool.query(
-    `SELECT mi.id, mi.name, mi.description, mi.price,
-            IFNULL(AVG(ir.rating), 0) AS avg_rating,
-            COUNT(ir.id) AS review_count
-       FROM menu_items mi
-       LEFT JOIN item_reviews ir ON mi.id = ir.menu_item_id
-       WHERE mi.name LIKE ? OR mi.description LIKE ?
-       GROUP BY mi.id`,
-    [`%${keyword}%`, `%${keyword}%`]
-  );
-  return items;
+const getMenuItemByName = async (name, restaurantName) => {
+  let sql = `
+    SELECT mi.* 
+    FROM menu_items mi
+    JOIN menus m ON mi.menu_id = m.id
+    JOIN restaurants r ON m.restaurant_id = r.id
+    WHERE mi.name LIKE ?
+  `;
+  const params = [`%${name}%`];
+  if (restaurantName) {
+    sql += " AND r.name LIKE ?";
+    params.push(`%${restaurantName}%`);
+  }
+  const [rows] = await pool.query(sql, params);
+  return rows.length > 0 ? rows[0] : null;
 };
 
 const filterMenuItems = async ({ vegetarian, maxPrice, minRating }) => {
@@ -151,11 +105,7 @@ const getItemReviews = async (menuItemId) => {
 module.exports = {
   getMenuByRestaurantName,
   getMenuItemByName,
-  getMenus,
   getMenuItems,
-  getMenuItemDetails,
-  getMenuSections,
-  searchMenuItems,
   filterMenuItems,
   getItemReviews,
 };

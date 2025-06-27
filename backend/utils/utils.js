@@ -24,4 +24,23 @@ const displayRestaurants = (results) => {
   );
 };
 
-module.exports = { convertTo24Hour, displayRestaurants };
+const parseDateTime = (datetime) => {
+  const parsedDate = null;
+  const parsedTime = null;
+  // let reservationDate = new Date();
+  // if (date && date.toLowerCase().includes("tomorrow")) {
+  //   reservationDate.setDate(reservationDate.getDate() + 1);
+  // } else if (date && !isNaN(new Date(date).getTime())) {
+  //   reservationDate = new Date(date);
+  // }
+  // if (time) {
+  //   const match = time.match(/\d+(?::\d+)?\s*(am|pm)/i);
+  //   if (match) {
+  //     time24hr = convertTo24Hour(match[0]);
+  //   }
+  // }
+  // const dateStr = reservationDate.toISOString().split("T")[0];
+  return { parsedDate, parsedTime };
+};
+
+module.exports = { convertTo24Hour, displayRestaurants, parseDateTime };

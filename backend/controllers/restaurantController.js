@@ -2,8 +2,7 @@
 
 const pool = require("../config/db");
 
-//  Have to work on location keyword
-
+//  Have to work on actual current location ("near me")
 const getAllRestaurants = async () => {
   const [rows] = await pool.query(`
     SELECT r.id, r.name, r.price_range, r.rating,
@@ -55,7 +54,23 @@ const searchRestaurants = async ({
   return rows;
 };
 
+const getRestaurantByName = async (name) => {
+  if (!name) return null;
+  const sql = `
+    SELECT r.id, r.name, r.price_range, r.rating,
+           l.city, l.area, c.name AS cuisine
+    FROM restaurants r
+    JOIN locations l ON r.location_id = l.id
+    JOIN cuisines c ON r.cuisine_id = c.id
+    WHERE r.name LIKE ?
+    LIMIT 1
+  `;
+  const [rows] = await pool.query(sql, [`%${name}%`]);
+  return rows.length > 0 ? rows[0] : null;
+};
+
 module.exports = {
   getAllRestaurants,
   searchRestaurants,
+  getRestaurantByName,
 };

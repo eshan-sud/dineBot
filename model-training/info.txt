@@ -1,6 +1,7 @@
 Entities:-
 
     # action_type     =>  {view, order, rate}                                   [__NEW__]
+    # cartTotal       => [Number]                                               [HIDDEN]
 
     cuisine         =>  {indian, italian, chinese, etc}
     date            => [Date]
@@ -33,6 +34,7 @@ Intents:-
     EXTRA
         None    (FallbackIntent)
         GeneralGreeting
+        ExitThread
 
     MENU
         ShowMenu
@@ -56,17 +58,4 @@ Intents:-
         ShowReservations
 
     RESTAURANT
-        ReviewRestaurant
         SearchRestaurant
-
-    REVIEW
-        RateItem
-
-
-
-            Reservations    => specialRequests
-            Reservations    => Manage reservations (cancellations or modifications) 
-            Orders          => delivery OR take-away / pickup
-            Orders          => Real-time updates on the status of your order, from confirmation to delivery (or pickup notification)
-            
-            Recommendations => Personalised recommendations based on past choices & preferences ; suggest relevant restaurants & dishes

@@ -284,5 +284,29 @@
       { "category": "menuItem", "offset": 21, "length": 16 },
       { "category": "dietType", "offset": 21, "length": 10 }
     ]
+  },
+  {
+    "intent": "RemoveFromCart",
+    "language": "en-us",
+    "text": "Remove an item from cart",
+    "entities": []
+  },
+  {
+    "intent": "RemoveFromCart",
+    "language": "en-us",
+    "text": "Remove something",
+    "entities": []
+  },
+  {
+    "intent": "RemoveFromCart",
+    "language": "en-us",
+    "text": "Remove a couple things from the cart",
+    "entities": []
+  },
+  {
+    "intent": "RemoveFromCart",
+    "language": "en-us",
+    "text": "Remove a couple things from the cart",
+    "entities": []
   }
 ]
