@@ -45,7 +45,7 @@ Intents:-
 
     PAYMENT
         CheckPaymentStatus
-        MakePayment
+        PayOrder
 
     RECOMMENDATION
         # SetUserBehavior                                                   [NEW]

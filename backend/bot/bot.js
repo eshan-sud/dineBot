@@ -13,14 +13,13 @@ const {
   getMenuItemByName,
 } = require("../controllers/menuController");
 const {
-  isRestaurantAcceptingOrders,
+  // isRestaurantAcceptingOrders,
   ConfirmOrder,
   getUserOrders,
   getLatestOrder,
   cancelLatestOrder,
 } = require("../controllers/ordersController");
 const { getPaymentStatus } = require("../controllers/paymentController");
-const { rateItem, rateRestaurant } = require("../controllers/ratingController");
 const {
   getRecommendedItems,
 } = require("../controllers/recommendationController");
@@ -28,6 +27,7 @@ const {
   makeReservation,
   getUserReservations,
   cancelReservation,
+  modifyReservation,
 } = require("../controllers/reservationController");
 const {
   getAllRestaurants,
@@ -35,7 +35,14 @@ const {
   getRestaurantByName,
 } = require("../controllers/restaurantController");
 
-const { convertTo24Hour, displayRestaurants } = require("../utils/utils");
+const {
+  convertTo24Hour,
+  displayRestaurants,
+  isValidDate,
+  isValidTime,
+  isValidEmail,
+} = require("../utils/utils");
+const { execute } = require("../config/db");
 
 const memoryStorage = new MemoryStorage();
 const conversationState = new ConversationState(memoryStorage); // Conversation state
@@ -118,31 +125,25 @@ class RestaurantBot extends ActivityHandler {
         userLocation: entity("userLocation"),
       };
 
-      Object.assign(this.userProfile.contextData, contextData);
+      for (const [key, value] of Object.entries(contextData)) {
+        if (value !== undefined && value !== null && value !== "") {
+          if (key == "date") {
+            if (isValidDate(value)) this.userProfile.contextData.date = value;
+          } else if (key == "time") {
+            if (isValidTime(value)) this.userProfile.contextData.time = value;
+          } else {
+            this.userProfile.contextData[key] = value;
+          }
+        }
+      }
       let reply;
 
-      // const entity = (name) => entities.find((e) => e.category === name)?.text;
-      // const cuisine = entity("cuisine");
-      // const date = entity("date");
-      // const deliveryMethod = entity("deliveryMethod");
-      // const dietType = entity("dietType");
-      // const menuItem = entity("menuItem");
-      // const orderId = entity("orderID");
-      // const orderStatus = entity("orderStatus");
-      // const partySize = parseInt(entity("partySize")) || 2;
-      // const priceRange = entity("priceRange");
-      // const quantity = parseInt(entity("quantity"));
-      // const ratingComment = entity("ratingComment");
-      // const ratingValue = entity("ratingValue");
-      // const reservationId = entity("reservationID");
-      // const restaurantName = entity("restaurantName");
-      // const time = entity("time");
-      // const userId = parseInt(entity("userID"));
-      // const userLocation = entity("userLocation");
-      // Date/time parsing
-      // parseDateTime(); // TODO in utils/utils.js
-
       // Intent Switching & State Logic
+      if (this.userProfile.currentIntent === "None") {
+        this.userProfile.currentIntent = null;
+        this.userProfile.stateStack = null;
+        this.userProfile.contextData = {};
+      }
       if (
         text.toLowerCase() === "exit" ||
         text.toLowerCase() === "cancel" ||
@@ -157,6 +158,7 @@ class RestaurantBot extends ActivityHandler {
         await this.conversationState.saveChanges(context);
         return;
       }
+      console.log(topIntent);
       if (!this.userProfile.currentIntent) {
         this.userProfile.currentIntent = topIntent;
         this.userProfile.stateStack = { step: null };
@@ -168,7 +170,7 @@ class RestaurantBot extends ActivityHandler {
 
       // Proceed to intent-specific flow
       switch (this.userProfile.currentIntent) {
-        // Cart ==>                                                         [DONE]
+        // Cart ==>                                                                          [DONE]
         case "AddToCart": {
           if (!this.userProfile?.userId) {
             reply =
@@ -178,7 +180,8 @@ class RestaurantBot extends ActivityHandler {
           const step = this.userProfile.stateStack?.step || "start";
           try {
             if (step === "awaiting_quantity") {
-              const quantity = parseInt(text);
+              const match = text.match(/-?\d+/);
+              const quantity = match ? parseInt(match[0]) : NaN;
               if (!quantity || quantity <= 0) {
                 reply = "❓ Please enter a valid quantity (number > 0).";
                 break;
@@ -345,7 +348,8 @@ class RestaurantBot extends ActivityHandler {
               break;
             }
             if (step === "awaiting_removal_index") {
-              const index = parseInt(text);
+              const match = text.match(/-?\d+/);
+              const index = match ? parseInt(match[0]) : NaN;
               if (!index || index < 1 || index > cart.length) {
                 reply = `❌ Invalid number. Please enter a valid item number from your cart.`;
                 break;
@@ -381,25 +385,32 @@ class RestaurantBot extends ActivityHandler {
             reply = "❌ You're not logged in. Please log in to view your cart.";
             break;
           }
-          const cart = this.userProfile.cart || [];
-          if (cart.length === 0) {
+          try {
+            const cart = this.userProfile.cart || [];
+            if (cart.length === 0) {
+              reply =
+                "🛒 Your cart is currently empty.\n\nYou can start by adding some items!";
+            } else {
+              let cartText = "🧾 **Here's what's in your cart:**\n\n";
+              let total = 0;
+              cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                cartText += `${index + 1}. **${item.itemName}** from _${
+                  item.restaurant
+                }_\n`;
+                cartText += `   • ${item.quantity} × ₹${item.price} = ₹${itemTotal}\n\n`;
+              });
+              cartText += `🧮 **Total:** ₹${total}\n\n`;
+              cartText +=
+                "👉 What would you like to do next?\n\n• 🛍️ Add more items\n\n• ✅ Checkout\n\n• ❌ Remove an item";
+              reply = cartText;
+            }
+          } catch (error) {
+            console.error("[ClearCart Error]", error);
             reply =
-              "🛒 Your cart is currently empty.\n\nYou can start by adding some items!";
-          } else {
-            let cartText = "🧾 **Here's what's in your cart:**\n\n";
-            let total = 0;
-            cart.forEach((item, index) => {
-              const itemTotal = item.price * item.quantity;
-              total += itemTotal;
-              cartText += `${index + 1}. **${item.itemName}** from _${
-                item.restaurant
-              }_\n`;
-              cartText += `   • ${item.quantity} × ₹${item.price} = ₹${itemTotal}\n\n`;
-            });
-            cartText += `🧮 **Total:** ₹${total}\n\n`;
-            cartText +=
-              "👉 What would you like to do next?\n\n• 🛍️ Add more items\n\n• ✅ Checkout\n\n• ❌ Remove an item";
-            reply = cartText;
+              "⚠️ Something went wrong while clearing the cart. Please try again.";
+            this.userProfile.stateStack = { step: "start" };
           }
           this.userProfile.currentIntent = null;
           this.userProfile.stateStack = null;
@@ -409,7 +420,7 @@ class RestaurantBot extends ActivityHandler {
           break;
         }
 
-        // TODO - It doesn't work when giving indices sometimes
+        // TODO - Add extra qualifing text to this
         case "EditCart": {
           if (!this.userProfile?.userId) {
             reply =
@@ -429,7 +440,7 @@ class RestaurantBot extends ActivityHandler {
               const cartText = cart
                 .map(
                   (item, index) =>
-                    `**${index + 1}. ${item.itemName}** (Qty: ${
+                    `\n\n**${index + 1}. ${item.itemName}** (Qty: ${
                       item.quantity
                     }, ₹${item.price} each)`
                 )
@@ -500,18 +511,18 @@ class RestaurantBot extends ActivityHandler {
               "❌ You're not logged in. Please log in to clear your cart.";
             break;
           }
+          reply =
+            "🧹 Your cart has been cleared.\n\nYou can start adding new items whenever you're ready.";
           this.userProfile.cart = [];
           this.userProfile.currentIntent = null;
           this.userProfile.stateStack = null;
           this.userProfile.contextData = {};
-          reply =
-            "🧹 Your cart has been cleared.\n\nYou can start adding new items whenever you're ready.";
           await this.userProfileAccessor.set(context, this.userProfile);
           await this.conversationState.saveChanges(context);
           break;
         }
 
-        // Extra ==>                                                        [Done]
+        // Extra ==> [Stateless Intents]                                                     [Done]
         case "None": {
           if (!this.userProfile.currentIntent) {
             // No intent in progress
@@ -524,10 +535,13 @@ class RestaurantBot extends ActivityHandler {
               "• Type `cancel` to reset.\n\n" +
               "• Or continue with more details.";
           }
+          this.userProfile.currentIntent = null;
+          this.userProfile.stateStack = null;
+          await this.userProfileAccessor.set(context, this.userProfile);
+          await this.conversationState.saveChanges(context);
           break;
         }
 
-        // [Stateless Intent]
         case "GeneralGreeting": {
           reply =
             "👋 Hello! Welcome to Restaurant Bot\n\n" +
@@ -546,7 +560,7 @@ class RestaurantBot extends ActivityHandler {
           break;
         }
 
-        // Menu ==>                                                         [Done]
+        // Menu ==>                                                                          [Done]
         case "ShowMenu": {
           if (!this.userProfile.contextData.restaurantName) {
             reply =
@@ -572,7 +586,7 @@ class RestaurantBot extends ActivityHandler {
                 reply += items
                   .map(
                     (i) =>
-                      `• ${i.name} — ₹${i.price}` +
+                      `\n\n• ${i.name} — ₹${i.price}` +
                       (i.description ? `\n  💡 ${i.description}` : "")
                   )
                   .join("\n");
@@ -580,14 +594,15 @@ class RestaurantBot extends ActivityHandler {
               }
               reply +=
                 "👉 Would you like to:\n\n• 🛍️ Add an item to your cart\n\n• 📋 View another menu\n\n• 🗓️ Reserve a table?";
-              this.userProfile.contextData.currentRestaurant =
-                this.userProfile.contextData.restaurantName;
             }
           } catch (error) {
             console.error("[ShowMenu Error]", error);
             reply =
               "⚠️ An error occurred while retrieving the menu. Please try again later.";
           }
+          this.userProfile.currentIntent = null;
+          await this.userProfileAccessor.set(context, this.userProfile);
+          await this.conversationState.saveChanges(context);
           break;
         }
 
@@ -744,140 +759,8 @@ class RestaurantBot extends ActivityHandler {
           break;
         }
 
-        case "MAKEPAYMENT PART 2": {
-          console.log("ConfirmOrder");
-          // try {
-          //   if (!this.userProfile?.userId) {
-          //     reply =
-          //       "❌ You're not logged in. Please log in to place an order.";
-          //     break;
-          //   }
-          //   if (!menuItem || !this.userProfile.contextData.restaurantName || !quantity) {
-          //     reply = !menuItem
-          //       ? "❓ Please tell me which item you'd like to order."
-          //       : !this.userProfile.contextData.restaurantNamee
-          //       ? "❓ Please provide the restaurant name."
-          //       : "❓ Please specify the quantity.";
-          //     break;
-          //   }
-          //   const isAcceptingOrders = await isRestaurantAcceptingOrders(
-          //     this.userProfile.contextData.restaurantName
-          //   );
-          //   if (!isAcceptingOrders) {
-          //     reply = `⛔ ${this.userProfile.contextData.restaurantNamee} is currently not accepting orders. Would you like to choose another restaurant?`;
-          //     break;
-          //   }
-          //   const itemDetails = await getMenuItemDetails(
-          //     this.userProfile.contextData.restaurantName,
-          //     menuItem
-          //   );
-          //   if (!itemDetails) {
-          //     reply = `❌ We couldn't find ${menuItem} at ${this.userProfile.contextData.restaurantName}. Try verifying the item name.`;
-          //     break;
-          //   }
-          //   const totalCost = itemDetails.price * quantity;
-          //   if (!this.userProfile.orderConfirmationState) {
-          //     this.userProfile.currentOrder = {
-          //       item: menuItem,
-          //       quantity,
-          //       restaurant: this.userProfile.contextData.restaurantName,
-          //       totalCost,
-          //     };
-          //     this.userProfile.orderConfirmationState = "awaiting_confirmation";
-          //     reply =
-          //       `🛍️ You're about to order ${quantity} x ${menuItem} from ${this.userProfile.contextData.restaurantName}.\n` +
-          //       `💵 Total Cost: ₹${totalCost}\n\n` +
-          //       `✅ Do you want to confirm this order?\n` +
-          //       `Reply with "Yes" to confirm or "No" to cancel.`;
-          //     break;
-          //   } else if (
-          //     this.userProfile.orderConfirmationState === "awaiting_confirmation"
-          //   ) {
-          //     if (text?.toLowerCase() === "yes") {
-          //       const placed = await ConfirmOrder(
-          //         this.userProfile.contextData.restaurantName,
-          //         this.userProfile.userId,
-          //         [{ name: menuItem, quantity }]
-          //       );
-          //       if (placed) {
-          //         reply = `✅ Your order for ${quantity} x ${menuItem} at ${this.userProfile.contextData.restaurantName} has been placed successfully!\n\n👉 What would you like to do next?\n• 🛍️ Place another order\n• 📋 View your orders\n• ❓ Ask for help`;
-          //       } else {
-          //         reply =
-          //           "⚠️ An error occurred while placing your order. Please try again.";
-          //       }
-          //     } else {
-          //       reply = "❎ No problem! I've cancelled your order request.";
-          //     }
-          //     delete this.userProfile.currentOrder;
-          //     delete this.userProfile.orderConfirmationState;
-          //     break;
-          //   } else {
-          //     reply = "🤔 An unexpected error occurred. Let's start over.";
-          //     delete this.userProfile.currentOrder;
-          //     delete this.userProfile.orderConfirmationState;
-          //     break;
-          //   }
-          // } catch (error) {
-          //   console.error("[ConfirmOrder Error]", error);
-          //   reply =
-          //     "⚠️ An error occurred while trying to place your order. Please try again later.";
-          // }
-          break;
-        }
-
-        case "MakePayment": {
-          console.log("MakePayment");
-          // switch (this.userProfile.paymentState) {
-          //   case undefined: {
-          //     if (!orderId) {
-          //       reply = "❓ Please provide the Order ID you'd like to pay.";
-          //     } else {
-          //       const order = await getOrderById(orderId, this.userProfile.userId);
-          //       if (!order) {
-          //         reply = `⚠️ No order found with ID ${orderId}. Please try again.`;
-          //       } else if (order.payment_status === "paid") {
-          //         reply = `✅ Order ${orderId} has already been paid.\n\n👉 What would you like to do next?\n• 📋 View my orders\n• 🗓️ Book a table\n• ❓ Ask for help`;
-          //       } else {
-          //         this.userProfile.currentOrderId = orderId;
-          //         this.userProfile.currentOrderAmount = order.total_amount;
-          //         this.userProfile.paymentState = "confirming_payment";
-          //         reply = `💳 The total for order ${orderId} is *₹${order.total_amount}*.\n\n👉 Do you want to proceed with the payment?\nType "confirm" to proceed or "cancel" to abort.`;
-          //       }
-          //     }
-          //     break;
-          //   }
-          //   case "confirming_payment": {
-          //     if (text && text.toLowerCase() === "confirm") {
-          //       try {
-          //         const result = await createPaymentIntent(
-          //           this.userProfile.currentOrderId,
-          //           this.userProfile.currentOrderAmount
-          //         );
-          //         reply = `✅ I've created a secure payment link for order ${this.userProfile.currentOrderId}.\n\n👉 Click here to pay: ${result.clientSecret}\n\n💳 After making the payment, you can type "check status" to confirm.`;
-          //       } catch (error) {
-          //         console.error(error);
-          //         reply = `⚠️ An error occurred while creating the payment link. Please try again later.`;
-          //       }
-          //     } else {
-          //       reply =
-          //         "❌ Payment cancelled.\n\n👉 What would you like to do next?\n• 🗓️ Book a table\n• 🍔 Place an order\n• 📋 View my orders\n• ❓ Ask for help.";
-          //     }
-          //     // Reset state regardless
-          //     delete this.userProfile.currentOrderId;
-          //     delete this.userProfile.currentOrderAmount;
-          //     delete this.userProfile.paymentState;
-          //     break;
-          //   }
-          //   default: {
-          //     reply =
-          //       "🤔 An error occurred while trying to process your payment. Let's start over.";
-          //     delete this.userProfile.currentOrderId;
-          //     delete this.userProfile.currentOrderAmount;
-          //     delete this.userProfile.paymentState;
-          //     break;
-          //   }
-          // }
-          // break;
+        case "PayOrder": {
+          console.log("PayOrder");
           break;
         }
 
@@ -932,336 +815,347 @@ class RestaurantBot extends ActivityHandler {
           break;
         }
 
-        // Reservations ==>
-        case "BookTable": {
-          console.log("BookTable");
-          // switch (this.userProfile.bookTableState) {
-          //   case undefined: {
-          //     if (!this.userProfile.contextData.restaurantName) {
-          //       reply =
-          //         "❓ Please provide the name of the restaurant you'd like to book.";
-          //     } else {
-          //       this.userProfile.bookingRestaurant = this.userProfile.contextData.restaurantNamee;
-          //       this.userProfile.bookTableState = "awaiting_date";
-          //       reply = `✏️ You've selected "${this.userProfile.contextData.restaurantNamee}".\n\n📅 Please provide the reservation date (YYYY-MM-DD):`;
-          //     }
-          //     break;
-          //   }
-          //   case "awaiting_date": {
-          //     if (!text || isNaN(new Date(text).getTime())) {
-          //       reply =
-          //         "❓ Please provide a valid date in the format YYYY-MM-DD.";
-          //     } else {
-          //       this.userProfile.bookingDate = text;
-          //       this.userProfile.bookTableState = "awaiting_time";
-          //       reply =
-          //         "⏰ Thanks! Now, what time would you like to book (e.g., 18:30)?";
-          //     }
-          //     break;
-          //   }
-          //   case "awaiting_time": {
-          //     if (!text || !/^\d{2}:\d{2}$/.test(text)) {
-          //       reply = "❓ Please provide a valid time in HH:MM (24h) format.";
-          //     } else {
-          //       this.userProfile.bookingTime = text;
-          //       this.userProfile.bookTableState = "awaiting_party_size";
-          //       reply =
-          //         "👥 Thanks! Now, how many people will be in your party?";
-          //     }
-          //     break;
-          //   }
-          //   case "awaiting_party_size": {
-          //     const partySize = parseInt(text);
-          //     if (!partySize || partySize <= 0) {
-          //       reply = "❓ Please provide a valid number for the party size.";
-          //     } else {
-          //       this.userProfile.bookingPartySize = partySize;
-          //       // Check availability
-          //       const available = await checkTableAvailability(
-          //         this.userProfile.bookingRestaurant,
-          //         this.userProfile.bookingDate,
-          //         this.userProfile.bookingTime,
-          //         partySize
-          //       );
-          //       if (!available) {
-          //         reply = `❌ Sorry, ${this.userProfile.bookingRestaurant} is fully booked for ${this.userProfile.bookingDate} at ${this.userProfile.bookingTime}.\n\n👉 Try another date/time or pick another restaurant.`;
-          //         // Reset state
-          //         delete this.userProfile.bookingRestaurant;
-          //         delete this.userProfile.bookingDate;
-          //         delete this.userProfile.bookingTime;
-          //         delete this.userProfile.bookingPartySize;
-          //         delete this.userProfile.bookTableState;
-          //       } else {
-          //         this.userProfile.bookTableState = "confirming_booking";
-          //         reply = `✅ ${this.userProfile.bookingRestaurant} has availability on ${this.userProfile.bookingDate} at ${this.userProfile.bookingTime} for ${this.userProfile.bookingPartySize} people.\n\n👉 Type "confirm" to book, or "cancel" to cancel this request.`;
-          //       }
-          //     }
-          //     break;
-          //   }
-          //   case "confirming_booking": {
-          //     if (text && text.toLowerCase() === "confirm") {
-          //       const success = await makeReservation(
-          //         this.userProfile.bookingRestaurant,
-          //         this.userProfile.bookingPartySize,
-          //         this.userProfile.bookingDate,
-          //         this.userProfile.bookingTime
-          //       );
-          //       if (success) {
-          //         reply = `✅ Your table at ${this.userProfile.bookingRestaurant} for ${this.userProfile.bookingPartySize} has been booked on ${this.userProfile.bookingDate} at ${this.userProfile.bookingTime}!\n\n👉 What would you like to do next?\n• 🍔 Place an order\n• 📋 View my reservations\n• ❓ Ask for help`;
-          //       } else {
-          //         reply = `❌ Could not book the table. It's possible it's no longer available.\n\n👉 Try another date/time or restaurant.`;
-          //       }
-          //     } else {
-          //       reply =
-          //         "❌ Booking cancelled.\n\n👉 What would you like to do next?\n• 🗓️ Book another table\n• 📋 View my reservations\n• ❓ Ask for help";
-          //     }
-          //     // Reset state
-          //     delete this.userProfile.bookingRestaurant;
-          //     delete this.userProfile.bookingDate;
-          //     delete this.userProfile.bookingTime;
-          //     delete this.userProfile.bookingPartySize;
-          //     delete this.userProfile.bookTableState;
-          //     break;
-          //   }
-          //   default: {
-          //     reply =
-          //       "🤔 An error occurred while trying to book your table. Let's start over.";
-          //     delete this.userProfile.bookingRestaurant;
-          //     delete this.userProfile.bookingDate;
-          //     delete this.userProfile.bookingTime;
-          //     delete this.userProfile.bookingPartySize;
-          //     delete this.userProfile.bookTableState;
-          //     break;
-          //   }
-          // }
-          // break;
+        // Reservations ==>                                                                  [DONE]
+        // TODO - Check for past date & time also
+        case "MakeReservation": {
+          if (!this.userProfile?.userId) {
+            reply = "❌ You're not logged in. Please log in to book a table.";
+            break;
+          }
+          const contextData = this.userProfile.contextData || {};
+          const step =
+            this.userProfile.stateStack?.step || "awaiting_restaurant";
+          if (contextData.restaurantName && !contextData.restaurant) {
+            contextData.restaurant = contextData.restaurantName.trim();
+          }
+          if (
+            contextData.partySize &&
+            typeof contextData.partySize === "string"
+          ) {
+            contextData.partySize = parseInt(contextData.partySize);
+          }
+          try {
+            if (step === "awaiting_restaurant") {
+              if (!contextData.restaurant || !contextData.restaurant.trim()) {
+                this.userProfile.stateStack = { step: "awaiting_restaurant" };
+                reply =
+                  "❓ Please provide the name of the restaurant you'd like to book.";
+                break;
+              }
+              this.userProfile.stateStack = { step: "awaiting_date" };
+              reply = `📍 You've selected **${contextData.restaurant}**.\n\n📅 Please provide the reservation date (YYYY-MM-DD):`;
+              break;
+            }
+            if (step === "awaiting_date") {
+              if (
+                !contextData.date ||
+                isNaN(new Date(contextData.date).getTime())
+              ) {
+                this.userProfile.stateStack = { step: "awaiting_date" };
+                reply =
+                  "❓ Please provide a valid date in the format YYYY-MM-DD.";
+                break;
+              }
+              this.userProfile.stateStack = { step: "awaiting_time" };
+              reply =
+                "⏰ Thanks! Now, what time would you like to book (e.g., 18:30)?";
+              break;
+            }
+            if (step === "awaiting_time") {
+              if (
+                !contextData.time ||
+                !/^\d{2}:\d{2}$/.test(contextData.time)
+              ) {
+                this.userProfile.stateStack = { step: "awaiting_time" };
+                reply = "❓ Please provide a valid time in HH:MM (24h) format.";
+                break;
+              }
+              this.userProfile.stateStack = { step: "awaiting_party_size" };
+              reply = "👥 Thanks! Now, how many people will be in your party?";
+              break;
+            }
+            if (step === "awaiting_party_size") {
+              const partySize = parseInt(contextData.partySize);
+              if (!partySize || partySize <= 0) {
+                this.userProfile.stateStack = { step: "awaiting_party_size" };
+                reply = "❓ Please provide a valid number for the party size.";
+                break;
+              }
+              this.userProfile.stateStack = { step: "confirming_booking" };
+              reply = `✅ ${contextData.restaurant} has availability on ${contextData.date} at ${contextData.time} for ${partySize} people.\n\n👉 Type "confirm table" to book or "cancel table" to abort.`;
+              break;
+            }
+            if (step === "confirming_booking") {
+              if (
+                (text || "").toLowerCase().includes("confirm") &&
+                (text || "").toLowerCase().includes("table")
+              ) {
+                const { restaurant, partySize, date, time } = contextData;
+                const success = await makeReservation(
+                  this.userProfile.email,
+                  restaurant,
+                  partySize,
+                  date,
+                  time
+                );
+                if (success) {
+                  reply = `✅ Your table at **${restaurant}** for ${partySize} has been booked on ${date} at ${time}!\n\n👉 What would you like to do next?\n\n• 🍔 Place an order\n\n• 📋 View my reservations\n\n• ❓ Ask for help`;
+                } else {
+                  reply = `❌ Could not complete the booking. It might no longer be available. Try a different time or restaurant.`;
+                }
+              } else {
+                reply = `❌ Booking cancelled.\n\n👉 What would you like to do next?\n\n• 🗓️ Book another table\n\n• 📋 View my reservations\n\n• ❓ Ask for help`;
+              }
+              this.userProfile.currentIntent = null;
+              this.userProfile.stateStack = null;
+              this.userProfile.contextData = {};
+              break;
+            }
+          } catch (error) {
+            console.error("[MakeReservation Error]", error);
+            reply =
+              "⚠️ An error occurred while processing your reservation. Please try again later.";
+            this.userProfile.currentIntent = null;
+            this.userProfile.stateStack = null;
+            this.userProfile.contextData = {};
+          }
+          await this.userProfileAccessor.set(context, this.userProfile);
+          await this.conversationState.saveChanges(context);
           break;
         }
 
         case "CancelReservation": {
-          console.log("CancelReservation");
-          // try {
-          //   if (!reservationId) {
-          //     const userReservations = await getUserReservations(
-          //       this.userProfile.userId
-          //     );
-          //     if (!userReservations || userReservations.length === 0) {
-          //       reply = "ℹ️ You have no active reservations to cancel.";
-          //     } else if (userReservations.length === 1) {
-          //       const resId = userReservations[0].id;
-          //       const cancelled = await cancelReservation(resId);
-          //       reply = cancelled
-          //         ? `❌ Your reservation (ID: ${resId}) has been cancelled.\n\n👉 What would you like to do next?\n• 🗓️ Book a table\n• 🍔 Place an order\n• 📋 View my reservations\n• ❓ Ask for help`
-          //         : `⚠️ Could not cancel reservation ${resId}. It might already be cancelled.\n\n👉 What would you like to do next?\n• 🗓️ Book a table\n• 🍔 Place an order\n• 📋 View my reservations\n• ❓ Ask for help`;
-          //     } else {
-          //       reply =
-          //         "📋 You have multiple active reservations:\n\n" +
-          //         userReservations
-          //           .map(
-          //             (r) =>
-          //               `• ID ${r.id}: ${r.name} on ${r.reservation_date} at ${r.reservation_time}`
-          //           )
-          //           .join("\n") +
-          //         `\n\n👉 Please provide the Reservation ID you want to cancel.`;
-          //       this.userProfile.stateStack.step = "choosing_reservation_to_cancel"; // Set state
-          //     }
-          //   } else {
-          //     const cancelledReservation = await cancelReservation(
-          //       reservationId
-          //     );
-          //     reply = cancelledReservation
-          //       ? `❌ Your reservation ${reservationId} has been cancelled.\n\n👉 What would you like to do next?\n• 🗓️ Book a table\n• 🍔 Place an order\n• 📋 View my reservations\n• ❓ Ask for help`
-          //       : `⚠️ Could not cancel reservation ${reservationId}. It might not exist.\n\n👉 What would you like to do next?\n• 🗓️ Book a table\n• 🍔 Place an order\n• 📋 View my reservations\n• ❓ Ask for help`;
-          //   }
-          // } catch (error) {
-          //   console.error(error);
-          //   reply =
-          //     "⚠️ An error occurred while trying to cancel your reservation. Please try again later.";
-          // }
-          // break;
+          if (!this.userProfile?.userId) {
+            reply = "❌ You're not logged in. Please log in to book a table.";
+            break;
+          }
+          const step = this.userProfile.stateStack?.step || "initial";
+          try {
+            if (step === "initial") {
+              const userEmail = this.userProfile.email;
+              const userReservations = await getUserReservations(userEmail);
+              if (!userReservations || userReservations.length === 0) {
+                reply = "ℹ️ You have no active reservations to cancel.";
+                this.userProfile.currentIntent = null;
+                this.userProfile.stateStack = null;
+                this.userProfile.contextData = {};
+                break;
+              } else if (userReservations.length === 1) {
+                const res = userReservations[0];
+                const cancelled = await cancelReservation(res.id);
+                reply = cancelled
+                  ? `❌ Your reservation (ID: ${res.id}) has been cancelled.
+\n\n👉 What would you like to do next?\n\n• 🗓️ Book a table\n\n• 🍔 Place an order\n\n• 📋 View my reservations\n\n• ❓ Ask for help`
+                  : `⚠️ Could not cancel reservation ${res.id}. It might already be cancelled.\n\n👉 What would you like to do next?\n\n• 🗓️ Book a table\n\n• 🍔 Place an order\n\n• 📋 View my reservations\n\n• ❓ Ask for help`;
+                this.userProfile.currentIntent = null;
+                this.userProfile.stateStack = null;
+                this.userProfile.contextData = {};
+                break;
+              }
+              this.userProfile.contextData.userReservations = userReservations;
+              this.userProfile.stateStack = { step: "awaiting_reservation_id" };
+              reply =
+                "📋 You have multiple active reservations:\n\n" +
+                userReservations
+                  .map(
+                    (r) =>
+                      `\n\n• ID ${r.id}: ${r.restaurant_name} on ${r.reservation_date} at ${r.reservation_time}`
+                  )
+                  .join("\n") +
+                `\n\n👉 Please provide the Reservation ID you want to cancel.`;
+              break;
+            }
+            if (step === "awaiting_reservation_id") {
+              const idMatch = text.match(/\d+/);
+              const chosenId = idMatch ? parseInt(idMatch[0]) : null;
+              if (!chosenId) {
+                reply = "❓ Please enter a valid Reservation ID to cancel.";
+                break;
+              }
+              const validIds = (
+                this.userProfile.contextData.userReservations || []
+              ).map((r) => r.id);
+              if (!validIds.includes(chosenId)) {
+                reply = `❌ Reservation ID ${chosenId} not found in your upcoming reservations. Please try again.`;
+                break;
+              }
+              const cancelled = await cancelReservation(chosenId);
+              reply = cancelled
+                ? `❌ Your reservation (ID: ${chosenId}) has been cancelled.\n\n👉 What would you like to do next?\n\n• 🗓️ Book a table\n\n• 🍔 Place an order\n\n• 📋 View my reservations\n\n• ❓ Ask for help`
+                : `⚠️ Could not cancel reservation ${chosenId}. It might already be cancelled or not exist.\n\n👉 What would you like to do next?\n\n• 🗓️ Book a table\n\n• 🍔 Place an order\n\n• 📋 View my reservations\n\n• ❓ Ask for help`;
+              this.userProfile.currentIntent = null;
+              this.userProfile.stateStack = null;
+              this.userProfile.contextData = {};
+              break;
+            }
+          } catch (error) {
+            console.error("[CancelReservation Error]", error);
+            reply =
+              "⚠️ An error occurred while trying to cancel your reservation. Please try again later.";
+            this.userProfile.currentIntent = null;
+            this.userProfile.stateStack = null;
+            this.userProfile.contextData = {};
+          }
+          await this.userProfileAccessor.set(context, this.userProfile);
+          await this.conversationState.saveChanges(context);
           break;
         }
 
+        // TODO - Add extra qualifing text to this
         case "ModifyReservation": {
-          console.log("ModifyReservation");
-          // try {
-          //   if (!this.userProfile?.userId) {
-          //     reply =
-          //       "❌ You're not logged in. Please log in to modify a reservation.";
-          //     break;
-          //   }
-          //   switch (this.userProfile.modifyReservationState) {
-          //     case undefined: {
-          //       if (!reservationId) {
-          //         reply =
-          //           "❓ Please provide the reservation ID you'd like to modify.";
-          //       } else {
-          //         this.userProfile.currentReservationId = reservationId;
-          //         this.userProfile.modifyReservationState = "awaiting_new_date";
-          //         this.userProfile.modifyReservationStart = Date.now();
-          //         reply =
-          //           "✏️ You'd like to modify reservation " +
-          //           reservationId +
-          //           ".\n\nPlease provide the new date (YYYY-MM-DD):\n_(Type 'cancel' anytime to cancel)_";
-          //       }
-          //       break;
-          //     }
-          //     case "awaiting_new_date": {
-          //       if (text?.toLowerCase() === "cancel") {
-          //         reply = "❌ Modification cancelled.";
-          //         delete this.userProfile.currentReservationId;
-          //         delete this.userProfile.modifyReservationState;
-          //         delete this.userProfile.newDate;
-          //         delete this.userProfile.newTime;
-          //         delete this.userProfile.newPartySize;
-          //         delete this.userProfile.modifyReservationStart;
-          //       } else if (!text || isNaN(new Date(text).getTime())) {
-          //         reply =
-          //           "❓ Please provide a valid date in the format YYYY-MM-DD.";
-          //       } else {
-          //         this.userProfile.newDate = text;
-          //         this.userProfile.modifyReservationState = "awaiting_new_time";
-          //         reply =
-          //           "⏰ Thanks! Now, what is the new time for the reservation (e.g., 18:30)?";
-          //       }
-          //       break;
-          //     }
-          //     case "awaiting_new_time": {
-          //       if (text?.toLowerCase() === "cancel") {
-          //         reply = "❌ Modification cancelled.";
-          //         delete this.userProfile.currentReservationId;
-          //         delete this.userProfile.modifyReservationState;
-          //         delete this.userProfile.newDate;
-          //         delete this.userProfile.newTime;
-          //         delete this.userProfile.newPartySize;
-          //         delete this.userProfile.modifyReservationStart;
-          //       } else if (!text || !/^\d{2}:\d{2}$/.test(text.trim())) {
-          //         reply = "❓ Please provide a valid time in HH:MM format.";
-          //       } else {
-          //         this.userProfile.newTime = text.trim();
-          //         this.userProfile.modifyReservationState =
-          //           "awaiting_new_party_size";
-          //         reply =
-          //           "👥 Thanks! Now, how many people will be in your party?";
-          //       }
-          //       break;
-          //     }
-          //     case "awaiting_new_party_size": {
-          //       if (text?.toLowerCase() === "cancel") {
-          //         reply = "❌ Modification cancelled.";
-          //         delete this.userProfile.currentReservationId;
-          //         delete this.userProfile.modifyReservationState;
-          //         delete this.userProfile.newDate;
-          //         delete this.userProfile.newTime;
-          //         delete this.userProfile.newPartySize;
-          //         delete this.userProfile.modifyReservationStart;
-          //       } else {
-          //         const partySize = parseInt(text);
-          //         if (!partySize || partySize <= 0) {
-          //           reply =
-          //             "❓ Please provide a valid number for the party size.";
-          //         } else {
-          //           this.userProfile.newPartySize = partySize;
-          //           // ✅ Final confirmation
-          //           reply =
-          //             `✅ You're about to modify reservation ${this.userProfile.currentReservationId}:\n` +
-          //             `📅 New Date: ${this.userProfile.newDate}\n` +
-          //             `⏰ New Time: ${this.userProfile.newTime}\n` +
-          //             `👥 New Party Size: ${this.userProfile.newPartySize}\n\n` +
-          //             "Please confirm by replying 'yes' or cancel by replying 'cancel'.";
-          //           this.userProfile.modifyReservationState = "confirming_changes";
-          //         }
-          //       }
-          //       break;
-          //     }
-          //     case "confirming_changes": {
-          //       if (text?.toLowerCase() === "yes") {
-          //         const modified = await modifyReservation(
-          //           this.userProfile.currentReservationId,
-          //           this.userProfile.newDate,
-          //           this.userProfile.newTime,
-          //           this.userProfile.newPartySize
-          //         );
-          //         reply = modified
-          //           ? `✅ Reservation ${this.userProfile.currentReservationId} has been successfully modified!`
-          //           : `❌ Could not modify reservation ${this.userProfile.currentReservationId}. It might no longer be editable.`;
-          //       } else {
-          //         reply = "❌ Modification cancelled.";
-          //       }
-          //       // Reset state regardless
-          //       delete this.userProfile.currentReservationId;
-          //       delete this.userProfile.newDate;
-          //       delete this.userProfile.newTime;
-          //       delete this.userProfile.newPartySize;
-          //       delete this.userProfile.modifyReservationState;
-          //       delete this.userProfile.modifyReservationStart;
-          //       break;
-          //     }
-          //     default: {
-          //       reply =
-          //         "🤔 An unexpected error occurred. Let's start the modification process over.";
-          //       delete this.userProfile.currentReservationId;
-          //       delete this.userProfile.newDate;
-          //       delete this.userProfile.newTime;
-          //       delete this.userProfile.newPartySize;
-          //       delete this.userProfile.modifyReservationState;
-          //       delete this.userProfile.modifyReservationStart;
-          //       break;
-          //     }
-          //   }
-          //   // ✅ Timeout Check (5 minutes limit example)
-          //   if (
-          //     this.userProfile.modifyReservationStart &&
-          //     Date.now() - this.userProfile.modifyReservationStart > 5 * 60 * 1000
-          //   ) {
-          //     reply = "⏳ This modification has timed out. Please start again.";
-          //     delete this.userProfile.currentReservationId;
-          //     delete this.userProfile.newDate;
-          //     delete this.userProfile.newTime;
-          //     delete this.userProfile.newPartySize;
-          //     delete this.userProfile.modifyReservationState;
-          //     delete this.userProfile.modifyReservationStart;
-          //   }
-          // } catch (error) {
-          //   console.error("[ModifyReservation Error]", error);
-          //   reply =
-          //     "⚠️ An error occurred while trying to modify your reservation. Please try again later.";
-          // }
-          // break;
+          if (!this.userProfile?.userId) {
+            reply = "❌ You're not logged in. Please log in to book a table.";
+            break;
+          }
+          const contextData = this.userProfile.contextData || {};
+          const step = this.userProfile.stateStack?.step || "initial";
+          try {
+            const userEmail = this.userProfile.email;
+            if (step === "initial") {
+              const userReservations = await getUserReservations(userEmail);
+              if (!userReservations || userReservations.length === 0) {
+                reply = "ℹ️ You have no active reservations to modify.";
+                this.userProfile.currentIntent = null;
+                this.userProfile.stateStack = null;
+                this.userProfile.contextData = {};
+                break;
+              }
+              this.userProfile.contextData.userReservations = userReservations;
+              this.userProfile.stateStack = { step: "awaiting_reservation_id" };
+              reply =
+                "📋 You have the following reservations:" +
+                userReservations
+                  .map(
+                    (r) =>
+                      `\n\n• ID ${r.id}: ${r.restaurant_name} on ${r.reservation_date} at ${r.reservation_time}`
+                  )
+                  .join("\n") +
+                `\n\n👉 Please provide the Reservation ID you want to modify.`;
+              break;
+            }
+            if (step === "awaiting_reservation_id") {
+              const idMatch = text.match(/\d+/);
+              const chosenId = idMatch ? parseInt(idMatch[0]) : null;
+              if (!chosenId) {
+                reply = "❓ Please enter a valid Reservation ID to modify.";
+                break;
+              }
+              const validIds = (
+                this.userProfile.contextData.userReservations || []
+              ).map((r) => r.id);
+              if (!validIds.includes(chosenId)) {
+                reply = `❌ Reservation ID ${chosenId} not found in your upcoming reservations. Please try again.`;
+                break;
+              }
+              contextData.reservationId = chosenId;
+              this.userProfile.stateStack.step = "awaiting_new_date";
+              reply = `✏️ You're modifying reservation ${chosenId}.\n\n📅 Please enter the new reservation date (YYYY-MM-DD):`;
+              break;
+            }
+            if (step === "awaiting_new_date") {
+              if (!text || isNaN(new Date(text).getTime())) {
+                reply =
+                  "❓ Please provide a valid date in the format YYYY-MM-DD.";
+                break;
+              }
+              contextData.newDate = text;
+              this.userProfile.stateStack.step = "awaiting_new_time";
+              reply = "⏰ Thanks! Now, what is the new time (e.g., 18:30)?";
+              break;
+            }
+            if (step === "awaiting_new_time") {
+              if (!text || !/^\d{2}:\d{2}$/.test(text.trim())) {
+                reply = "❓ Please provide a valid time in HH:MM (24h) format.";
+                break;
+              }
+              contextData.newTime = text.trim();
+              this.userProfile.stateStack.step = "awaiting_new_party_size";
+              reply = "👥 Great! How many people will be in your party?";
+              break;
+            }
+            if (step === "awaiting_new_party_size") {
+              const partySize = parseInt(text);
+              if (!partySize || partySize <= 0) {
+                reply = "❓ Please provide a valid number for the party size.";
+                break;
+              }
+              contextData.newPartySize = partySize;
+              this.userProfile.stateStack.step = "confirming_modification";
+              reply = `✅ You're about to modify reservation ${contextData.reservationId}:\n\n📅 Date: ${contextData.newDate}\n\n⏰ Time: ${contextData.newTime}\n\n👥 Party Size: ${partySize}\n\n👉 Reply "confirm modification" to confirm or "cancel" to abort.`;
+              break;
+            }
+            if (step === "confirming_modification") {
+              if (
+                text.toLowerCase().includes("confirm") ||
+                text.toLowerCase().includes("modification")
+              ) {
+                const { reservationId, newDate, newTime, newPartySize } =
+                  contextData;
+                const success = await modifyReservation(
+                  reservationId,
+                  newDate,
+                  newTime,
+                  newPartySize
+                );
+                reply = success
+                  ? `✅ Reservation ${reservationId} has been successfully modified!`
+                  : `❌ Could not modify reservation ${reservationId}. It might no longer be valid.`;
+              } else {
+                reply = "❌ Reservation modification cancelled.";
+              }
+              this.userProfile.currentIntent = null;
+              this.userProfile.stateStack = null;
+              this.userProfile.contextData = {};
+              break;
+            }
+          } catch (error) {
+            console.error("[ModifyReservation Error]", error);
+            reply =
+              "⚠️ An error occurred while trying to modify your reservation. Please try again later.";
+            this.userProfile.currentIntent = null;
+            this.userProfile.stateStack = null;
+            this.userProfile.contextData = {};
+          }
+          await this.userProfileAccessor.set(context, this.userProfile);
+          await this.conversationState.saveChanges(context);
           break;
         }
 
         case "ShowReservations": {
-          console.log("ShowReservations");
-          // try {
-          //   const reservations = await getUserReservations(this.userProfile.userId);
-          //   if (!reservations || reservations.length === 0) {
-          //     reply = "ℹ️ You don't have any upcoming reservations.";
-          //   } else {
-          //     reply = "📅 Here are your upcoming reservations:\n\n";
-          //     reply += reservations
-          //       .map(
-          //         (res) =>
-          //           `• ID ${res.id}: ${res.name} on ${res.reservation_date} at ${res.reservation_time} for ${res.party_size} people`
-          //       )
-          //       .join("\n");
-          //     reply +=
-          //       "\n\n👉 What would you like to do?\n" +
-          //       '• ❌ Cancel a reservation (type "CancelReservation")\n' +
-          //       '• ✏️ Modify a reservation (type "ModifyReservation")\n' +
-          //       "• 📋 View menu or book another table";
-          //     this.userProfile.currentReservations = reservations; // Maintain state for quick follow-up
-          //   }
-          // } catch (error) {
-          //   console.error("[ShowReservations Error]", error);
-          //   reply =
-          //     "⚠️ An error occurred while retrieving your reservations. Please try again later.";
-          // }
-          // break;
+          if (!this.userProfile?.userId) {
+            reply = "❌ You're not logged in. Please log in to book a table.";
+            break;
+          }
+          try {
+            const reservations = await getUserReservations(
+              this.userProfile.email
+            );
+            if (!reservations || reservations.length === 0) {
+              reply = "ℹ️ You don't have any upcoming reservations.";
+            } else {
+              reply = "📅 Here are your upcoming reservations:\n\n";
+              reply += reservations
+                .map(
+                  (res) =>
+                    `\n\n• ID ${res.id}: **${res.name}** on ${res.reservation_date} at ${res.reservation_time} for ${res.party_size} people`
+                )
+                .join("\n");
+              reply +=
+                "\n\n👉 What would you like to do?\n\n• ❌ Cancel a reservation\n\n• ✏️ Modify a reservation\n\n• 📋 View menu or book another table";
+            }
+          } catch (error) {
+            console.error("[ShowReservations Error]", error);
+            reply =
+              "⚠️ An error occurred while retrieving your reservations. Please try again later.";
+          }
+          this.userProfile.currentIntent = null;
+          this.userProfile.stateStack = null;
+          await this.userProfileAccessor.set(context, this.userProfile);
+          await this.conversationState.saveChanges(context);
           break;
         }
 
-        // Restaurant ==>
+        // Restaurant ==>                                                                    [DONE]
         case "SearchRestaurant": {
           try {
             // Check for keyword: "all restaurants"
@@ -1456,13 +1350,13 @@ class RestaurantBot extends ActivityHandler {
         break;
       }
       case "login_email": {
-        this.userProfile.contextData.email = lcText;
+        if (isValidEmail(lcText)) this.userProfile.email = lcText;
         this.userProfile.stateStack.step = "login_password";
         await context.sendActivity("🔐 Please enter your password:");
         break;
       }
       case "login_password": {
-        const email = this.userProfile.contextData.email;
+        const email = this.userProfile.email;
         const password = text;
         const authResult = await loginUser(email, password);
         if (authResult) {
@@ -1487,19 +1381,19 @@ class RestaurantBot extends ActivityHandler {
         break;
       }
       case "signup_name": {
-        this.userProfile.contextData.name = lcText;
+        this.userProfile.name = lcText;
         this.userProfile.stateStack.step = "signup_email";
         await context.sendActivity("📧 Please enter your email:");
         break;
       }
       case "signup_email": {
-        this.userProfile.contextData.email = lcText;
+        this.userProfile.email = lcText;
         this.userProfile.stateStack.step = "signup_password";
         await context.sendActivity("🔐 Please enter your password:");
         break;
       }
       case "signup_password": {
-        const { name, email } = this.userProfile.contextData;
+        const { name, email } = this.userProfile;
         const password = text;
         const result = await signupUser(name, email, password);
         if (result) {

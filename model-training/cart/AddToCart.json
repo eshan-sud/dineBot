@@ -352,5 +352,11 @@
     "language": "en-us",
     "text": "Order",
     "entities": []
+  },
+  {
+    "intent": "AddToCart",
+    "language": "en-us",
+    "text": "I'm ready to order now",
+    "entities": []
   }
 ]

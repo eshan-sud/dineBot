@@ -24,6 +24,15 @@ const displayRestaurants = (results) => {
   );
 };
 
+const isValidDate = (val) =>
+  typeof val === "string" && /^\d{4}-\d{2}-\d{2}$/.test(val);
+
+const isValidTime = (val) =>
+  typeof val === "string" && /^\d{2}:\d{2}$/.test(val);
+
+const isValidEmail = (val) =>
+  typeof val === "string" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+
 const parseDateTime = (datetime) => {
   const parsedDate = null;
   const parsedTime = null;
@@ -43,4 +52,11 @@ const parseDateTime = (datetime) => {
   return { parsedDate, parsedTime };
 };
 
-module.exports = { convertTo24Hour, displayRestaurants, parseDateTime };
+module.exports = {
+  convertTo24Hour,
+  displayRestaurants,
+  isValidDate,
+  isValidTime,
+  isValidEmail,
+  parseDateTime,
+};

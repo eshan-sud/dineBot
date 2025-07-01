@@ -302,11 +302,5 @@
     "language": "en-us",
     "text": "Remove a couple things from the cart",
     "entities": []
-  },
-  {
-    "intent": "RemoveFromCart",
-    "language": "en-us",
-    "text": "Remove a couple things from the cart",
-    "entities": []
   }
 ]

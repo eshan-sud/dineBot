@@ -12,6 +12,30 @@
   {
     "intent": "MakeReservation",
     "language": "en-us",
+    "text": "I'd like to schedule a table for 6 at 8 PM",
+    "entities": [
+      { "category": "partySize", "offset": 33, "length": 1 },
+      { "category": "time", "offset": 38, "length": 4 }
+    ]
+  },
+  {
+    "intent": "MakeReservation",
+    "language": "en-us",
+    "text": "Can I reserve a dinner spot for two?",
+    "entities": [{ "category": "partySize", "offset": 32, "length": 3 }]
+  },
+  {
+    "intent": "MakeReservation",
+    "language": "en-us",
+    "text": "I'd like a table for Saturday night at Bombay Bistro",
+    "entities": [
+      { "category": "date", "offset": 21, "length": 8 },
+      { "category": "partySize", "offset": 39, "length": 13 }
+    ]
+  },
+  {
+    "intent": "MakeReservation",
+    "language": "en-us",
     "text": "Reserve a table for four at Curry Corner tomorrow",
     "entities": [
       { "category": "partySize", "offset": 20, "length": 4 },
@@ -216,10 +240,10 @@
   {
     "intent": "MakeReservation",
     "language": "en-us",
-    "text": "Book a table for lunch tomorrow at 1 PM",
+    "text": "Book table for lunch tomorrow at 1 PM",
     "entities": [
-      { "category": "date", "offset": 23, "length": 8 },
-      { "category": "time", "offset": 35, "length": 4 }
+      { "category": "date", "offset": 21, "length": 8 },
+      { "category": "time", "offset": 33, "length": 4 }
     ]
   },
   {
@@ -292,5 +316,125 @@
       { "category": "date", "offset": 43, "length": 8 },
       { "category": "time", "offset": 35, "length": 4 }
     ]
+  },
+  {
+    "intent": "MakeReservation",
+    "language": "en-us",
+    "text": "Reserve table for curry corner",
+    "entities": [{ "category": "restaurantName", "offset": 18, "length": 12 }]
+  },
+  {
+    "intent": "MakeReservation",
+    "language": "en-us",
+    "text": "Reserve a table for 2025-12-22 from 10 PM",
+    "entities": [
+      { "category": "date", "offset": 20, "length": 10 },
+      { "category": "time", "offset": 36, "length": 5 }
+    ]
+  },
+  {
+    "intent": "MakeReservation",
+    "language": "en-us",
+    "text": "2025-12-22",
+    "entities": [{ "category": "date", "offset": 0, "length": 10 }]
+  },
+  {
+    "intent": "MakeReservation",
+    "language": "en-us",
+    "text": "4 PM",
+    "entities": [{ "category": "time", "offset": 0, "length": 4 }]
+  },
+  {
+    "intent": "MakeReservation",
+    "language": "en-us",
+    "text": "Restaurant Curry Corner",
+    "entities": [{ "category": "restaurantName", "offset": 11, "length": 12 }]
+  },
+  {
+    "intent": "MakeReservation",
+    "language": "en-us",
+    "text": "I want to book a table",
+    "entities": []
+  },
+  {
+    "intent": "MakeReservation",
+    "language": "en-us",
+    "text": "Help me reserve a table for dinner",
+    "entities": []
+  },
+  {
+    "intent": "MakeReservation",
+    "language": "en-us",
+    "text": "Can I book at Pizza Palace tonight?",
+    "entities": [
+      { "category": "restaurantName", "offset": 14, "length": 12 },
+      { "category": "date", "offset": 27, "length": 7 }
+    ]
+  },
+  {
+    "intent": "MakeReservation",
+    "language": "en-us",
+    "text": "I'd like to reserve at Olive Bistro",
+    "entities": [{ "category": "restaurantName", "offset": 23, "length": 12 }]
+  },
+  {
+    "intent": "MakeReservation",
+    "language": "en-us",
+    "text": "Book a table for 2 on Friday",
+    "entities": [
+      { "category": "partySize", "offset": 17, "length": 1 },
+      { "category": "date", "offset": 22, "length": 6 }
+    ]
+  },
+  {
+    "intent": "MakeReservation",
+    "language": "en-us",
+    "text": "Reserve a spot at a restaurant",
+    "entities": []
+  },
+  {
+    "intent": "MakeReservation",
+    "language": "en-us",
+    "text": "Table reservation at 7 PM tomorrow",
+    "entities": [
+      { "category": "partySize", "offset": 21, "length": 4 },
+      { "category": "partySize", "offset": 26, "length": 8 }
+    ]
+  },
+  {
+    "intent": "MakeReservation",
+    "language": "en-us",
+    "text": "I want to make a table booking",
+    "entities": []
+  },
+  {
+    "intent": "MakeReservation",
+    "language": "en-us",
+    "text": "Let's book a table for tonight",
+    "entities": [{ "category": "date", "offset": 23, "length": 7 }]
+  },
+  {
+    "intent": "MakeReservation",
+    "language": "en-us",
+    "text": "Can you help me book a restaurant table?",
+    "entities": []
+  },
+  {
+    "intent": "MakeReservation",
+    "language": "en-us",
+    "text": "I need a dinner reservation for 4 people",
+    "entities": [{ "category": "partySize", "offset": 32, "length": 1 }]
+  },
+  {
+    "intent": "MakeReservation",
+    "language": "en-us",
+    "text": "Reserve table at The Bombay Canteen",
+    "entities": [{ "category": "restaurantName", "offset": 17, "length": 18 }]
+  },
+  {
+    "intent": "MakeReservation",
+    "language": "en-us",
+    "text": "I want to schedule a reservation",
+    "entities": []
   }
 ]

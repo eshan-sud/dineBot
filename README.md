@@ -91,14 +91,14 @@ This handy restaurant bot simplifies your dining experience. It helps you find r
   - [x] Implement Intents
     - [x] ShowMenu
 
-- [] Reservation
+- [x] Reservation
 
   - [x] Create MySQL relation (reservation)
-  - [] Implement Intents
-    - [] MakeReservation
-    - [] CancelReservation
-    - [] ModifyReservation
-    - [] ShowReservations
+  - [x] Implement Intents
+    - [x] MakeReservation
+    - [x] CancelReservation
+    - [x] ModifyReservation
+    - [x] ShowReservations
 
 - [] Orders
 
@@ -128,7 +128,7 @@ This handy restaurant bot simplifies your dining experience. It helps you find r
   - [] Link payments to specific order IDs in database
   - [] Implement Intents
     - [] CheckPaymentStatus
-    - [] MakePayment
+    - [] PayOrder
 
 - [] Recommendations
 
