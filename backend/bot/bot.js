@@ -13,13 +13,17 @@ const {
   getMenuItemByName,
 } = require("../controllers/menuController");
 const {
-  // isRestaurantAcceptingOrders,
-  ConfirmOrder,
   getUserOrders,
+  createOrder,
+  cancelOrder,
   getLatestOrder,
-  cancelLatestOrder,
+  getUserActiveOrders,
 } = require("../controllers/ordersController");
-const { getPaymentStatus } = require("../controllers/paymentController");
+const {
+  createPaymentOrder,
+  checkPaymentStatus,
+  refundPayment,
+} = require("../controllers/paymentController");
 const {
   getRecommendedItems,
 } = require("../controllers/recommendationController");
@@ -36,7 +40,6 @@ const {
 } = require("../controllers/restaurantController");
 
 const {
-  convertTo24Hour,
   displayRestaurants,
   isValidDate,
   isValidTime,
@@ -48,23 +51,11 @@ const memoryStorage = new MemoryStorage();
 const conversationState = new ConversationState(memoryStorage); // Conversation state
 
 class RestaurantBot extends ActivityHandler {
-  sorryMessage =
-    "🤔 Sorry, I didn't understand your request.\n\n" +
-    "Here's what I can help you with:\n\n" +
-    "• 🗓️ Book a table\n\n" +
-    "• 🍔 Place an order\n\n" +
-    "• 📋 View your reservations\n\n" +
-    "• 💳 Make a payment\n\n" +
-    "• ❓ Ask for help\n\n" +
-    "👉 You can also type 'menu' or 'help' for a full list of options.";
   optionsMessage =
-    "You can now try:\n\n" +
-    "• 🔍 Search for a restaurant\n\n" +
-    "• 🍔 Show menu\n\n" +
-    "• 🛒 Order food \n\n" +
-    "• 📋 Show current orders\n\n" +
-    "• 📅 Reserve a table\n\n" +
-    "• 📋 Show current reservations\n\n";
+    "• 🔍 Search for a restaurant based on cuisine, name, or location\n\n• 🍔 Show menu\n\n• 🛍️ Place food order for delivery or takeaway\n\n• 🛒 Show or edit cart\n\n• 📅 Book or cancel reservations\n\n• 📋 Show current reservations\n\n• 💳 Make a payment or check its status\n\n• 🌟 Get recommendations for ordering";
+  sorryMessage =
+    "🤔 Sorry, I didn't understand your request.\n\nHere's what I can help you with:\n\n" +
+    this.optionsMessage;
 
   constructor() {
     super();
@@ -81,7 +72,7 @@ class RestaurantBot extends ActivityHandler {
           cart: [],
         });
       }
-      const text = context.activity.text.trim();
+      const text = context.activity.text.toLowerCase().trim();
       // AUTHENTICATION HANDLER
       if (!this.userProfile.isAuthenticated) {
         await this.handleAuthentication(this.userProfile, text, context);
@@ -124,7 +115,6 @@ class RestaurantBot extends ActivityHandler {
         userId: parseInt(entity("userID")),
         userLocation: entity("userLocation"),
       };
-
       for (const [key, value] of Object.entries(contextData)) {
         if (value !== undefined && value !== null && value !== "") {
           if (key == "date") {
@@ -144,11 +134,7 @@ class RestaurantBot extends ActivityHandler {
         this.userProfile.stateStack = null;
         this.userProfile.contextData = {};
       }
-      if (
-        text.toLowerCase() === "exit" ||
-        text.toLowerCase() === "cancel" ||
-        text.toLowerCase() === "reset"
-      ) {
+      if (text === "exit" || text === "cancel" || text === "reset") {
         this.userProfile.currentIntent = null;
         this.userProfile.stateStack = null;
         this.userProfile.contextData = {};
@@ -177,7 +163,7 @@ class RestaurantBot extends ActivityHandler {
               "❌ You're not logged in. Please log in to add items to your cart.";
             break;
           }
-          const step = this.userProfile.stateStack?.step || "start";
+          const step = this.userProfile.stateStack?.step || "initial";
           try {
             if (step === "awaiting_quantity") {
               const match = text.match(/-?\d+/);
@@ -284,7 +270,7 @@ class RestaurantBot extends ActivityHandler {
             };
             if (!quantity || quantity <= 0) {
               this.userProfile.stateStack = { step: "awaiting_quantity" };
-              reply = `🍴 You've selected **${item.name}** from ${finalRestaurant}.\n\n👉 How many would you like to add?`;
+              reply = `🍴 You've selected **${item.name}** from **${finalRestaurant}**.\n\n👉 How many would you like to add?`;
               break;
             }
             if (!this.userProfile.cart) this.userProfile.cart = [];
@@ -309,7 +295,8 @@ class RestaurantBot extends ActivityHandler {
             this.userProfile.contextData = {};
           } catch (error) {
             console.error("[AddToCart Error]", error);
-            reply = "⚠️ Something went wrong. Please try again.";
+            reply =
+              "⚠️ An error occurred while adding the item to cart. Please try again later.";
           }
           await this.userProfileAccessor.set(context, this.userProfile);
           await this.conversationState.saveChanges(context);
@@ -319,10 +306,10 @@ class RestaurantBot extends ActivityHandler {
         case "RemoveFromCart": {
           if (!this.userProfile?.userId) {
             reply =
-              "❌ You're not logged in. Please log in to modify your cart.";
+              "❌ You're not logged in. Please log in to remove items from your cart.";
             break;
           }
-          const step = this.userProfile.stateStack?.step || "start";
+          const step = this.userProfile.stateStack?.step || "initial";
           const cart = this.userProfile.cart || [];
           try {
             if (step === "start") {
@@ -372,7 +359,7 @@ class RestaurantBot extends ActivityHandler {
           } catch (error) {
             console.error("[RemoveFromCart Error]", error);
             reply =
-              "⚠️ Something went wrong while removing the item. Please try again.";
+              "⚠️ An error occurred while removing the item from your cart. Please try again later.";
             this.userProfile.stateStack = { step: "start" };
           }
           await this.userProfileAccessor.set(context, this.userProfile);
@@ -401,9 +388,7 @@ class RestaurantBot extends ActivityHandler {
                 }_\n`;
                 cartText += `   • ${item.quantity} × ₹${item.price} = ₹${itemTotal}\n\n`;
               });
-              cartText += `🧮 **Total:** ₹${total}\n\n`;
-              cartText +=
-                "👉 What would you like to do next?\n\n• 🛍️ Add more items\n\n• ✅ Checkout\n\n• ❌ Remove an item";
+              cartText += `🧮 **Total:** ₹${total}\n\n👉 What would you like to do next?\n\n• 🛍️ Add more items\n\n• ✅ Pay for cart\n\n• ❌ Remove an item`;
               reply = cartText;
             }
           } catch (error) {
@@ -420,14 +405,13 @@ class RestaurantBot extends ActivityHandler {
           break;
         }
 
-        // TODO - Add extra qualifing text to this
         case "EditCart": {
           if (!this.userProfile?.userId) {
             reply =
               "❌ You're not logged in. Please log in to modify your cart.";
             break;
           }
-          const step = this.userProfile.stateStack?.step || "start";
+          const step = this.userProfile.stateStack?.step || "initial";
           const cart = this.userProfile.cart || [];
           try {
             if (step === "start") {
@@ -497,7 +481,7 @@ class RestaurantBot extends ActivityHandler {
           } catch (error) {
             console.error("[EditCart Error]", error);
             reply =
-              "⚠️ Something went wrong while editing the cart. Please try again.";
+              "⚠️ An error occurred while editing the cart. Please try again later.";
             this.userProfile.stateStack = { step: "start" };
           }
           await this.userProfileAccessor.set(context, this.userProfile);
@@ -529,11 +513,7 @@ class RestaurantBot extends ActivityHandler {
             reply = this.sorryMessage;
           } else {
             // Intent is ongoing but unrecognized input
-            reply =
-              "🤔 Sorry, I didn't understand that in the context of your current request.\n\n" +
-              `You're currently working on: **${this.userProfile.currentIntent}**.\n\n` +
-              "• Type `cancel` to reset.\n\n" +
-              "• Or continue with more details.";
+            reply = `🤔 Sorry, I didn't understand that in the context of your current request.\n\nYou're currently working on: **${this.userProfile.currentIntent}**.\n\n• Type \"cancel\" to reset.\n\n• Or continue with more details.`;
           }
           this.userProfile.currentIntent = null;
           this.userProfile.stateStack = null;
@@ -546,13 +526,7 @@ class RestaurantBot extends ActivityHandler {
           reply =
             "👋 Hello! Welcome to Restaurant Bot\n\n" +
             "Here's what I can help you with:\n\n" +
-            "• 🍔 Find restaurants by cuisine or location\n\n" +
-            "• 📋 Show menu for a specific restaurant\n\n" +
-            "• 📅 Book or cancel a reservation\n\n" +
-            "• 🛍️ Place an order for pickup or delivery\n\n" +
-            "• 💳 Make a payment or check its status\n\n" +
-            "• 🌟 Get recommendations or review restaurants\n\n\n" +
-            "👉 Just tell me what you'd like to do.";
+            this.optionsMessage;
           this.userProfile.currentIntent = null;
           this.userProfile.stateStack = null;
           await this.userProfileAccessor.set(context, this.userProfile);
@@ -608,171 +582,408 @@ class RestaurantBot extends ActivityHandler {
 
         // Order ==>
         case "CheckOrderStatus": {
-          console.log("CheckOrderStatus");
-          // try {
-          //   if (!this.userProfile?.userId) {
-          //     reply =
-          //       "❌ You're not logged in. Please log in to check your order status.";
-          //     break;
-          //   }
-          //   if (!orderId) {
-          //     const userOrders = await getUserOrders(this.userProfile.userId);
-          //     if (!userOrders || userOrders.length === 0) {
-          //       reply = "ℹ️ You have no recent or active orders.";
-          //     } else if (userOrders.length === 1) {
-          //       const order = userOrders[0];
-          //       reply = `📦 Your only order (#${order.id}) is currently ${
-          //         order.status || "unknown status"
-          //       }.`;
-          //     } else {
-          //       reply =
-          //         "📋 Here are your recent or active orders:\n\n" +
-          //         userOrders
-          //           .map(
-          //             (o) =>
-          //               `• Order #${o.id} — Status: ${
-          //                 o.status || "unknown status"
-          //               } — Total: ₹${o.total_amount}`
-          //           )
-          //           .join("\n") +
-          //         `\n\n👉 Please provide the Order ID you want to check the status for.`;
-          //       this.userProfile.stateStack.step = "choosing_order_for_status"; // Await next reply
-          //     }
-          //   } else {
-          //     const order = await getOrderById(orderId, this.userProfile.userId);
-          //     if (!order) {
-          //       reply = `❓ No order found for Order ID ${orderId}. Please verify and try again.`;
-          //     } else {
-          //       const status = order.status || "unknown status";
-          //       reply = `📦 Order ${orderId} is currently ${status}.`;
-          //     }
-          //   }
-          // } catch (error) {
-          //   console.error("[CheckOrderStatus Error]", error);
-          //   reply =
-          //     "⚠️ An error occurred while trying to fetch your order status. Please try again later.";
-          // }
-          // break;
+          if (!this.userProfile?.userId) {
+            reply =
+              "❌ You're not logged in. Please log in to check your order status.";
+            break;
+          }
+          const step = this.userProfile.stateStack?.step || "initial";
+          const contextData = this.userProfile.contextData || {};
+          try {
+            if (step === "initial") {
+              const userOrders = await getUserOrders(this.userProfile.userId);
+              if (!userOrders || userOrders.length === 0) {
+                reply = "ℹ️ You have no recent or active orders.";
+                break;
+              } else if (userOrders.length === 1) {
+                const order = userOrders[0];
+                reply = `📦 Your order (#${order.id}) is currently *${order.order_status}*.\n\n🧾 Total: ₹${order.total_amount}`;
+                break;
+              } else {
+                contextData.orders = userOrders;
+                this.userProfile.contextData = contextData;
+                this.userProfile.stateStack = {
+                  step: "awaiting_order_id_for_status",
+                };
+                reply =
+                  "📋 Here are your recent or active orders:\n\n" +
+                  userOrders
+                    .map(
+                      (o) =>
+                        `• Order #${o.id} — Status: ${o.status} — Total: ₹${o.total_amount}`
+                    )
+                    .join("\n") +
+                  `\n\n👉 Please provide the Order ID you want to check the status for.`;
+                break;
+              }
+            }
+            if (step === "awaiting_order_id_for_status") {
+              const orderIdMatch = text.match(/\d+/);
+              const orderId = orderIdMatch ? parseInt(orderIdMatch[0]) : null;
+              if (!orderId) {
+                reply = "❓ Please provide a valid numeric Order ID.";
+                break;
+              }
+              const order = await getOrderById(
+                orderId,
+                this.userProfile.userId
+              );
+              if (!order) {
+                reply = `❌ No active order found with ID ${orderId}. Please check again.`;
+              } else {
+                reply = `📦 Order #${order.id} is currently *${order.order_status}*.\n\n🧾 Total: ₹${order.total_amount}`;
+              }
+              this.userProfile.currentIntent = null;
+              this.userProfile.stateStack = null;
+              this.userProfile.contextData = {};
+              break;
+            }
+          } catch (error) {
+            console.error("[CheckOrderStatus Error]", error);
+            reply =
+              "⚠️ An error occurred while trying to fetch your order status. Please try again later.";
+            this.userProfile.currentIntent = null;
+            this.userProfile.stateStack = null;
+            this.userProfile.contextData = {};
+          }
+          await this.userProfileAccessor.set(context, this.userProfile);
+          await this.conversationState.saveChanges(context);
           break;
         }
 
         case "CancelOrder": {
           // Also clears Cart too
-          console.log("CancelOrder");
-          // try {
-          //   if (!this.userProfile?.userId) {
-          //     reply =
-          //       "❌ You're not logged in. Please log in to manage your orders.";
-          //     break;
-          //   }
-          //   const orders = await getUserOrders(this.userProfile.userId);
-          //   if (!orders || orders.length === 0) {
-          //     reply =
-          //       "🤔 You don't have any active or recent orders to cancel.";
-          //     break;
-          //   }
-          //   if (orders.length === 1) {
-          //     const order = orders[0];
-          //     reply = `📋 You have an active order:\n\n• Order #${order.id} — Status: ${order.status}\n\nWould you like to cancel this order?\n\n✅ Type "yes" to cancel\n❌ Type "no" to keep it.`;
-          //     this.userProfile.currentOrderId = order.id;
-          //     this.userProfile.stateStack.step = "confirm_single_order_cancellation"; // Await user confirmation
-          //   } else {
-          //     reply =
-          //       "📋 You have multiple active orders. Here are your options:\n\n" +
-          //       orders
-          //         .map((o) => `• Order #${o.id} — Status: ${o.status}`)
-          //         .join("\n") +
-          //       '\n\n👉 Type the Order ID you want to cancel, or type "all" to cancel all active orders.';
-          //     this.userProfile.stateStack.step = "choosing_order_for_cancellation"; // Await next reply
-          //   }
-          // } catch (error) {
-          //   console.error("[CancelOrder Error]", error);
-          //   reply =
-          //     "⚠️ An error occurred while trying to cancel your order. Please try again later.";
-          //   this.userProfile.stateStack.step = "idle"; // Reset state in case of error
-          // }
-          // break;
+          if (!this.userProfile?.userId) {
+            reply =
+              "❌ You're not logged in. Please log in to cancel your order.";
+            break;
+          }
+          try {
+            const step = this.userProfile.stateStack?.step || "initial";
+            if (step === "initial") {
+              const orders = await getUserActiveOrders(this.userProfile.userId); // Only non-cancelled
+              if (!orders || orders.length === 0) {
+                reply =
+                  "🤔 You don't have any active or recent orders to cancel.";
+                break;
+              }
+              if (orders.length === 1) {
+                const order = orders[0];
+                this.userProfile.stateStack = {
+                  step: "confirm_single_order_cancellation",
+                };
+                this.userProfile.currentOrderId = order.id;
+                reply = `📋 You have an active order:\n\n• Order #${order.id} — Status: ${order.status}\n\n👉 Would you like to cancel this order?\n\n✅ Type "yes" to cancel\n\n❌ Type "no" to keep it.`;
+              } else {
+                this.userProfile.contextData = { activeOrders: orders };
+                this.userProfile.stateStack = {
+                  step: "choosing_order_for_cancellation",
+                };
+                reply =
+                  "📋 You have multiple active orders:\n\n" +
+                  orders
+                    .map((o) => `\n• Order #${o.id} — Status: ${o.status}`)
+                    .join("\n") +
+                  '\n\n👉 Type the Order ID you want to cancel, or type "all" to cancel all active orders.';
+              }
+              break;
+            }
+            if (step === "choosing_order_for_cancellation") {
+              const orderIdMatch = text.match(/\d+/);
+              const orderId = orderIdMatch ? parseInt(orderIdMatch[0]) : null;
+              if (text.toLowerCase().includes("all")) {
+                this.userProfile.stateStack = { step: "confirm_cancel_all" };
+                reply =
+                  '⚠️ Are you sure you want to cancel *all* your active orders?\n\n✅ Type "yes" to proceed or "no" to abort.';
+                break;
+              }
+              const validIds = (
+                this.userProfile.contextData.activeOrders || []
+              ).map((o) => o.id);
+              if (!validIds.includes(orderId)) {
+                reply = `❌ Order ID ${orderId} not found in your active orders. Try again.`;
+                break;
+              }
+              this.userProfile.currentOrderId = orderId;
+              this.userProfile.stateStack = {
+                step: "confirm_single_order_cancellation",
+              };
+              reply = `❓ Confirm cancelling order #${orderId}? Type "yes" to cancel or "no" to abort.`;
+              break;
+            }
+            if (step === "confirm_single_order_cancellation") {
+              if (text.includes("yes")) {
+                const orderId = this.userProfile.currentOrderId;
+                const paid = await checkPaymentStatus(
+                  orderId,
+                  this.userProfile.userId
+                );
+                await cancelOrder(orderId);
+                if (paid?.status === "paid") {
+                  await refundPayment(orderId);
+                  reply = `✅ Order #${orderId} has been cancelled and your payment will be refunded.`;
+                } else {
+                  reply = `✅ Order #${orderId} has been successfully cancelled.`;
+                }
+                this.userProfile.cart = []; // Clear cart
+              } else {
+                reply = "❌ Cancellation aborted.";
+              }
+              this.userProfile.currentIntent = null;
+              this.userProfile.stateStack = null;
+              this.userProfile.contextData = {};
+              delete this.userProfile.currentOrderId;
+              break;
+            }
+            if (step === "confirm_cancel_all") {
+              if (text.includes("yes")) {
+                const activeOrders =
+                  this.userProfile.contextData.activeOrders || [];
+                for (const order of activeOrders) {
+                  const paid = await checkPaymentStatus(
+                    order.id,
+                    this.userProfile.userId
+                  );
+                  await cancelOrder(order.id);
+                  if (paid?.status === "paid") {
+                    await refundPayment(order.id);
+                  }
+                }
+                reply = `✅ All active orders have been cancelled and any completed payments will be refunded.`;
+                this.userProfile.cart = []; // Clear cart
+              } else {
+                reply = "❌ Order cancellation aborted.";
+              }
+              this.userProfile.currentIntent = null;
+              this.userProfile.stateStack = null;
+              this.userProfile.contextData = {};
+              break;
+            }
+          } catch (error) {
+            console.error("[CancelOrder Error]", error);
+            reply =
+              "⚠️ An error occurred while processing your cancellation. Please try again.";
+            this.userProfile.stateStack = null;
+            this.userProfile.contextData = {};
+          }
+          await this.userProfileAccessor.set(context, this.userProfile);
+          await this.conversationState.saveChanges(context);
           break;
         }
 
-        // Payment ==>
+        // Payment ==>                                                                       [DONE]
         case "CheckPaymentStatus": {
-          console.log("CheckPaymentStatus");
-          // switch (this.userProfile.paymentCheckState) {
-          //   case undefined: {
-          //     if (!orderId) {
-          //       reply = "❓ Please provide the Order ID you'd like to check.";
-          //     } else {
-          //       const payment = await getPaymentStatus(
-          //         orderId,
-          //         this.userProfile.userId
-          //       );
-          //       if (!payment) {
-          //         reply = `❓ No payment information found for order ${orderId}.`;
-          //       } else {
-          //         switch (payment.status) {
-          //           case "paid":
-          //             reply = `✅ Payment for order ${orderId} has been successfully completed.\n\n👉 What would you like to do next?\n• 🗓️ Book a table\n• 🍔 Place a new order\n• 📋 View my orders\n• ❓ Ask for help`;
-          //             break;
-          //           case "pending":
-          //             reply = `⏳ Payment for order ${orderId} is still *pending*. Would you like to:\n\n• 💳 Try paying again?\n• ❌ Cancel this order?\n\nPlease type "pay" to try again or "cancel" to cancel the order.`;
-          //             this.userProfile.paymentCheckState = "pending_payment_action";
-          //             this.userProfile.currentOrderId = orderId;
-          //             break;
-          //           case "failed":
-          //             reply = `⚠️ Payment for order ${orderId} has *failed*.\n\n👉 Would you like to try paying again, or cancel the order?\n• Type "pay" to try again\n• Type "cancel" to cancel the order.`;
-          //             this.userProfile.paymentCheckState = "pending_payment_action";
-          //             this.userProfile.currentOrderId = orderId;
-          //             break;
-          //           default:
-          //             reply = `ℹ️ The payment status for order ${orderId} is *${payment.status}*.\n\n👉 Let me know if you'd like help with next steps!`;
-          //             break;
-          //         }
-          //       }
-          //     }
-          //     break;
-          //   }
-          //   case "pending_payment_action": {
-          //     if (text && text.toLowerCase() === "pay") {
-          //       reply = `💳 Let's try making the payment again for order ${this.userProfile.currentOrderId}. Please type "make payment" to proceed.`;
-          //     } else if (text && text.toLowerCase() === "cancel") {
-          //       reply = `❌ You've chosen to cancel order ${this.userProfile.currentOrderId}. Type "cancel order" to confirm.`;
-          //     } else {
-          //       reply = `❓ Please respond with "pay" or "cancel" for order ${this.userProfile.currentOrderId}.`;
-          //     }
-          //     // Reset state if user chooses one of the valid options
-          //     if (text && ["pay", "cancel"].includes(text.toLowerCase())) {
-          //       delete this.userProfile.paymentCheckState;
-          //       delete this.userProfile.currentOrderId;
-          //     }
-          //     break;
-          //   }
-          //   default: {
-          //     reply =
-          //       "🤔 An error occurred while trying to check the payment status. Let's start over.";
-          //     delete this.userProfile.paymentCheckState;
-          //     delete this.userProfile.currentOrderId;
-          //     break;
-          //   }
-          // }
-          // break;
+          if (!this.userProfile?.userId) {
+            reply =
+              "❌ You're not logged in. Please log in to check payment status.";
+            break;
+          }
+          try {
+            const step = this.userProfile.stateStack?.step || "initial";
+            if (step === "initial") {
+              const latestOrder = await getLatestOrder(this.userProfile.userId);
+              if (!latestOrder) {
+                reply =
+                  "ℹ️ You don't have any recent orders to check payment for.";
+                break;
+              }
+              const orderId = latestOrder.id;
+              const payment = await checkPaymentStatus(
+                orderId,
+                this.userProfile.userId
+              );
+              if (!payment) {
+                reply = `❓ No payment information found for your latest order (ID: ${orderId}).`;
+                break;
+              }
+              switch (payment.status) {
+                case "paid":
+                  reply = `✅ Payment for order ${orderId} has been successfully completed.`;
+                  break;
+                case "pending":
+                  reply =
+                    `⏳ Payment for order ${orderId} is still *pending*.\nWould you like to:\n\n` +
+                    `• 💳 Try paying again?\n• ❌ Cancel this order?\n\n` +
+                    `Please type "pay" to try again or "cancel" to cancel the order.`;
+                  this.userProfile.stateStack = {
+                    step: "pending_payment_action",
+                  };
+                  this.userProfile.currentOrderId = orderId;
+                  break;
+                case "failed":
+                  reply =
+                    `⚠️ Payment for order ${orderId} has *failed*.\n\nWould you like to:\n` +
+                    `• 💳 Try paying again?\n• ❌ Cancel this order?\n\n` +
+                    `Please type "pay" to retry or "cancel" to cancel the order.`;
+                  this.userProfile.stateStack = {
+                    step: "pending_payment_action",
+                  };
+                  this.userProfile.currentOrderId = orderId;
+                  break;
+                default:
+                  reply = `ℹ️ The payment status for order ${orderId} is *${payment.payment_status}*. Let me know if you need help.`;
+                  break;
+              }
+              break;
+            }
+            if (step === "pending_payment_action") {
+              if (text.includes("pay")) {
+                reply = `💳 Let's retry the payment for Order ${this.userProfile.currentOrderId}. Please type "make payment" to continue.`;
+              } else if (text.includes("cancel")) {
+                reply = `❌ You've chosen to cancel order ${this.userProfile.currentOrderId}. Type "cancel order" to confirm.`;
+              } else {
+                reply = `❓ Please respond with "pay" or "cancel" for order ${this.userProfile.currentOrderId}.`;
+                break;
+              }
+              this.userProfile.stateStack = null;
+              this.userProfile.currentOrderId = null;
+              break;
+            }
+            reply =
+              "🤔 An error occurred while checking payment status. Let's start over.";
+            this.userProfile.stateStack = null;
+            this.userProfile.currentOrderId = null;
+          } catch (error) {
+            console.error("[CheckPaymentStatus Error]", error);
+            reply =
+              "⚠️ An error occurred while checking the payment status of your latest order. Please try again later.";
+            this.userProfile.stateStack = null;
+            this.userProfile.currentOrderId = null;
+          }
+          await this.userProfileAccessor.set(context, this.userProfile);
+          await this.conversationState.saveChanges(context);
           break;
         }
 
         case "PayOrder": {
-          console.log("PayOrder");
+          if (!this.userProfile?.userId) {
+            reply = "❌ You're not logged in. Please log in to place an order.";
+            break;
+          }
+          const step = this.userProfile.stateStack?.step || "initial";
+          const contextData = this.userProfile.contextData || {};
+          try {
+            if (step === "initial") {
+              if (
+                !this.userProfile.cart ||
+                this.userProfile.cart.length === 0
+              ) {
+                reply =
+                  "🛒 Your cart is empty. Add items to your cart before proceeding to payment.";
+                break;
+              }
+              const cartItems = this.userProfile.cart
+                .map(
+                  (item, idx) =>
+                    `\n\n${idx + 1}. ${item.quantity} x ${item.itemName} (₹${
+                      item.price
+                    }) from ${item.restaurant}`
+                )
+                .join("\n");
+              const totalAmount = this.userProfile.cart.reduce(
+                (sum, item) => sum + item.price * item.quantity,
+                0
+              );
+              contextData.totalAmount = totalAmount;
+              this.userProfile.contextData = contextData;
+              this.userProfile.stateStack = {
+                step: "awaiting_order_confirmation",
+              };
+              reply = `🧾 Your cart:\n${cartItems}\n\n💰 Total: ₹${totalAmount}\n\n👉 Would you prefer **delivery** or **takeaway**?`;
+              break;
+            }
+            if (step === "awaiting_delivery_method") {
+              if (text.includes("delivery") || text.includes("takeaway")) {
+                contextData.deliveryMethod = text.includes("delivery")
+                  ? "delivery"
+                  : "takeaway";
+                this.userProfile.contextData = contextData;
+                this.userProfile.stateStack = {
+                  step: "awaiting_order_confirmation",
+                };
+                reply = `🚚 You've chosen **${contextData.deliveryMethod}**.\n\n👉 Would you like to place this order?\nReply with "confirm" to place or "cancel" to abort.`;
+              } else {
+                reply = "❓ Please choose either **delivery** or **takeaway**.";
+              }
+              break;
+            }
+            if (step === "awaiting_order_confirmation") {
+              if (text.includes("confirm")) {
+                const order = await createOrder(
+                  this.userProfile.userId,
+                  this.userProfile.cart
+                );
+                if (!order) {
+                  reply = "⚠️ Failed to place your order. Please try again.";
+                  this.userProfile.currentIntent = null;
+                  this.userProfile.stateStack = null;
+                  this.userProfile.contextData = {};
+                  break;
+                }
+                contextData.currentOrderId = order.id;
+                contextData.totalAmount = order.total_amount;
+                this.userProfile.contextData = contextData;
+                this.userProfile.stateStack = {
+                  step: "awaiting_payment",
+                };
+                reply = `✅ Order placed! Order ID: ${order.id}\n\n💳 Total payable: ₹${order.total_amount}\n\nType \"confirm\" to pay or \"cancel\" to exit.`;
+                break;
+              } else {
+                reply =
+                  "❌ Order cancelled. Let me know if you want to do something else.";
+                this.userProfile.currentIntent = null;
+                this.userProfile.stateStack = null;
+                this.userProfile.contextData = {};
+                break;
+              }
+            }
+            if (step === "awaiting_payment") {
+              if (text.includes("confirm")) {
+                // Simulate successful payment & insert into DB
+                const success = await createPaymentOrder(
+                  contextData.currentOrderId,
+                  contextData.totalAmount
+                );
+                if (success) {
+                  reply = `✅ Payment successful for Order ID ${contextData.currentOrderId}. Thank you!\n\nWhat would you like to do next?`;
+                } else {
+                  reply =
+                    "⚠️ Failed to record payment. Please contact support.";
+                }
+                this.userProfile.currentIntent = null;
+                this.userProfile.stateStack = null;
+                this.userProfile.contextData = {};
+                break;
+              } else {
+                reply = "❌ Payment cancelled. What would you like to do next?";
+                this.userProfile.currentIntent = null;
+                this.userProfile.stateStack = null;
+                this.userProfile.contextData = {};
+                break;
+              }
+            }
+          } catch (error) {
+            console.error("[PayOrder Error]", error);
+            reply =
+              "⚠️ An error occurred while processing your order. Please try again later.";
+            reply = this.userProfile.currentIntent = null;
+            this.userProfile.stateStack = null;
+            this.userProfile.contextData = {};
+          }
+          await this.userProfileAccessor.set(context, this.userProfile);
+          await this.conversationState.saveChanges(context);
           break;
         }
 
         // Recommendation ==>
         case "RecommendItem": {
           console.log("RecommendItem");
+          if (!this.userProfile?.userId) {
+            reply =
+              "❌ You're not logged in. Please log in to get recommendations.";
+            break;
+          }
           // try {
-          //   if (!this.userProfile?.userId) {
-          //     reply =
-          //       "❌ You're not logged in. Please log in to get recommendations.";
-          //     break;
-          //   }
           //   if (!dietType && !this.userProfile.recommendationCategoryRequested) {
           //     reply =
           //       "🍳 What category or type of item would you like recommendations for? (e.g., pizza, pasta, drinks)";
@@ -812,11 +1023,12 @@ class RestaurantBot extends ActivityHandler {
           //   delete this.userProfile.lastRequestedCategory;
           // }
           // break;
+          await this.userProfileAccessor.set(context, this.userProfile);
+          await this.conversationState.saveChanges(context);
           break;
         }
 
         // Reservations ==>                                                                  [DONE]
-        // TODO - Check for past date & time also
         case "MakeReservation": {
           if (!this.userProfile?.userId) {
             reply = "❌ You're not logged in. Please log in to book a table.";
@@ -881,30 +1093,41 @@ class RestaurantBot extends ActivityHandler {
                 reply = "❓ Please provide a valid number for the party size.";
                 break;
               }
+              this.userProfile.stateStack = { step: "awaiting_notes" };
+              reply =
+                '📝 Would you like to add any special requests (e.g., window seat, allergy info)? If not, type "no".';
+              break;
+            }
+            if (step === "awaiting_notes") {
+              contextData.notes =
+                text && text.toLowerCase() !== "no" ? text : "";
               this.userProfile.stateStack = { step: "confirming_booking" };
-              reply = `✅ ${contextData.restaurant} has availability on ${contextData.date} at ${contextData.time} for ${partySize} people.\n\n👉 Type "confirm table" to book or "cancel table" to abort.`;
+              reply =
+                `✅ ${contextData.restaurant} has availability on ${contextData.date} at ${contextData.time} for ${contextData.partySize} people.` +
+                (contextData.notes
+                  ? `\n\n📝 Special Request: "${contextData.notes}"`
+                  : "") +
+                `\n\n👉 Type "confirm" to book or "cancel table" to abort.`;
               break;
             }
             if (step === "confirming_booking") {
-              if (
-                (text || "").toLowerCase().includes("confirm") &&
-                (text || "").toLowerCase().includes("table")
-              ) {
+              if (text.includes("confirm")) {
                 const { restaurant, partySize, date, time } = contextData;
                 const success = await makeReservation(
-                  this.userProfile.email,
+                  this.userProfile.userId,
                   restaurant,
                   partySize,
                   date,
-                  time
+                  time,
+                  notes || null
                 );
                 if (success) {
-                  reply = `✅ Your table at **${restaurant}** for ${partySize} has been booked on ${date} at ${time}!\n\n👉 What would you like to do next?\n\n• 🍔 Place an order\n\n• 📋 View my reservations\n\n• ❓ Ask for help`;
+                  reply = `✅ Your table at **${restaurant}** for ${partySize} has been booked on ${date} at ${time}!` + (notes ? `\n📝 Special Request noted: "${notes}"` : "");
                 } else {
                   reply = `❌ Could not complete the booking. It might no longer be available. Try a different time or restaurant.`;
                 }
               } else {
-                reply = `❌ Booking cancelled.\n\n👉 What would you like to do next?\n\n• 🗓️ Book another table\n\n• 📋 View my reservations\n\n• ❓ Ask for help`;
+                reply = `❌ Booking cancelled.`;
               }
               this.userProfile.currentIntent = null;
               this.userProfile.stateStack = null;
@@ -926,14 +1149,16 @@ class RestaurantBot extends ActivityHandler {
 
         case "CancelReservation": {
           if (!this.userProfile?.userId) {
-            reply = "❌ You're not logged in. Please log in to book a table.";
+            reply =
+              "❌ You're not logged in. Please log in to cancel a reservation.";
             break;
           }
           const step = this.userProfile.stateStack?.step || "initial";
           try {
             if (step === "initial") {
-              const userEmail = this.userProfile.email;
-              const userReservations = await getUserReservations(userEmail);
+              const userReservations = await getUserReservations(
+                this.userProfile.userId
+              );
               if (!userReservations || userReservations.length === 0) {
                 reply = "ℹ️ You have no active reservations to cancel.";
                 this.userProfile.currentIntent = null;
@@ -944,9 +1169,8 @@ class RestaurantBot extends ActivityHandler {
                 const res = userReservations[0];
                 const cancelled = await cancelReservation(res.id);
                 reply = cancelled
-                  ? `❌ Your reservation (ID: ${res.id}) has been cancelled.
-\n\n👉 What would you like to do next?\n\n• 🗓️ Book a table\n\n• 🍔 Place an order\n\n• 📋 View my reservations\n\n• ❓ Ask for help`
-                  : `⚠️ Could not cancel reservation ${res.id}. It might already be cancelled.\n\n👉 What would you like to do next?\n\n• 🗓️ Book a table\n\n• 🍔 Place an order\n\n• 📋 View my reservations\n\n• ❓ Ask for help`;
+                  ? `❌ Your reservation (ID: ${res.id}) has been cancelled.`
+                  : `⚠️ Could not cancel reservation ${res.id}. It might already be cancelled.`;
                 this.userProfile.currentIntent = null;
                 this.userProfile.stateStack = null;
                 this.userProfile.contextData = {};
@@ -1001,18 +1225,19 @@ class RestaurantBot extends ActivityHandler {
           break;
         }
 
-        // TODO - Add extra qualifing text to this
         case "ModifyReservation": {
           if (!this.userProfile?.userId) {
-            reply = "❌ You're not logged in. Please log in to book a table.";
+            reply =
+              "❌ You're not logged in. Please log in to modify reservation.";
             break;
           }
           const contextData = this.userProfile.contextData || {};
           const step = this.userProfile.stateStack?.step || "initial";
           try {
-            const userEmail = this.userProfile.email;
             if (step === "initial") {
-              const userReservations = await getUserReservations(userEmail);
+              const userReservations = await getUserReservations(
+                this.userProfile.userId
+              );
               if (!userReservations || userReservations.length === 0) {
                 reply = "ℹ️ You have no active reservations to modify.";
                 this.userProfile.currentIntent = null;
@@ -1081,14 +1306,11 @@ class RestaurantBot extends ActivityHandler {
               }
               contextData.newPartySize = partySize;
               this.userProfile.stateStack.step = "confirming_modification";
-              reply = `✅ You're about to modify reservation ${contextData.reservationId}:\n\n📅 Date: ${contextData.newDate}\n\n⏰ Time: ${contextData.newTime}\n\n👥 Party Size: ${partySize}\n\n👉 Reply "confirm modification" to confirm or "cancel" to abort.`;
+              reply = `✅ You're about to modify reservation ${contextData.reservationId}:\n\n📅 Date: ${contextData.newDate}\n\n⏰ Time: ${contextData.newTime}\n\n👥 Party Size: ${partySize}\n\n👉 Reply "confirm" to confirm or "cancel" to abort.`;
               break;
             }
             if (step === "confirming_modification") {
-              if (
-                text.toLowerCase().includes("confirm") ||
-                text.toLowerCase().includes("modification")
-              ) {
+              if (text.includes("confirm")) {
                 const { reservationId, newDate, newTime, newPartySize } =
                   contextData;
                 const success = await modifyReservation(
@@ -1123,12 +1345,13 @@ class RestaurantBot extends ActivityHandler {
 
         case "ShowReservations": {
           if (!this.userProfile?.userId) {
-            reply = "❌ You're not logged in. Please log in to book a table.";
+            reply =
+              "❌ You're not logged in. Please log in to check reservations.";
             break;
           }
           try {
             const reservations = await getUserReservations(
-              this.userProfile.email
+              this.userProfile.userId
             );
             if (!reservations || reservations.length === 0) {
               reply = "ℹ️ You don't have any upcoming reservations.";
@@ -1191,24 +1414,21 @@ class RestaurantBot extends ActivityHandler {
               null;
             if (
               this.userProfile.contextData.cuisine &&
-              this.userProfile.contextData.location &&
-              this.userProfile.contextData.location
-                .toLowerCase()
-                .includes(this.userProfile.contextData.cuisine.toLowerCase())
+              location &&
+              location.includes(this.userProfile.contextData.cuisine)
             ) {
               this.userProfile.contextData.location = null;
             }
             if (
               this.userProfile.contextData.restaurantName &&
-              this.userProfile.contextData.location &&
-              this.userProfile.contextData.location.toLowerCase() ===
-                this.userProfile.contextData.restaurantName.toLowerCase()
+              location &&
+              location === this.userProfile.contextData.restaurantName
             ) {
               location = null;
             }
             const results = await searchRestaurants({
               restaurantName: this.userProfile.contextData.restaurantName,
-              location: this.userProfile.contextData.location,
+              location: location,
               cuisine: this.userProfile.contextData.cuisine,
               priceRange: this.userProfile.contextData.priceRange,
               rating: this.userProfile.contextData.ratingValue,
@@ -1242,7 +1462,6 @@ class RestaurantBot extends ActivityHandler {
                     : ""
                 }` +
                 `:\n\n${displayRestaurants(results)}`;
-
               this.userProfile.contextData.lastSearchResults = results;
             } else {
               reply =
@@ -1279,6 +1498,8 @@ class RestaurantBot extends ActivityHandler {
             reply =
               "⚠️ An error occurred while searching for restaurants. Please try again later.";
           }
+          await this.userProfileAccessor.set(context, this.userProfile);
+          await this.conversationState.saveChanges(context);
           break;
         }
 
@@ -1294,6 +1515,8 @@ class RestaurantBot extends ActivityHandler {
           } else {
             reply = this.sorryMessage;
           }
+          await this.userProfileAccessor.set(context, this.userProfile);
+          await this.conversationState.saveChanges(context);
           break;
         }
       }
@@ -1371,7 +1594,9 @@ class RestaurantBot extends ActivityHandler {
           await context.sendActivity(
             `✅ Welcome, ${email}! You're now logged in.`
           );
-          await context.sendActivity(this.optionsMessage);
+          await context.sendActivity(
+            "👉 You can now try:\n\n" + this.optionsMessage
+          );
         } else {
           this.userProfile.stateStack.step = "choosing_auth_mode";
           await context.sendActivity(
@@ -1407,7 +1632,9 @@ class RestaurantBot extends ActivityHandler {
           await context.sendActivity(
             `✅ Welcome ${name}! You're now registered and logged in.\n\n`
           );
-          await context.sendActivity(this.optionsMessage);
+          await context.sendActivity(
+            "👉 You can now try:\n\n" + this.optionsMessage
+          );
         } else {
           this.userProfile.stateStack.step = "choosing_auth_mode";
           await context.sendActivity(

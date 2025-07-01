@@ -1,6 +1,6 @@
 # Restaurant Bot
 
-My final project for my internship at Celebal Technologies 2025.
+My project for the completion of my Node.js internship at Celebal Technologies 2025
 
 ### Start the backend:
 
@@ -29,7 +29,6 @@ My final project for my internship at Celebal Technologies 2025.
 - express
 - jsonwebtoken
 - mysql2
-- stripe
 - nodemon (dev dependency)
 
 ### Instructions:
@@ -60,8 +59,6 @@ This handy restaurant bot simplifies your dining experience. It helps you find r
   - [x] Train CLU model
   - [x] Deploy CLU service
   - [x] Integrate CLU service to bot
-  - [x] Setup Payment Gateway (Stripe Test)
-  - [] Integrate Payement Gateway
   - [x] User Auth using Bot
   - [x] Persistent User Profile for each unique session
   - [x] Implement Intents
@@ -100,14 +97,12 @@ This handy restaurant bot simplifies your dining experience. It helps you find r
     - [x] ModifyReservation
     - [x] ShowReservations
 
-- [] Orders
+- [x] Orders
 
   - [x] Create MySQL relation (orders)
-  - [] Implement Intents
-    - [] CancelOrder
-    - [] CheckOrderStatus
-  - [] Display Order summary & final confirmation after Payment
-  - [] Show real-time status updates (pending => approved => ...)
+  - [x] Implement Intents
+    - [x] CancelOrder
+    - [x] CheckOrderStatus
 
 - [x] Cart
 
@@ -118,17 +113,13 @@ This handy restaurant bot simplifies your dining experience. It helps you find r
     - [x] ViewCart
     - [x] EditCart
     - [x] ClearCart
-  - [] Store pending cart in Database (order status as 'pending') (Optional)
 
-- [] Payment
+- [x] Payment
 
   - [x] Implement MySQL relation (payments)
-  - [] Integrate with dummy/test payment gateway (eg, Stripe test mode)
-  - [] Capture payment info securely (tokenized method)
-  - [] Link payments to specific order IDs in database
-  - [] Implement Intents
-    - [] CheckPaymentStatus
-    - [] PayOrder
+  - [x] Implement Intents
+    - [x] CheckPaymentStatus
+    - [x] PayOrder
 
 - [] Recommendations
 

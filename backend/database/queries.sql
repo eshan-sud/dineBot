@@ -108,7 +108,8 @@ CREATE TABLE orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
     restaurant_id INT,
-    status ENUM('placed','pending','accepted','on the way','delivered','cancelled') DEFAULT 'placed',
+    order_status ENUM('placed','pending','accepted','on the way','delivered','cancelled') DEFAULT 'placed',
+    delivery_method ENUM('delivery', 'takeaway') DEFAULT 'delivery',
     total_amount DECIMAL(10,2),
     order_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
@@ -125,28 +126,28 @@ CREATE TABLE order_items (
     FOREIGN KEY (menu_item_id) REFERENCES menu_items(id) ON DELETE CASCADE
 );
 
+-- Payments
+CREATE TABLE payments (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  order_id INT NOT NULL,
+  payment_status VARCHAR(20) NOT NULL, -- "pending", "paid", "refunded"
+  amount DECIMAL(10,2) NOT NULL,
+  method VARCHAR(50) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (order_id) REFERENCES orders(id)
+);
+
 -- User Behavior
 CREATE TABLE user_behavior (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
     restaurant_id INT,
     menu_item_id INT,
-    action_type ENUM('view', 'order', 'rate'),
+    action_type ENUM('view', 'order'),
     action_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (restaurant_id) REFERENCES restaurants(id) ON DELETE CASCADE,
     FOREIGN KEY (menu_item_id) REFERENCES menu_items(id) ON DELETE CASCADE
-);
-
--- Payments
-CREATE TABLE payments (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  order_id INT NOT NULL,
-  status VARCHAR(20) NOT NULL,
-  amount DECIMAL(10,2) NOT NULL,
-  method VARCHAR(50) NOT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (order_id) REFERENCES orders(id)
 );
 
 

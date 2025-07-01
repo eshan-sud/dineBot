@@ -24,39 +24,30 @@ const displayRestaurants = (results) => {
   );
 };
 
-const isValidDate = (val) =>
-  typeof val === "string" && /^\d{4}-\d{2}-\d{2}$/.test(val);
-
-const isValidTime = (val) =>
-  typeof val === "string" && /^\d{2}:\d{2}$/.test(val);
+const isValidDate = (val) => {
+  if (typeof val !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(val)) return false;
+  const now = new Date();
+  const date = new Date(val + "T00:00:00");
+  return date.setHours(23, 59, 59) > now.getTime();
+};
+const isValidTime = (val) => {
+  if (
+    typeof timeStr !== "string" ||
+    !/^\d{2}:\d{2}$/.test(timeStr) ||
+    typeof dateStr !== "string"
+  )
+    return false;
+  const combined = new Date(`${dateStr}T${timeStr}`);
+  const now = new Date();
+  return !isNaN(combined.getTime()) && combined > now;
+};
 
 const isValidEmail = (val) =>
   typeof val === "string" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
 
-const parseDateTime = (datetime) => {
-  const parsedDate = null;
-  const parsedTime = null;
-  // let reservationDate = new Date();
-  // if (date && date.toLowerCase().includes("tomorrow")) {
-  //   reservationDate.setDate(reservationDate.getDate() + 1);
-  // } else if (date && !isNaN(new Date(date).getTime())) {
-  //   reservationDate = new Date(date);
-  // }
-  // if (time) {
-  //   const match = time.match(/\d+(?::\d+)?\s*(am|pm)/i);
-  //   if (match) {
-  //     time24hr = convertTo24Hour(match[0]);
-  //   }
-  // }
-  // const dateStr = reservationDate.toISOString().split("T")[0];
-  return { parsedDate, parsedTime };
-};
-
 module.exports = {
-  convertTo24Hour,
   displayRestaurants,
   isValidDate,
   isValidTime,
   isValidEmail,
-  parseDateTime,
 };
