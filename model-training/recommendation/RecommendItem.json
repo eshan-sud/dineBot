@@ -202,5 +202,23 @@
     "language": "en-us",
     "text": "Recommend something for dinner tonight",
     "entities": []
+  },
+  {
+    "intent": "RecommendItem",
+    "language": "en-us",
+    "text": "Recommend me something",
+    "entities": []
+  },
+  {
+    "intent": "RecommendItem",
+    "language": "en-us",
+    "text": "what should I eat today",
+    "entities": []
+  },
+  {
+    "intent": "RecommendItem",
+    "language": "en-us",
+    "text": "suggest something to eat or drink",
+    "entities": []
   }
 ]

@@ -2,6 +2,7 @@
 
 frontend/
 backend/.env
+backend/public/images/menus/
 node_modules/
 
 future-additions/

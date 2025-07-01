@@ -113,6 +113,7 @@ This handy restaurant bot simplifies your dining experience. It helps you find r
     - [x] ViewCart
     - [x] EditCart
     - [x] ClearCart
+    <!-- TODO-FUTURE - [] Store pending cart in Database (order status as 'pending') -->
 
 - [x] Payment
 
@@ -121,15 +122,18 @@ This handy restaurant bot simplifies your dining experience. It helps you find r
     - [x] CheckPaymentStatus
     - [x] PayOrder
 
-- [] Recommendations
+- [x] Recommendations
 
   - [x] Implement MySQL relation (user_behavior)
-    - [] Track user behavior: restaurant visits, ordered items
-    <!-- Future : ratings -->
-  - [] Implement Intents
-    - [] SetUserBehavior
-    - [] RecommendItem
-  - [] Recommend dishes/restaurants based on past behavior using basic rules or ML model (optional)
+  - [x] Track user's behavior
+    - [x] Menus viewed
+    - [x] Ordered items
+      <!-- TODO FUTURE - [] Restaurants viewed -->
+      <!-- TODO-FUTURE - [] Based on ratings -->
+      <!-- TODO-FUTURE - [] Based on user reviews -->
+  - [x] Rule-based recommendation
+  - [x] Implement Intents
+    - [x] RecommendItem
 
 - [] Deployment
 

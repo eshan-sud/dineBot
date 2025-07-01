@@ -13,7 +13,7 @@ const getAllRestaurants = async () => {
   `);
     return rows;
   } catch (error) {
-    console.log("[getAllRestaurants Error] ", error);
+    console.error("[getAllRestaurants Error] ", error);
     return null;
   }
 };

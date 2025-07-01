@@ -5,7 +5,7 @@ const pool = require("../config/db");
 const createOrder = async (userId, cartItems) => {
   try {
     if (!cartItems || cartItems.length === 0) return null;
-    const restaurantName = cartItems[0].restaurant;
+    const restaurantName = cartItems[0].restaurantName;
     const [restaurantRows] = await pool.query(
       "SELECT id FROM restaurants WHERE name = ?",
       [restaurantName]

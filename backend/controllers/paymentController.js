@@ -2,9 +2,8 @@
 
 const pool = require("../config/db");
 
-const createPaymentOrder = async (orderId, amount) => {
+const createPaymentOrder = async (orderId, amount, payment_status) => {
   try {
-    const payment_status = "paid";
     const method = "mock";
     await pool.query(
       "INSERT INTO payments (order_id, payment_status, amount, method) VALUES (?, ?, ?, ?)",

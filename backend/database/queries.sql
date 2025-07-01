@@ -130,9 +130,9 @@ CREATE TABLE order_items (
 CREATE TABLE payments (
   id INT AUTO_INCREMENT PRIMARY KEY,
   order_id INT NOT NULL,
-  payment_status VARCHAR(20) NOT NULL, -- "pending", "paid", "refunded"
+  payment_status VARCHAR(20) NOT NULL, -- "pending", "paid", "cash on delivery", "refunded"
   amount DECIMAL(10,2) NOT NULL,
-  method VARCHAR(50) NOT NULL,
+  method VARCHAR(50) NOT NULL, -- "mock", "credit card", "debit card", "netbanking", "upi"
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (order_id) REFERENCES orders(id)
 );

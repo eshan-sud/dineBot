@@ -48,7 +48,6 @@ Intents:-
         PayOrder
 
     RECOMMENDATION
-        # SetUserBehavior                                                   [NEW]
         RecommendItem
 
     RESERVATION

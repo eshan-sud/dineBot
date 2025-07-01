@@ -26,6 +26,7 @@ const {
 } = require("../controllers/paymentController");
 const {
   getRecommendedItems,
+  setUserBehavior,
 } = require("../controllers/recommendationController");
 const {
   makeReservation,
@@ -90,8 +91,6 @@ class RestaurantBot extends ActivityHandler {
           ? `${text}`
           : `might be ${this.userProfile.currentIntent} but is ${text}`
       );
-      // console.log(`CLU detected intent: ${topIntent}`);
-      // console.log(`CLU entities: `, entities);
 
       // Extract all known entities for convenience
       const entity = (name) => entities.find((e) => e.category === name)?.text;
@@ -165,6 +164,48 @@ class RestaurantBot extends ActivityHandler {
           }
           const step = this.userProfile.stateStack?.step || "initial";
           try {
+            if (step === "awaiting_restaurant") {
+              const input = text;
+              if (!input) {
+                reply = "❓ Please provide the name of the restaurant.";
+                break;
+              }
+              const found = await getRestaurantByName(input);
+              if (!found) {
+                reply = `❌ Couldn't find any restaurant named "${input}". Try again.`;
+                break;
+              }
+              this.userProfile.contextData.restaurantName = found.name;
+              this.userProfile.contextData.restaurantId = found.name;
+              this.userProfile.stateStack.step = "awaiting_item";
+              reply = `🏪 Got it: **${found.name}**.\n\n👉 Now tell me what item you'd like to add.`;
+              break;
+            }
+            if (step === "awaiting_item") {
+              const itemNameInput = text;
+              if (!itemNameInput) {
+                reply =
+                  "❓ Please provide the name of the item you'd like to add.";
+                break;
+              }
+              const item = await getMenuItemByName(
+                itemNameInput,
+                this.userProfile.contextData.restaurantName
+              );
+              if (!item) {
+                reply = `❌ Couldn't find **${itemNameInput}** at ${this.userProfile.contextData.restaurantName}. Try again.`;
+                break;
+              }
+              this.userProfile.contextData = {
+                ...this.userProfile.contextData,
+                itemId: item.id,
+                itemName: item.name,
+                itemPrice: item.price,
+              };
+              this.userProfile.stateStack.step = "awaiting_quantity";
+              reply = `🍽️ You've selected **${item.name}**.\n\n👉 How many would you like to add?`;
+              break;
+            }
             if (step === "awaiting_quantity") {
               const match = text.match(/-?\d+/);
               const quantity = match ? parseInt(match[0]) : NaN;
@@ -179,7 +220,8 @@ class RestaurantBot extends ActivityHandler {
                 itemName: this.userProfile.contextData.itemName,
                 quantity,
                 price: this.userProfile.contextData.itemPrice,
-                restaurant: this.userProfile.contextData.restaurant,
+                restaurantName: this.userProfile.contextData.restaurantName,
+                restaurantId: this.userProfile.contextData.restaurantId,
               });
               const total = this.userProfile.cart.reduce(
                 (sum, i) => sum + i.price * i.quantity,
@@ -187,7 +229,7 @@ class RestaurantBot extends ActivityHandler {
               );
               this.userProfile.contextData.cartTotal = total;
               reply =
-                `✅ Added **${quantity} x ${this.userProfile.contextData.itemName}** from **${this.userProfile.contextData.restaurant}** to your cart.` +
+                `✅ Added **${quantity} x ${this.userProfile.contextData.itemName}** from **${this.userProfile.contextData.restaurantName}** to your cart.` +
                 `\n\n🧮 Total so far: ₹${total}` +
                 `\n\nWhat next?\n\n• 🛍️ Add more items\n\n• 🧾 View your cart\n\n• ✅ Checkout\n\n• ❌ Remove an item`;
               this.userProfile.currentIntent = null;
@@ -195,50 +237,7 @@ class RestaurantBot extends ActivityHandler {
               this.userProfile.contextData = {};
               break;
             }
-            if (step === "awaiting_item") {
-              const itemNameInput = text;
-              if (!itemNameInput) {
-                reply =
-                  "❓ Please provide the name of the item you'd like to add.";
-                break;
-              }
-              const item = await getMenuItemByName(
-                itemNameInput,
-                this.userProfile.contextData.restaurant
-              );
-              if (!item) {
-                reply = `❌ Couldn't find **${itemNameInput}** at ${this.userProfile.contextData.restaurant}. Try again.`;
-                break;
-              }
-              this.userProfile.contextData = {
-                ...this.userProfile.contextData,
-                itemId: item.id,
-                itemName: item.name,
-                itemPrice: item.price,
-              };
-              this.userProfile.stateStack.step = "awaiting_quantity";
-              reply = `🍽️ You've selected **${item.name}**.\n\n👉 How many would you like to add?`;
-              break;
-            }
-            if (step === "awaiting_restaurant") {
-              const input = text;
-              if (!input) {
-                reply = "❓ Please provide the name of the restaurant.";
-                break;
-              }
-              const found = await getRestaurantByName(input);
-              if (!found) {
-                reply = `❌ Couldn't find any restaurant named "${input}". Try again.`;
-                break;
-              }
-              this.userProfile.contextData.restaurantName = found.name;
-              this.userProfile.stateStack.step = "awaiting_item";
-              reply = `🏪 Got it: **${found.name}**.\n\n👉 Now tell me what item you'd like to add.`;
-              break;
-            }
-            const finalRestaurant =
-              this.userProfile.contextData.restaurant ||
-              contextData.restaurantName;
+            const finalRestaurant = this.userProfile.contextData.restaurantName;
             const finalItemName =
               this.userProfile.contextData.itemName || contextData.menuItem;
             const quantity = parseInt(text);
@@ -248,7 +247,7 @@ class RestaurantBot extends ActivityHandler {
               break;
             }
             if (!finalItemName) {
-              this.userProfile.contextData.restaurant = finalRestaurant;
+              this.userProfile.contextData.restaurantName = finalRestaurant;
               this.userProfile.stateStack = { step: "awaiting_item" };
               reply = "🍽️ What item would you like to add?";
               break;
@@ -266,7 +265,7 @@ class RestaurantBot extends ActivityHandler {
               itemId: item.id,
               itemName: item.name,
               itemPrice: item.price,
-              restaurant: finalRestaurant,
+              restaurantName: finalRestaurant,
             };
             if (!quantity || quantity <= 0) {
               this.userProfile.stateStack = { step: "awaiting_quantity" };
@@ -279,7 +278,8 @@ class RestaurantBot extends ActivityHandler {
               itemName: item.name,
               quantity,
               price: item.price,
-              restaurant: finalRestaurant,
+              restaurantName: finalRestaurant,
+              restaurantId: this.userProfile.contextData.restaurantId,
             });
             const total = this.userProfile.cart.reduce(
               (sum, i) => sum + i.price * i.quantity,
@@ -384,7 +384,7 @@ class RestaurantBot extends ActivityHandler {
                 const itemTotal = item.price * item.quantity;
                 total += itemTotal;
                 cartText += `${index + 1}. **${item.itemName}** from _${
-                  item.restaurant
+                  item.restaurantName
                 }_\n`;
                 cartText += `   • ${item.quantity} × ₹${item.price} = ₹${itemTotal}\n\n`;
               });
@@ -554,6 +554,13 @@ class RestaurantBot extends ActivityHandler {
                 acc[diet].push(item);
                 return acc;
               }, {});
+              for (const item of menu) {
+                await setUserBehavior({
+                  userId: this.userProfile.userId,
+                  menuItemId: item.id,
+                  actionType: "view",
+                });
+              }
               reply = `🍽️ Menu for **${this.userProfile.contextData.restaurantName}**:\n\n`;
               for (const [dietType, items] of Object.entries(groupedMenu)) {
                 reply += `👑 ${dietType.toUpperCase()}:\n`;
@@ -575,6 +582,8 @@ class RestaurantBot extends ActivityHandler {
               "⚠️ An error occurred while retrieving the menu. Please try again later.";
           }
           this.userProfile.currentIntent = null;
+          this.userProfile.stateStack = null;
+          this.userProfile.contextData = {};
           await this.userProfileAccessor.set(context, this.userProfile);
           await this.conversationState.saveChanges(context);
           break;
@@ -804,7 +813,7 @@ class RestaurantBot extends ActivityHandler {
                   reply =
                     `⏳ Payment for order ${orderId} is still *pending*.\nWould you like to:\n\n` +
                     `• 💳 Try paying again?\n• ❌ Cancel this order?\n\n` +
-                    `Please type "pay" to try again or "cancel" to cancel the order.`;
+                    `Please type "yes" to try again or "no" to cancel the order.`;
                   this.userProfile.stateStack = {
                     step: "pending_payment_action",
                   };
@@ -814,7 +823,7 @@ class RestaurantBot extends ActivityHandler {
                   reply =
                     `⚠️ Payment for order ${orderId} has *failed*.\n\nWould you like to:\n` +
                     `• 💳 Try paying again?\n• ❌ Cancel this order?\n\n` +
-                    `Please type "pay" to retry or "cancel" to cancel the order.`;
+                    `Please type "yes" to retry or "no" to cancel the order.`;
                   this.userProfile.stateStack = {
                     step: "pending_payment_action",
                   };
@@ -827,12 +836,12 @@ class RestaurantBot extends ActivityHandler {
               break;
             }
             if (step === "pending_payment_action") {
-              if (text.includes("pay")) {
+              if (text.includes("yes")) {
                 reply = `💳 Let's retry the payment for Order ${this.userProfile.currentOrderId}. Please type "make payment" to continue.`;
-              } else if (text.includes("cancel")) {
+              } else if (text.includes("no")) {
                 reply = `❌ You've chosen to cancel order ${this.userProfile.currentOrderId}. Type "cancel order" to confirm.`;
               } else {
-                reply = `❓ Please respond with "pay" or "cancel" for order ${this.userProfile.currentOrderId}.`;
+                reply = `❓ Please respond with "yes" or "no" for order ${this.userProfile.currentOrderId}.`;
                 break;
               }
               this.userProfile.stateStack = null;
@@ -877,7 +886,7 @@ class RestaurantBot extends ActivityHandler {
                   (item, idx) =>
                     `\n\n${idx + 1}. ${item.quantity} x ${item.itemName} (₹${
                       item.price
-                    }) from ${item.restaurant}`
+                    }) from ${item.restaurantName}`
                 )
                 .join("\n");
               const totalAmount = this.userProfile.cart.reduce(
@@ -887,7 +896,7 @@ class RestaurantBot extends ActivityHandler {
               contextData.totalAmount = totalAmount;
               this.userProfile.contextData = contextData;
               this.userProfile.stateStack = {
-                step: "awaiting_order_confirmation",
+                step: "awaiting_delivery_method",
               };
               reply = `🧾 Your cart:\n${cartItems}\n\n💰 Total: ₹${totalAmount}\n\n👉 Would you prefer **delivery** or **takeaway**?`;
               break;
@@ -901,14 +910,14 @@ class RestaurantBot extends ActivityHandler {
                 this.userProfile.stateStack = {
                   step: "awaiting_order_confirmation",
                 };
-                reply = `🚚 You've chosen **${contextData.deliveryMethod}**.\n\n👉 Would you like to place this order?\nReply with "confirm" to place or "cancel" to abort.`;
+                reply = `🚚 You've chosen **${contextData.deliveryMethod}**.\n\n👉 Would you like to place this order?\nReply with "yes" to place or "no" to abort.`;
               } else {
                 reply = "❓ Please choose either **delivery** or **takeaway**.";
               }
               break;
             }
             if (step === "awaiting_order_confirmation") {
-              if (text.includes("confirm")) {
+              if (text.includes("yes")) {
                 const order = await createOrder(
                   this.userProfile.userId,
                   this.userProfile.cart
@@ -926,7 +935,15 @@ class RestaurantBot extends ActivityHandler {
                 this.userProfile.stateStack = {
                   step: "awaiting_payment",
                 };
-                reply = `✅ Order placed! Order ID: ${order.id}\n\n💳 Total payable: ₹${order.total_amount}\n\nType \"confirm\" to pay or \"cancel\" to exit.`;
+                reply = `✅ Order placed! Order ID: ${order.id}\n\n💳 Total payable: ₹${order.total_amount}\n\nType \"pay now\" to pay or \"cash on delivery\" to avail cash on delivery.`;
+                for (const item of this.userProfile.cart) {
+                  await setUserBehavior({
+                    userId: this.userProfile.userId,
+                    menuItemId: item.itemId,
+                    menuId: item.menuId,
+                    actionType: "order",
+                  });
+                }
                 break;
               } else {
                 reply =
@@ -938,11 +955,12 @@ class RestaurantBot extends ActivityHandler {
               }
             }
             if (step === "awaiting_payment") {
-              if (text.includes("confirm")) {
-                // Simulate successful payment & insert into DB
+              if (text.includes("confirm") || text.includes("pay now")) {
+                // Simulates "paid" payment
                 const success = await createPaymentOrder(
                   contextData.currentOrderId,
-                  contextData.totalAmount
+                  contextData.totalAmount,
+                  "paid"
                 );
                 if (success) {
                   reply = `✅ Payment successful for Order ID ${contextData.currentOrderId}. Thank you!\n\nWhat would you like to do next?`;
@@ -954,7 +972,26 @@ class RestaurantBot extends ActivityHandler {
                 this.userProfile.stateStack = null;
                 this.userProfile.contextData = {};
                 break;
+              } else if (text.includes("cash on delivery")) {
+                // Simulates "cash on delivery" payment
+                await createPaymentOrder(
+                  contextData.currentOrderId,
+                  contextData.totalAmount,
+                  "cash on delivery"
+                );
+                reply =
+                  "⏸️ Payment set for cash on delivery. What would you like to do next?";
+                this.userProfile.currentIntent = null;
+                this.userProfile.stateStack = null;
+                this.userProfile.contextData = {};
+                break;
               } else {
+                // Simulates "pending" payment
+                await createPaymentOrder(
+                  contextData.currentOrderId,
+                  contextData.totalAmount,
+                  "pending"
+                );
                 reply = "❌ Payment cancelled. What would you like to do next?";
                 this.userProfile.currentIntent = null;
                 this.userProfile.stateStack = null;
@@ -977,52 +1014,51 @@ class RestaurantBot extends ActivityHandler {
 
         // Recommendation ==>
         case "RecommendItem": {
-          console.log("RecommendItem");
           if (!this.userProfile?.userId) {
             reply =
               "❌ You're not logged in. Please log in to get recommendations.";
             break;
           }
-          // try {
-          //   if (!dietType && !this.userProfile.recommendationCategoryRequested) {
-          //     reply =
-          //       "🍳 What category or type of item would you like recommendations for? (e.g., pizza, pasta, drinks)";
-          //     this.userProfile.recommendationCategoryRequested = true;
-          //     break;
-          //   } else {
-          //     const categoryToUse =
-          //       category || this.userProfile.lastRequestedCategory;
-          //     const recommendations = await getRecommendedItems(categoryToUse);
-          //     if (!recommendations || recommendations.length === 0) {
-          //       reply = categoryToUse
-          //         ? `☹️ No recommendations available for "${categoryToUse}" right now. Would you like recommendations for another category?`
-          //         : "☹️ No recommendations available right now.";
-          //       delete this.userProfile.recommendationCategoryRequested;
-          //       delete this.userProfile.lastRequestedCategory;
-          //       break;
-          //     }
-          //     reply =
-          //       `🔥 Here are some recommendations for ${
-          //         categoryToUse || "you"
-          //       }:\n` +
-          //       recommendations
-          //         .map((item) => `• ${item.name} - ₹${item.price}`)
-          //         .join("\n") +
-          //       `\n\n👉 Would you like to:\n` +
-          //       "• 🛍️ Order one of these?\n" +
-          //       "• 👀 See recommendations for another category?\n" +
-          //       "• ❓ Ask for help?";
-          //     this.userProfile.lastRequestedCategory = categoryToUse;
-          //     delete this.userProfile.recommendationCategoryRequested;
-          //   }
-          // } catch (error) {
-          //   console.error("[RecommendItem Error]", error);
-          //   reply =
-          //     "⚠️ An error occurred while fetching recommendations. Please try again later.";
-          //   delete this.userProfile.recommendationCategoryRequested;
-          //   delete this.userProfile.lastRequestedCategory;
-          // }
-          // break;
+          const step = this.userProfile.stateStack?.step || "initial";
+          const contextData = this.userProfile.contextData || {};
+          try {
+            if (step === "initial") {
+              this.userProfile.stateStack = { step: "awaiting_category" };
+              reply =
+                "🍳 What type of item would you like recommendations for? (eg, pizza, pasta, drinks)";
+              break;
+            }
+            if (step === "awaiting_category") {
+              if (!text || !text.trim()) {
+                reply =
+                  "❓ Please provide a valid category or type (eg, pasta, burger, dessert).";
+                break;
+              }
+              const category = text.trim();
+              const recommendedItems = await getRecommendedItems(
+                this.userProfile.userId,
+                category
+              );
+              if (!recommendedItems || recommendedItems.length === 0) {
+                reply = `☹️ No recommendations available for "${category}" right now. Try a different category?`;
+                break;
+              }
+              reply =
+                `🔥 Here are some top picks for "${category}":` +
+                recommendedItems
+                  .map((item) => `\n\n• ${item.name} - ₹${item.price}`)
+                  .join("\n") +
+                `\n\n👉 Want to:\n\n• 🛍️ Order one of these?\n\n• 👀 See recommendations for another category?`;
+              this.userProfile.stateStack = null;
+              this.userProfile.contextData = {};
+            }
+          } catch (error) {
+            console.error("[RecommendItem Error]", error);
+            reply =
+              "⚠️ An error occurred while fetching recommendations. Please try again later.";
+            this.userProfile.stateStack = null;
+            this.userProfile.contextData = {};
+          }
           await this.userProfileAccessor.set(context, this.userProfile);
           await this.conversationState.saveChanges(context);
           break;
@@ -1037,8 +1073,8 @@ class RestaurantBot extends ActivityHandler {
           const contextData = this.userProfile.contextData || {};
           const step =
             this.userProfile.stateStack?.step || "awaiting_restaurant";
-          if (contextData.restaurantName && !contextData.restaurant) {
-            contextData.restaurant = contextData.restaurantName.trim();
+          if (contextData.restaurantName && !contextData.finalRestaurant) {
+            contextData.finalRestaurant = contextData.restaurantName;
           }
           if (
             contextData.partySize &&
@@ -1048,14 +1084,14 @@ class RestaurantBot extends ActivityHandler {
           }
           try {
             if (step === "awaiting_restaurant") {
-              if (!contextData.restaurant || !contextData.restaurant.trim()) {
+              if (!contextData.finalRestaurant || !contextData.restaurantName) {
                 this.userProfile.stateStack = { step: "awaiting_restaurant" };
                 reply =
                   "❓ Please provide the name of the restaurant you'd like to book.";
                 break;
               }
               this.userProfile.stateStack = { step: "awaiting_date" };
-              reply = `📍 You've selected **${contextData.restaurant}**.\n\n📅 Please provide the reservation date (YYYY-MM-DD):`;
+              reply = `📍 You've selected **${contextData.finalRestaurant}**.\n\n📅 Please provide the reservation date (YYYY-MM-DD):`;
               break;
             }
             if (step === "awaiting_date") {
@@ -1070,7 +1106,7 @@ class RestaurantBot extends ActivityHandler {
               }
               this.userProfile.stateStack = { step: "awaiting_time" };
               reply =
-                "⏰ Thanks! Now, what time would you like to book (e.g., 18:30)?";
+                "⏰ Thanks! Now, what time would you like to book (eg, 18:30)?";
               break;
             }
             if (step === "awaiting_time") {
@@ -1095,7 +1131,7 @@ class RestaurantBot extends ActivityHandler {
               }
               this.userProfile.stateStack = { step: "awaiting_notes" };
               reply =
-                '📝 Would you like to add any special requests (e.g., window seat, allergy info)? If not, type "no".';
+                '📝 Would you like to add any special requests (eg, window seat, allergy info)? If not, type "no".';
               break;
             }
             if (step === "awaiting_notes") {
@@ -1103,26 +1139,28 @@ class RestaurantBot extends ActivityHandler {
                 text && text.toLowerCase() !== "no" ? text : "";
               this.userProfile.stateStack = { step: "confirming_booking" };
               reply =
-                `✅ ${contextData.restaurant} has availability on ${contextData.date} at ${contextData.time} for ${contextData.partySize} people.` +
+                `✅ ${contextData.finalRestaurant} has availability on ${contextData.date} at ${contextData.time} for ${contextData.partySize} people.` +
                 (contextData.notes
                   ? `\n\n📝 Special Request: "${contextData.notes}"`
                   : "") +
-                `\n\n👉 Type "confirm" to book or "cancel table" to abort.`;
+                `\n\n👉 Type "yes" to book or "no" to abort.`;
               break;
             }
             if (step === "confirming_booking") {
-              if (text.includes("confirm")) {
-                const { restaurant, partySize, date, time } = contextData;
+              if (text.includes("yes")) {
+                const { finalRestaurant, partySize, date, time } = contextData;
                 const success = await makeReservation(
                   this.userProfile.userId,
-                  restaurant,
+                  finalRestaurant,
                   partySize,
                   date,
                   time,
                   notes || null
                 );
                 if (success) {
-                  reply = `✅ Your table at **${restaurant}** for ${partySize} has been booked on ${date} at ${time}!` + (notes ? `\n📝 Special Request noted: "${notes}"` : "");
+                  reply =
+                    `✅ Your table at **${finalRestaurant}** for ${partySize} has been booked on ${date} at ${time}!` +
+                    (notes ? `\n📝 Special Request noted: "${notes}"` : "");
                 } else {
                   reply = `❌ Could not complete the booking. It might no longer be available. Try a different time or restaurant.`;
                 }
@@ -1285,7 +1323,7 @@ class RestaurantBot extends ActivityHandler {
               }
               contextData.newDate = text;
               this.userProfile.stateStack.step = "awaiting_new_time";
-              reply = "⏰ Thanks! Now, what is the new time (e.g., 18:30)?";
+              reply = "⏰ Thanks! Now, what is the new time (eg, 18:30)?";
               break;
             }
             if (step === "awaiting_new_time") {
@@ -1306,11 +1344,11 @@ class RestaurantBot extends ActivityHandler {
               }
               contextData.newPartySize = partySize;
               this.userProfile.stateStack.step = "confirming_modification";
-              reply = `✅ You're about to modify reservation ${contextData.reservationId}:\n\n📅 Date: ${contextData.newDate}\n\n⏰ Time: ${contextData.newTime}\n\n👥 Party Size: ${partySize}\n\n👉 Reply "confirm" to confirm or "cancel" to abort.`;
+              reply = `✅ You're about to modify reservation ${contextData.reservationId}:\n\n📅 Date: ${contextData.newDate}\n\n⏰ Time: ${contextData.newTime}\n\n👥 Party Size: ${partySize}\n\n👉 Reply "yes" to confirm or "no" to abort.`;
               break;
             }
             if (step === "confirming_modification") {
-              if (text.includes("confirm")) {
+              if (text.includes("yes")) {
                 const { reservationId, newDate, newTime, newPartySize } =
                   contextData;
                 const success = await modifyReservation(
@@ -1498,6 +1536,9 @@ class RestaurantBot extends ActivityHandler {
             reply =
               "⚠️ An error occurred while searching for restaurants. Please try again later.";
           }
+          this.userProfile.currentIntent = null;
+          this.userProfile.stateStack = null;
+          this.userProfile.contextData = {};
           await this.userProfileAccessor.set(context, this.userProfile);
           await this.conversationState.saveChanges(context);
           break;
@@ -1574,6 +1615,11 @@ class RestaurantBot extends ActivityHandler {
       }
       case "login_email": {
         if (isValidEmail(lcText)) this.userProfile.email = lcText;
+        else {
+          await context.sendActivity("❌ Not a valid email.");
+          await context.sendActivity("📧 Please enter your email:");
+          break;
+        }
         this.userProfile.stateStack.step = "login_password";
         await context.sendActivity("🔐 Please enter your password:");
         break;
