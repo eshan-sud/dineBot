@@ -39,16 +39,16 @@ CREATE TABLE restaurants (
 );
 
 -- Reviews
-CREATE TABLE reviews (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
-    restaurant_id INT,
-    rating INT CHECK (rating BETWEEN 1 AND 5),
-    comment TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (restaurant_id) REFERENCES restaurants(id) ON DELETE CASCADE
-);
+-- CREATE TABLE reviews (
+--     id INT AUTO_INCREMENT PRIMARY KEY,
+--     user_id INT,
+--     restaurant_id INT,
+--     rating INT CHECK (rating BETWEEN 1 AND 5),
+--     comment TEXT,
+--     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+--     FOREIGN KEY (restaurant_id) REFERENCES restaurants(id) ON DELETE CASCADE
+-- );
 
 -- Menus
 CREATE TABLE menus (
@@ -56,6 +56,7 @@ CREATE TABLE menus (
     restaurant_id INT,
     name VARCHAR(100),
     description TEXT,
+    image_path VARCHAR(255),
     FOREIGN KEY (restaurant_id) REFERENCES restaurants(id) ON DELETE CASCADE
 );
 
@@ -78,16 +79,16 @@ CREATE TABLE item_images (
 );
 
 -- Item Reviews
-CREATE TABLE item_reviews (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
-    menu_item_id INT,
-    rating INT CHECK (rating BETWEEN 1 AND 5),
-    comment TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (menu_item_id) REFERENCES menu_items(id) ON DELETE CASCADE
-);
+-- CREATE TABLE item_reviews (
+--     id INT AUTO_INCREMENT PRIMARY KEY,
+--     user_id INT,
+--     menu_item_id INT,
+--     rating INT CHECK (rating BETWEEN 1 AND 5),
+--     comment TEXT,
+--     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+--     FOREIGN KEY (menu_item_id) REFERENCES menu_items(id) ON DELETE CASCADE
+-- );
 
 -- Reservations
 CREATE TABLE reservations (
@@ -301,10 +302,10 @@ VALUES
   ('Curry Corner', 2, 2, '0-200', 4.0);
 
 -- Menus
-INSERT INTO menus (restaurant_id, name, description)
+INSERT INTO menus (restaurant_id, name, description, image_path)
 VALUES
-  (1, 'Main Menu', 'Delicious pizzas and pastas'),
-  (2, 'Daily Specials', 'Authentic Indian dishes');
+  (1, 'Main Menu', 'Delicious pizzas and pastas', 'images/menu_pizza_palace.jpg'),
+  (2, 'Daily Specials', 'Authentic Indian dishes', 'images/menu_pizza_palace.jpg');
 
 -- Menu Items
 INSERT INTO menu_items (menu_id, name, description, price)
@@ -317,20 +318,20 @@ VALUES
 -- Item Images
 INSERT INTO item_images (menu_item_id, image_url)
 VALUES
-  (1, 'http://example.com/images/margherita.jpg'),
-  (2, 'http://example.com/images/alfredo.jpg');
+  (1, 'margherita.jpg'),
+  (2, 'alfredo.jpg');
 
 -- Reviews
-INSERT INTO reviews (user_id, restaurant_id, rating, comment)
-VALUES
-  (1, 1, 5, 'Amazing pizza!'),
-  (2, 2, 4, 'Good food, but service was slow');
+-- INSERT INTO reviews (user_id, restaurant_id, rating, comment)
+-- VALUES
+--   (1, 1, 5, 'Amazing pizza!'),
+--   (2, 2, 4, 'Good food, but service was slow');
 
 -- Item Reviews
-INSERT INTO item_reviews (user_id, menu_item_id, rating, comment)
-VALUES
-  (1, 1, 5, 'Perfectly cheesy!'),
-  (2, 3, 4, 'Spicy and flavorful');
+-- INSERT INTO item_reviews (user_id, menu_item_id, rating, comment)
+-- VALUES
+--   (1, 1, 5, 'Perfectly cheesy!'),
+--   (2, 3, 4, 'Spicy and flavorful');
 
 -- Reservations
 INSERT INTO reservations (user_id, restaurant_id, reservation_date, reservation_time, party_size, notes)
@@ -338,9 +339,9 @@ VALUES
   (1, 1, '2025-06-10', '19:30:00', 2, 'Window seat preferred');
 
 -- Orders
-INSERT INTO orders (user_id, restaurant_id, status, total_amount)
+INSERT INTO orders (user_id, restaurant_id, order_status, total_amount)
 VALUES
-  (2, 2, 'delivered', 248.00);
+  (1, 2, 'delivered', 248.00);
 
 -- Order Items
 INSERT INTO order_items (order_id, menu_item_id, quantity)
@@ -352,4 +353,4 @@ VALUES
 INSERT INTO user_behavior (user_id, restaurant_id, menu_item_id, action_type)
 VALUES
   (1, 1, 1, 'view'),
-  (2, 2, 3, 'order');
+  (1, 2, 3, 'order');

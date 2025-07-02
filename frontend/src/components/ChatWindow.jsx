@@ -7,6 +7,9 @@ import ChatInput from "./ChatInput";
 import ChatHeader from "./ChatHeader";
 
 const ChatWindow = () => {
+  const [messageHistory, setMessageHistory] = useState([]);
+  const [historyIndex, setHistoryIndex] = useState(-1);
+  const [input, setInput] = useState("");
   const [userId, setUserId] = useState(
     localStorage.getItem("userId") || "guest"
   );
@@ -26,18 +29,69 @@ const ChatWindow = () => {
   const chatRef = useRef(null);
   const navigate = useNavigate();
 
+  const tryRefreshToken = async () => {
+    const refreshToken = localStorage.getItem("refreshToken");
+    if (!refreshToken) return null;
+    try {
+      let res = await fetch(
+        `${process.env.REACT_APP_AZURE_BACKEND_API}/auth/refresh-token`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ refreshToken }),
+        }
+      );
+      const data = await res.json();
+      if (res.ok && data.token) {
+        localStorage.setItem("token", data.token);
+        if (data.refreshToken) {
+          localStorage.setItem("refreshToken", data.refreshToken);
+        }
+        return data.token;
+      }
+    } catch (error) {
+      console.error("[tryRefreshToken Error]", error);
+    }
+    return null;
+  };
+
   const logoutUser = async () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("userId");
+    localStorage.clear();
     sessionStorage.clear();
     setUserId("guest");
     setAuthState({ mode: null, step: null, email: "", password: "", name: "" });
+  };
+
+  const handleKeyNavigate = (key) => {
+    if (key === "ArrowUp") {
+      if (
+        messageHistory.length > 0 &&
+        historyIndex < messageHistory.length - 1
+      ) {
+        const newIndex = historyIndex + 1;
+        setHistoryIndex(newIndex);
+        setInput(messageHistory[messageHistory.length - 1 - newIndex]);
+      }
+    } else if (key === "ArrowDown") {
+      if (historyIndex > 0) {
+        const newIndex = historyIndex - 1;
+        setHistoryIndex(newIndex);
+        setInput(messageHistory[messageHistory.length - 1 - newIndex]);
+      } else {
+        setHistoryIndex(-1);
+        setInput("");
+      }
+    }
   };
 
   const handleSend = async (text) => {
     const userMsg = { sender: "user", text };
     setMessages((prev) => [...prev, userMsg]);
     const lowerText = text.toLowerCase().trim();
+    if (text.trim() !== "") {
+      setMessageHistory((prev) => [...prev, text]);
+      setHistoryIndex(-1); // Reset index after every new send
+    }
     if (userId === "guest") {
       if (!authState.mode) {
         if (lowerText === "login" || lowerText === "signup") {
@@ -85,7 +139,7 @@ const ChatWindow = () => {
           ? { name: authState.name, email: authState.email, password: text }
           : { email: authState.email, password: text };
         try {
-          const res = await fetch(
+          let res = await fetch(
             `${process.env.REACT_APP_AZURE_BACKEND_API}/auth/${authState.mode}`,
             {
               method: "POST",
@@ -96,6 +150,7 @@ const ChatWindow = () => {
           const data = await res.json();
           if (res.ok && data.token && data.userId) {
             localStorage.setItem("token", data.token);
+            localStorage.setItem("refreshToken", data.refreshToken);
             localStorage.setItem("userId", data.userId);
             setUserId(data.userId);
             setAuthState({
@@ -146,9 +201,8 @@ const ChatWindow = () => {
         return;
       }
     }
-
     // Block access if not logged in
-    const token = localStorage.getItem("token");
+    let token = localStorage.getItem("token");
     if (!token || userId === "guest") {
       setMessages((prev) => [
         ...prev,
@@ -159,32 +213,75 @@ const ChatWindow = () => {
       ]);
       return;
     }
-
     // Call backend API
     try {
-      const token = localStorage.getItem("token");
-      const res = await fetch(
-        `${process.env.REACT_APP_AZURE_BACKEND_API}/bot/`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            authorization: token,
-          },
-          body: JSON.stringify({ text, userId }),
+      let res = await fetch(`${process.env.REACT_APP_AZURE_BACKEND_API}/bot/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: token,
+        },
+        body: JSON.stringify({ text, userId }),
+      });
+      if (res.status === 401) {
+        const newToken = await tryRefreshToken();
+        if (newToken) {
+          token = newToken;
+          localStorage.setItem("token", newToken);
+          res = await fetch(`${process.env.REACT_APP_AZURE_BACKEND_API}/bot/`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              authorization: token,
+            },
+            body: JSON.stringify({ text, userId }),
+          });
+          if (res.status === 401) {
+            logoutUser();
+            return setMessages((prev) => [
+              ...prev,
+              {
+                sender: "bot",
+                text: "🔒 Session expired. Please login again.",
+              },
+            ]);
+          }
+        } else {
+          logoutUser();
+          return setMessages((prev) => [
+            ...prev,
+            { sender: "bot", text: "🔒 Session expired. Please login again." },
+          ]);
         }
-      );
+      }
       const data = await res.json();
-      if (data.reply.includes("logged out")) logoutUser();
+      if (typeof data.reply === "string" && data.reply.includes("logged out"))
+        logoutUser();
       if (data.userId && data.userId !== "guest") {
         // Update stored userId only after successful login/signup
         setUserId(data.userId);
         localStorage.setItem("userId", data.userId);
       }
-      const botMsg = { sender: "bot", text: data.reply };
-      setMessages((prev) => [...prev, botMsg]);
-    } catch (err) {
-      console.error("Bot error:", err);
+      if (Array.isArray(data.replies)) {
+        const botMsgs = data.replies.map((r) =>
+          r.type === "text"
+            ? { sender: "bot", text: r.text }
+            : {
+                sender: "bot",
+                card: {
+                  title: r.title,
+                  text: r.text,
+                  images: r.images,
+                },
+              }
+        );
+        setMessages((prev) => [...prev, ...botMsgs]);
+      } else if (typeof data.reply === "string") {
+        // Fallback for older single-message format
+        setMessages((prev) => [...prev, { sender: "bot", text: data.reply }]);
+      }
+    } catch (error) {
+      console.error("[Bot Error]", error);
       setMessages((prev) => [
         ...prev,
         { sender: "bot", text: "⚠️ Error connecting to server." },
@@ -207,11 +304,21 @@ const ChatWindow = () => {
       />
       <div className="flex-1 overflow-y-auto p-4 space-y-2">
         {messages.map((msg, index) => (
-          <ChatBubble key={index} sender={msg.sender} text={msg.text} />
+          <ChatBubble
+            key={index}
+            sender={msg.sender}
+            text={msg.text}
+            card={msg.card}
+          />
         ))}
         <div ref={chatRef} />
       </div>
-      <ChatInput onSend={handleSend} />
+      <ChatInput
+        onSend={handleSend}
+        input={input}
+        setInput={setInput}
+        onKeyNavigate={handleKeyNavigate}
+      />
     </div>
   );
 };

@@ -48,7 +48,7 @@ router.post("/", authenticateToken, async (req, res) => {
     if (!text || !userId) {
       return res.status(400).json({ reply: "Invalid input." });
     }
-    let responseText = "🤖 ...";
+    let botResponses = [];
     const context = new TurnContext(
       { sendActivities: async () => [] },
       {
@@ -62,7 +62,22 @@ router.post("/", authenticateToken, async (req, res) => {
       }
     );
     context.sendActivity = async (message) => {
-      responseText = typeof message === "string" ? message : message.text;
+      if (typeof message === "string") {
+        botResponses.push({ type: "text", text: message });
+      } else if (typeof message === "object") {
+        if (message.text) {
+          botResponses.push({ type: "text", text: message.text });
+        }
+        if (message.attachments?.length) {
+          const attachment = message.attachments[0];
+          botResponses.push({
+            type: "card",
+            title: attachment.content?.title || "",
+            text: attachment.content?.text || "",
+            images: attachment.content?.images || [],
+          });
+        }
+      }
       if (bot.userProfile?.isAuthenticated && bot.userProfile?.userId) {
         res.setHeader("x-user-id", bot.userProfile.userId);
       }
@@ -80,7 +95,7 @@ router.post("/", authenticateToken, async (req, res) => {
     await bot.conversationState.saveChanges(context);
     // Run the bot logic manually
     await bot.run(context);
-    return res.json({ reply: responseText });
+    return res.json({ replies: botResponses });
   } catch (error) {
     console.error("[REST Message Error]", error);
     return res

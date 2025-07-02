@@ -10,18 +10,45 @@ const getMenuByRestaurantName = async (restaurantName) => {
     );
     if (!restaurants.length) return null;
     const restaurantId = restaurants[0].id;
-    const [menuItems] = await pool.query(
-      `SELECT mi.id, mi.name, mi.description, mi.price,
-            IFNULL(AVG(ir.rating), 0) AS avg_rating,
-            COUNT(ir.id) AS review_count
-       FROM menu_items mi
-       LEFT JOIN item_reviews ir ON mi.id = ir.menu_item_id
-       JOIN menus m ON mi.menu_id = m.id
+    const [[menuMeta]] = await pool.query(
+      `SELECT m.id, m.name, m.description, m.image_path
+       FROM menus m
        WHERE m.restaurant_id = ?
-       GROUP BY mi.id`,
+       LIMIT 1`,
       [restaurantId]
     );
-    return menuItems;
+    const [menuItems] = await pool.query(
+      // TOFO-FUTURE : Send menu item images too
+      // `SELECT
+      //    mi.id,
+      //    mi.name,
+      //    mi.description,
+      //    mi.price,
+      //    IFNULL(AVG(ir.rating), 0) AS avg_rating,
+      //    COUNT(ir.id) AS review_count,
+      //    ii.image_url
+      //  FROM menu_items mi
+      //  LEFT JOIN item_reviews ir ON mi.id = ir.menu_item_id
+      //  LEFT JOIN item_images ii ON mi.id = ii.menu_item_id
+      //  WHERE mi.menu_id = ?
+      //  GROUP BY mi.id`,
+      `SELECT 
+         mi.id, 
+         mi.name, 
+         mi.description, 
+         mi.price,
+         IFNULL(AVG(ir.rating), 0) AS avg_rating,
+         COUNT(ir.id) AS review_count
+       FROM menu_items mi
+       LEFT JOIN item_reviews ir ON mi.id = ir.menu_item_id
+       WHERE mi.menu_id = ?
+       GROUP BY mi.id, mi.name, mi.description, mi.price`,
+      [menuMeta.id]
+    );
+    return {
+      menu: menuMeta,
+      items: menuItems,
+    };
   } catch (error) {
     console.error("[getMenuByRestaurantName Error]", error);
     return null;

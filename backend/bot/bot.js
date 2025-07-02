@@ -162,7 +162,7 @@ class RestaurantBot extends ActivityHandler {
 
       // Proceed to intent-specific flow
       switch (this.userProfile.currentIntent) {
-        // Cart ==>                                                                          [DONE]
+        // Cart
         case "AddToCart": {
           if (!this.userProfile?.userId) {
             reply =
@@ -513,7 +513,7 @@ class RestaurantBot extends ActivityHandler {
           break;
         }
 
-        // Extra ==> [Stateless Intents]                                                     [Done]
+        // Extra
         case "None": {
           if (!this.userProfile.currentIntent) {
             // No intent in progress
@@ -541,7 +541,7 @@ class RestaurantBot extends ActivityHandler {
           break;
         }
 
-        // Menu ==>                                                                          [Done]
+        // Menu
         case "ShowMenu": {
           if (!this.userProfile.contextData.restaurantName) {
             reply =
@@ -549,39 +549,63 @@ class RestaurantBot extends ActivityHandler {
             break;
           }
           try {
-            const menu = await getMenuByRestaurantName(
+            const result = await getMenuByRestaurantName(
               this.userProfile.contextData.restaurantName
             );
-            if (!menu || menu.length === 0) {
+            if (!result || !result.items || result.items.length === 0) {
               reply = `😔 Sorry, I couldn't find a menu for "${this.userProfile.contextData.restaurantName}". Try another restaurant?`;
-            } else {
-              const groupedMenu = menu.reduce((acc, item) => {
-                const diet = item.dietType || "Other";
-                if (!acc[diet]) acc[diet] = [];
-                acc[diet].push(item);
-                return acc;
-              }, {});
-              for (const item of menu) {
-                await setUserBehavior({
-                  userId: this.userProfile.userId,
-                  menuItemId: item.id,
-                  actionType: "view",
-                });
-              }
-              reply = `🍽️ Menu for **${this.userProfile.contextData.restaurantName}**:\n\n`;
-              for (const [dietType, items] of Object.entries(groupedMenu)) {
-                reply += `👑 ${dietType.toUpperCase()}:\n`;
-                reply += items
-                  .map(
-                    (i) =>
-                      `\n\n• ${i.name} — ₹${i.price}` +
-                      (i.description ? `\n  💡 ${i.description}` : "")
-                  )
-                  .join("\n");
-                reply += "\n\n";
-              }
-              reply +=
-                "👉 Would you like to:\n\n• 🛍️ Add an item to your cart\n\n• 📋 View another menu\n\n• 🗓️ Reserve a table?";
+              await context.sendActivity(reply);
+              break;
+            }
+            const { menu, items } = result;
+            // Group by dietType if available
+            const groupedMenu = items.reduce((acc, item) => {
+              const diet = item.dietType || "Other";
+              if (!acc[diet]) acc[diet] = [];
+              acc[diet].push(item);
+              return acc;
+            }, {});
+            // Record behavior
+            for (const item of items) {
+              await setUserBehavior({
+                userId: this.userProfile.userId,
+                menuItemId: item.id,
+                actionType: "view",
+              });
+            }
+            // Menu heading
+            let reply = `🍽️ **${menu.name}** at **${this.userProfile.contextData.restaurantName}**:\n\n`;
+            for (const [dietType, groupItems] of Object.entries(groupedMenu)) {
+              reply += `👑 ${dietType.toUpperCase()}:\n`;
+              reply += groupItems
+                .map(
+                  (i) =>
+                    `\n\n• ${i.name} — ₹${i.price}` +
+                    (i.description ? `\n  💡 ${i.description}` : "")
+                )
+                .join("\n");
+            }
+            reply +=
+              "\n\n👉 Would you like to:\n\n• 🛍️ Add an item to your cart\n\n• 📋 View another menu\n\n• 🗓️ Reserve a table?";
+            await context.sendActivity(reply);
+            // Send each item with image if available
+            if (menu.image_path) {
+              await context.sendActivity({
+                attachments: [
+                  {
+                    contentType: "application/vnd.microsoft.card.hero",
+                    content: {
+                      title: `Menu: ${menu.name}`,
+                      text: menu.description || "",
+                      images: [
+                        {
+                          url: `${process.env.BASE_URL}/${menu.image_path}`,
+                        },
+                      ],
+                    },
+                  },
+                ],
+              });
             }
           } catch (error) {
             console.error("[ShowMenu Error]", error);
@@ -596,7 +620,7 @@ class RestaurantBot extends ActivityHandler {
           break;
         }
 
-        // Order ==>
+        // Order
         case "CheckOrderStatus": {
           if (!this.userProfile?.userId) {
             reply =
@@ -787,7 +811,7 @@ class RestaurantBot extends ActivityHandler {
           break;
         }
 
-        // Payment ==>                                                                       [DONE]
+        // Payment
         case "CheckPaymentStatus": {
           if (!this.userProfile?.userId) {
             reply =
@@ -1019,7 +1043,7 @@ class RestaurantBot extends ActivityHandler {
           break;
         }
 
-        // Recommendation ==>
+        // Recommendation
         case "RecommendItem": {
           if (!this.userProfile?.userId) {
             reply =
@@ -1071,7 +1095,7 @@ class RestaurantBot extends ActivityHandler {
           break;
         }
 
-        // Reservations ==>                                                                  [DONE]
+        // Reservations
         case "MakeReservation": {
           if (!this.userProfile?.userId) {
             reply = "❌ You're not logged in. Please log in to book a table.";
@@ -1423,7 +1447,7 @@ class RestaurantBot extends ActivityHandler {
           break;
         }
 
-        // Restaurant ==>                                                                    [DONE]
+        // Restaurant
         case "SearchRestaurant": {
           try {
             // Check for keyword: "all restaurants"
@@ -1592,7 +1616,7 @@ class RestaurantBot extends ActivityHandler {
           await this.userProfileAccessor.set(context, userProfile);
           await this.conversationState.saveChanges(context);
           await context.sendActivity(
-            '👋 Welcome to the DineBot 👋\n\nPlease type:\n\n👉 "login" to sign in\n\n👉 "signup" to register\n'
+            '👋 Welcome to the DineBot\n\nPlease type:\n\n👉 "login" to sign in\n\n👉 "signup" to register\n'
           );
         }
       }

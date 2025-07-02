@@ -54,17 +54,19 @@ This handy restaurant bot simplifies your dining experience. It helps you find r
   - [x] Initialise Node.js Project
   - [x] Connect Node.js to MySQL (using mysql2)
   - [x] Basic User Authentication
+  - [x] User Auth using Bot
+  - [x] Persistent User Profile for each unique session
+  - [x] Make the bot conversationally stateful (creating a bias b/w each conversation thread from the intial indentified intent)
+    <!-- TODO-FUTURE - [] Add buttons instead of purely text-based -->
+    <!-- TODO-FUTURE - [] Add extra qualifying text to intents with multiple paths (EditCart, ModifyReservation, RemoveFromCart, CheckPaymentStatus) -->
+
+- [x] Model Training
+
   - [x] Setup Azure CLU service
   - [x] Implement intents, entities, & training utterances
   - [x] Train CLU model
   - [x] Deploy CLU service
   - [x] Integrate CLU service to bot
-  - [x] User Auth using Bot
-  - [x] Persistent User Profile for each unique session
-  - [x] Implement Intents
-    - [x] None (or FallbackIntent)
-    - [x] GeneralGreeting
-  - [x] Make the bot conversationally stateful (creating a sort of bias b/w each conversation thread from the intially indentified intent)
 
 - [x] Backend
 
@@ -74,6 +76,9 @@ This handy restaurant bot simplifies your dining experience. It helps you find r
     - [x] Rate Limiting
     - [x] Delay spamming queries
     - [x] Use parametrised SQL queries
+    - [x] Implement Intents
+      - [x] None (or FallbackIntent)
+      - [x] GeneralGreeting
 
   - [x] Restaurant
     - [x] Design MySQL relations (restaurants, locations, cuisines, reviews)
@@ -160,14 +165,16 @@ This handy restaurant bot simplifies your dining experience. It helps you find r
   - [x] Home: Home page of the application
   - [x] NotFound: Fallack for undefined addresses
   - [x] RestaurantBotCard: Selection of restaurant chatbot on home page
-  - [x] ChatWindow: Chat container for messaging UI.
   - [x] ChatHeader: Bot name, status indicator
   - [x] ChatBubbles: Bubbles from either side's messages
+  - [x] ChatWindow: Chat container for messaging UI.
+    - [x] Implement up & down arrows to cycle through messages
+  - [x] Refresh Token funcitonality
     <!-- TODOFUTURE - [] RestaurantList: Displays list of restaurants (name, rating, cuisine, price range) -->
     <!-- TODOFUTURE - [] RestaurantCard: Individual restaurant item with basic info and thumbnail -->
     <!-- TODOFUTURE - [] LocationFilter: Filter restaurants by city/area -->
     <!-- TODOFUTURE - [] CuisineFilter: Filter restaurants by cuisine types -->
-    <!-- TODOFUTURE - [] RestaurantDetails: Detailed info page/modal for a selected restaurant (address, reviews, menu link) -->
+    <!-- TODOFUTURE - [] RestaurantDetails: Detailed info page/modal for a selected restaurant address, reviews, menu link) -->
     <!-- TODOFUTURE - [] MenuList: -->
     <!-- TODOFUTURE - [] MenuItemCard: -->
 
