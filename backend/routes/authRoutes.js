@@ -1,10 +1,13 @@
-// // backend/routes/authRoutes.js
+// backend/routes/authRoutes.js
 
-// const express = require("express");
-// const router = express.Router();
-// const authController = require("../controllers/authController");
+const express = require("express");
+const router = express.Router();
+const {
+  loginHandler,
+  signupHandler,
+} = require("../controllers/authController");
 
-// router.post("/signup", authController.signup);
-// router.post("/login", authController.login);
+router.post("/login", loginHandler);
+router.post("/signup", signupHandler);
 
-// module.exports = router;
+module.exports = router;

@@ -17,7 +17,9 @@ restaurant-bot-backend/
 │   ├── database/
 │   │   └── queries.sql
 │   ├── middlewares/
-│   │   └── errorHandler.js
+│   │   ├── errorHandler.js
+│   │   ├── rateLimiter.js
+│   │   └── slowDown.js
 │   ├── models/
 │   │   ├── authModel.js
 │   │   ├── menuModel.js
@@ -29,8 +31,9 @@ restaurant-bot-backend/
 │   │   │   └── 
 │   │   └── 
 │   ├── routes/
+│   │   ├── authRoutes.js
 │   │   └── botRoutes.js
-│   ├── utils/utils.js (tokens/hashing)
+│   ├── utility/utils.js
 │   ├── .env
 │   ├── appp.js
 │   ├── package.json

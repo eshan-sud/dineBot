@@ -1,4 +1,4 @@
-// backend/utils/utils.js
+// backend/utility/utils.js
 
 const convertTo24Hour = (timeStr) => {
   const [time, modifier] = timeStr.toLowerCase().split(/(am|pm)/);

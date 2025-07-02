@@ -2,24 +2,22 @@
 
 const express = require("express");
 const cors = require("cors");
-// const authRoutes = require("./routes/authRoutes");
-// const restaurantRoutes = require("./routes/restaurantRoutes");
-// const menuRoutes = require("./routes/menuRoutes");
-const botRoutes = require("./routes/botRoutes");
 const errorHandler = require("./middlewares/errorHandler");
+const rateLimiter = require("./middlewares/rateLimiter");
+const speedLimiter = require("./middlewares/speedLimiter");
+
+const authRoutes = require("./routes/authRoutes");
+const botRoutes = require("./routes/botRoutes");
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 app.use(errorHandler);
+app.use(rateLimiter);
+app.use(speedLimiter);
 
-// app.use("/api/test", testRoute); // -- Testing --
-// app.use("/api/auth", authRoutes); // User Authentication
-// app.use("/api/restaurants", restaurantRoutes); // Restaurant
-// app.use("/api/menu", menuRoutes); // Menu
-// app.use("/api/reservations", reservationsRoutes); // Reservations
-// app.use("/api/orders", ordersRoutes); // Orders
+app.use("/api/auth", authRoutes); // User Authentication
 app.use("/api/bot", botRoutes); // Bot
 
 module.exports = app;

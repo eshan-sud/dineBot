@@ -66,89 +66,117 @@ This handy restaurant bot simplifies your dining experience. It helps you find r
     - [x] GeneralGreeting
   - [x] Make the bot conversationally stateful (creating a sort of bias b/w each conversation thread from the intially indentified intent)
 
-- [x] Restaurant
+- [x] Backend
 
-  - [x] Design MySQL relations (restaurants, locations, cuisines, reviews)
-  - [x] Implement basic restraunt discovery using user inputs
-  - [x] Implement all restraunt discovery (eg, "Show all restaurants")
-  - [x] Implement location based discovery using user input (eg, "Chinese food near me")
-  - [x] Restaurant search based on
-    - [x] Restaurant Name
-    - [x] Cuisine
-    - [x] Location or City
-    - [x] Price range
-    - [x] Rating
-  - [x] Implement Intents
-    - [x] SearchRestaurant
+  - [x] Basic Security
 
-- [x] Menu
+    - [x] Hashing & Salting
+    - [x] Rate Limiting
+    - [x] Delay spamming queries
+    - [x] Use parametrised SQL queries
 
-  - [x] Create MySQL relations (menus, menu_items, item_images, item_reviews)
-  - [x] Display Menu description, image, price, user ratings
-  - [x] Implement Intents
-    - [x] ShowMenu
+  - [x] Restaurant
+    - [x] Design MySQL relations (restaurants, locations, cuisines, reviews)
+    - [x] Implement basic restraunt discovery using user inputs
+    - [x] Implement all restraunt discovery (eg, "Show all restaurants")
+    - [x] Implement location based discovery using user input (eg, "Chinese food near me")
+    - [x] Restaurant search based on
+      - [x] Restaurant Name
+      - [x] Cuisine
+      - [x] Location or City
+      - [x] Price range
+      - [x] Rating
+    - [x] Implement Intents
+      - [x] SearchRestaurant
+  - [x] Menu
 
-- [x] Reservation
+    - [x] Create MySQL relations (menus, menu_items, item_images, item_reviews)
+    - [x] Display Menu description, image, price, user ratings
+    - [x] Implement Intents
+      - [x] ShowMenu
 
-  - [x] Create MySQL relation (reservation)
-  - [x] Implement Intents
-    - [x] MakeReservation
-    - [x] CancelReservation
-    - [x] ModifyReservation
-    - [x] ShowReservations
+  - [x] Reservation
 
-- [x] Orders
+    - [x] Create MySQL relation (reservation)
+    - [x] Implement Intents
+      - [x] MakeReservation
+      - [x] CancelReservation
+      - [x] ModifyReservation
+      - [x] ShowReservations
 
-  - [x] Create MySQL relation (orders)
-  - [x] Implement Intents
-    - [x] CancelOrder
-    - [x] CheckOrderStatus
+  - [x] Orders
 
-- [x] Cart
+    - [x] Create MySQL relation (orders)
+    - [x] Implement Intents
+      - [x] CancelOrder
+      - [x] CheckOrderStatus
 
-  - [x] Implement memory for conversation
-  - [x] Implement Intents
-    - [x] AddToCart
-    - [x] RemoveFromCart
-    - [x] ViewCart
-    - [x] EditCart
-    - [x] ClearCart
-    <!-- TODO-FUTURE - [] Store pending cart in Database (order status as 'pending') -->
+  - [x] Cart
 
-- [x] Payment
+    - [x] Implement memory for conversation
+    - [x] Implement Intents
+      - [x] AddToCart
+      - [x] RemoveFromCart
+      - [x] ViewCart
+      - [x] EditCart
+      - [x] ClearCart
+      <!-- TODO-FUTURE - [] Store pending cart in Database (order status as 'pending') -->
 
-  - [x] Implement MySQL relation (payments)
-  - [x] Implement Intents
-    - [x] CheckPaymentStatus
-    - [x] PayOrder
+  - [x] Payment
 
-- [x] Recommendations
+    - [x] Implement MySQL relation (payments)
+    - [x] Implement Intents
+      - [x] CheckPaymentStatus
+      - [x] PayOrder
 
-  - [x] Implement MySQL relation (user_behavior)
-  - [x] Track user's behavior
-    - [x] Menus viewed
-    - [x] Ordered items
-      <!-- TODO FUTURE - [] Restaurants viewed -->
-      <!-- TODO-FUTURE - [] Based on ratings -->
-      <!-- TODO-FUTURE - [] Based on user reviews -->
-  - [x] Rule-based recommendation
-  - [x] Implement Intents
-    - [x] RecommendItem
+  - [x] Recommendations
+
+    - [x] Implement MySQL relation (user_behavior)
+    - [x] Track user's behavior
+      - [x] Menus viewed
+      - [x] Ordered items
+        <!-- TODO FUTURE - [] Restaurants viewed -->
+        <!-- TODO-FUTURE - [] Based on ratings -->
+        <!-- TODO-FUTURE - [] Based on user reviews -->
+    - [x] Rule-based recommendation
+    - [x] Implement Intents
+      - [x] RecommendItem
+        <!-- TODO-FUTURE - [] AddRecommendedItem -->
+          <!-- => Track additions from AddRecommendedItem in userBehavior -->
+
+  <!-- TODO-FUTURE - [] Ratings -->
+    <!-- TODOFUTURE - [] Implement Relations (item_reviews) -->
+    <!-- TODO-FUTURE - [] RateItem -->
+    <!-- TODO-FUTURE - [] ReviewRestaurant -->
+
+  <!-- TODO-FUTURE - [] ProvideFeedback -->
+
+  <!-- TODOFUTURE - [] ManageCoupons -->
+    <!-- TODOFUTURE - [] ViewCoupons -->
+    <!-- TODOFUTURE - [] ApplyCoupon -->
+
+- [x] Frontend
+
+  - [x] Home: Home page of the application
+  - [x] NotFound: Fallack for undefined addresses
+  - [x] RestaurantBotCard: Selection of restaurant chatbot on home page
+  - [x] ChatWindow: Chat container for messaging UI.
+  - [x] ChatHeader: Bot name, status indicator
+  - [x] ChatBubbles: Bubbles from either side's messages
+    <!-- TODOFUTURE - [] RestaurantList: Displays list of restaurants (name, rating, cuisine, price range) -->
+    <!-- TODOFUTURE - [] RestaurantCard: Individual restaurant item with basic info and thumbnail -->
+    <!-- TODOFUTURE - [] LocationFilter: Filter restaurants by city/area -->
+    <!-- TODOFUTURE - [] CuisineFilter: Filter restaurants by cuisine types -->
+    <!-- TODOFUTURE - [] RestaurantDetails: Detailed info page/modal for a selected restaurant (address, reviews, menu link) -->
+    <!-- TODOFUTURE - [] MenuList: -->
+    <!-- TODOFUTURE - [] MenuItemCard: -->
 
 - [] Deployment
 
   - [x] Deploy CLU service to Azure Language Services
-  - [] Deploy the bot to Azure Bot Services
-  - [] Connect bot to Microsoft Teams or Web Chat Channel
-
-<!-- - [] Complete Frontend
-
-  - [] ChatWindow: Main chat container using Bot Framework Web Chat SDK for messaging UI.
-  - [] ChatHeader: Bot name, status indicator, and possibly a user profile button.
-  - [] RestaurantList: Displays list of restaurants (name, rating, cuisine, price range)
-  - [] RestaurantCard: Individual restaurant item with basic info and thumbnail.
-  - [] LocationFilter: Filter restaurants by city/area.
-  - [] CuisineFilter: Filter restaurants by cuisine types.
-  - [] RestaurantDetails: Detailed info page/modal for a selected restaurant (address, reviews, menu link).
-  - [] MenuList:
-  - [] MenuItemCard: -->
+  - [x] Deploy the bot to Azure Bot Services
+  - [] Deploy frontend on Azure
+  - [] Deploy backend on Azure
+  - [] Deploy MySQL databse on Azure
+  - [] Integrate them together
+  - [] Test it is working

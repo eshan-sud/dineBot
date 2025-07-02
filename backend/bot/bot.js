@@ -45,8 +45,7 @@ const {
   isValidDate,
   isValidTime,
   isValidEmail,
-} = require("../utils/utils");
-const { execute } = require("../config/db");
+} = require("../utility/utils");
 
 const memoryStorage = new MemoryStorage();
 const conversationState = new ConversationState(memoryStorage); // Conversation state
@@ -64,15 +63,13 @@ class RestaurantBot extends ActivityHandler {
     this.userProfileAccessor = conversationState.createProperty("userProfile");
 
     this.onMessage(async (context, next) => {
-      if (!this.userProfile) {
-        this.userProfile = await this.userProfileAccessor.get(context, {
-          isAuthenticated: false,
-          currentIntent: "Authentication",
-          stateStack: { step: "choosing_auth_mode" },
-          contextData: {},
-          cart: [],
-        });
-      }
+      this.userProfile = await this.userProfileAccessor.get(context, {
+        isAuthenticated: false,
+        currentIntent: "Authentication",
+        stateStack: { step: "choosing_auth_mode" },
+        contextData: {},
+        cart: [],
+      });
       const text = context.activity.text.toLowerCase().trim();
       // AUTHENTICATION HANDLER
       if (!this.userProfile.isAuthenticated) {
@@ -81,6 +78,16 @@ class RestaurantBot extends ActivityHandler {
       }
 
       // AUTHENTICATED USER LOGIC
+      if (text.includes("logout") || text.includes("exit")) {
+        this.userProfile.isAuthenticated = false;
+        this.userProfile.currentIntent = null;
+        this.userProfile.stateStack = null;
+        this.userProfile.contextData = {};
+        await this.userProfileAccessor.set(context, this.userProfile);
+        await this.conversationState.saveChanges(context);
+        await context.sendActivity("👋 You've been logged out successfully.");
+        return;
+      }
       console.log(
         !this.userProfile.currentIntent
           ? `${text}`
@@ -1566,6 +1573,11 @@ class RestaurantBot extends ActivityHandler {
     });
 
     this.onMembersAdded(async (context, next) => {
+      if (context.activity.channelId === "rest") {
+        // REST-based clients should not trigger this logic
+        await next();
+        return;
+      }
       const membersAdded = context.activity.membersAdded;
       for (let member of membersAdded) {
         if (member.id !== context.activity.recipient.id) {
@@ -1580,7 +1592,7 @@ class RestaurantBot extends ActivityHandler {
           await this.userProfileAccessor.set(context, userProfile);
           await this.conversationState.saveChanges(context);
           await context.sendActivity(
-            '👋 Welcome to the Restaurant Bot 👋\n\nPlease type:\n\n👉 "login" to sign in\n\n👉 "signup" to register\n'
+            '👋 Welcome to the DineBot 👋\n\nPlease type:\n\n👉 "login" to sign in\n\n👉 "signup" to register\n'
           );
         }
       }
