@@ -531,7 +531,7 @@ class RestaurantBot extends ActivityHandler {
 
         case "GeneralGreeting": {
           reply =
-            "👋 Hello! Welcome to Restaurant Bot\n\n" +
+            "👋 Hello! Welcome to DineBot\n\n" +
             "Here's what I can help you with:\n\n" +
             this.optionsMessage;
           this.userProfile.currentIntent = null;

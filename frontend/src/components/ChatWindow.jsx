@@ -255,7 +255,10 @@ const ChatWindow = () => {
         }
       }
       const data = await res.json();
-      if (typeof data.reply === "string" && data.reply.includes("logged out"))
+      if (
+        typeof data.replies[0].text === "string" &&
+        data.replies[0].text.includes("logged out")
+      )
         logoutUser();
       if (data.userId && data.userId !== "guest") {
         // Update stored userId only after successful login/signup

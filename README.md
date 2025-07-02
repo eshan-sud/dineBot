@@ -1,35 +1,77 @@
-# Restaurant Bot
+# DineBot
 
 My project for the completion of my Node.js internship at Celebal Technologies 2025
 
-### Start the backend:
+### Start the Project:
 
-- Run this on the terminal in the root directory of the project
+- Create `.env` in both frontend & backend workspaces
 
-  npm run dev:backend
+- After adding all the required details in the `.env` files
 
-### Technologies being used:
+  - Backend :
+
+        DB_HOST=db_host_name
+        DB_USER=db_user_name
+        DB_PASSWORD=_db_password
+        DB_NAME=db_name
+        PORT=port_number
+        BASE_URL=backend_base_url
+        JWT_SECRET=jwt_secret
+        JWT_REFRESH_SECRET=jwt_refresh_secret
+        AZURE_KEY=azure_key
+        AZURE_PROJECT_NAME=azure_project_name
+        AZURE_DEPLOYMENT_NAME=azure_project_deployment_name
+        AZURE_ENDPOINT=azure_endpoint
+
+  - Frontend :
+
+        REACT_APP_AZURE_BACKEND_API=your_backend_api
+
+- Run these on the terminal in the root directory of the project:
+
+      npm install
+      npm run dev:all
+
+### Technologies Used:
 
 - Node.js
+- Express.js
+- React.js
 - MySQL
 - Microsoft Azure (conversation language understanding)
 - REST APIs
 - Microsoft Bot Emulator
 - Postman (testing APIs)
 
-#### Other dependencies:
+#### Other Dependencies:
 
-- azure/ai-language-conversations
-- bcrypt
-- body-parser
-- botbuilder
-- chrono-node
-- cors
-- dotenv
-- express
-- jsonwebtoken
-- mysql2
-- nodemon (dev dependency)
+- Backend
+
+  - azure/ai-language-conversations
+  - bcrypt
+  - body-parser
+  - botbuilder
+  - cookie-parser
+  - cors
+  - dotenv
+  - express
+  - express-rate-limit
+  - express-slow-down
+  - jsonwebtoken
+  - mysql2
+  - nodemon (dev dependency)
+
+- Frontend
+  - @testing-library/dom
+  - @testing-library/jest-dom
+  - @testing-library/react
+  - @testing-library/user-event
+  - lucide-react
+  - react
+  - react-dom
+  - react-router-dom
+  - react-scripts
+  - web-vitals
 
 ### Instructions:
 
@@ -150,15 +192,15 @@ This handy restaurant bot simplifies your dining experience. It helps you find r
           <!-- => Track additions from AddRecommendedItem in userBehavior -->
 
   <!-- TODO-FUTURE - [] Ratings -->
-    <!-- TODOFUTURE - [] Implement Relations (item_reviews) -->
+    <!-- TODO-FUTURE - [] Implement Relations (item_reviews) -->
     <!-- TODO-FUTURE - [] RateItem -->
     <!-- TODO-FUTURE - [] ReviewRestaurant -->
 
   <!-- TODO-FUTURE - [] ProvideFeedback -->
 
-  <!-- TODOFUTURE - [] ManageCoupons -->
-    <!-- TODOFUTURE - [] ViewCoupons -->
-    <!-- TODOFUTURE - [] ApplyCoupon -->
+  <!-- TODO-FUTURE - [] ManageCoupons -->
+    <!-- TODO-FUTURE - [] ViewCoupons -->
+    <!-- TODO-FUTURE - [] ApplyCoupon -->
 
 - [x] Frontend
 
@@ -170,13 +212,15 @@ This handy restaurant bot simplifies your dining experience. It helps you find r
   - [x] ChatWindow: Chat container for messaging UI.
     - [x] Implement up & down arrows to cycle through messages
   - [x] Refresh Token funcitonality
-    <!-- TODOFUTURE - [] RestaurantList: Displays list of restaurants (name, rating, cuisine, price range) -->
-    <!-- TODOFUTURE - [] RestaurantCard: Individual restaurant item with basic info and thumbnail -->
-    <!-- TODOFUTURE - [] LocationFilter: Filter restaurants by city/area -->
-    <!-- TODOFUTURE - [] CuisineFilter: Filter restaurants by cuisine types -->
-    <!-- TODOFUTURE - [] RestaurantDetails: Detailed info page/modal for a selected restaurant address, reviews, menu link) -->
-    <!-- TODOFUTURE - [] MenuList: -->
-    <!-- TODOFUTURE - [] MenuItemCard: -->
+    <!-- TODO-FUTURE - [] RestaurantList: Displays list of restaurants (name, rating, cuisine, price range) -->
+    <!-- TODO-FUTURE - [] RestaurantCard: Individual restaurant item with basic info and thumbnail -->
+    <!-- TODO-FUTURE - [] LocationFilter: Filter restaurants by city/area -->
+    <!-- TODO-FUTURE - [] CuisineFilter: Filter restaurants by cuisine types -->
+    <!-- TODO-FUTURE - [] RestaurantDetails: Detailed info page/modal for a selected restaurant address, reviews, menu link) -->
+    <!-- TODO-FUTURE - [] MenuList: -->
+    <!-- TODO-FUTURE - [] MenuItemCard: -->
+
+<!-- TODO-FUTURE- [] Write tests -->
 
 - [] Deployment
 

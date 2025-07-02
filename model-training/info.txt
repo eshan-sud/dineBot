@@ -1,11 +1,8 @@
 Entities:-
 
-    # action_type     =>  {view, order, rate}                                   [__NEW__]
-    # cartTotal       => [Number]                                               [HIDDEN]
-
     cuisine         =>  {indian, italian, chinese, etc}
     date            => [Date]
-    deliveryMethod  =>  {delivery, pickup}                                      [__NEW__]
+    deliveryMethod  =>  {delivery, pickup}
     dietType        =>  {veg, non-veg, vegan, egg-free, gluten-free, lactose-free, low carbs}
     menuItem        => [String]
     orderID         => [Number]

@@ -1,7 +1,6 @@
 # Files to ignore from version control
 
+frontend/.env
 backend/.env
 backend/public/images/
 node_modules/
-
-future-additions/
