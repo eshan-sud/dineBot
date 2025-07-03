@@ -14,14 +14,15 @@ My project for the completion of my Node.js internship at Celebal Technologies 2
         DB_USER=db_user_name
         DB_PASSWORD=_db_password
         DB_NAME=db_name
-        PORT=port_number
+        DB_PORT=db_port_number
+        BACKEND_PORT=port_number
         BASE_URL=backend_base_url
         JWT_SECRET=jwt_secret
         JWT_REFRESH_SECRET=jwt_refresh_secret
-        AZURE_KEY=azure_key
-        AZURE_PROJECT_NAME=azure_project_name
-        AZURE_DEPLOYMENT_NAME=azure_project_deployment_name
-        AZURE_ENDPOINT=azure_endpoint
+        AZURE_CLU_KEY=azure_clu_key
+        AZURE_CLU_PROJECT_NAME=azure_clu_project_name
+        AZURE_CLU_DEPLOYMENT_NAME=azure_clu_project_deployment_name
+        AZURE_CLU_ENDPOINT=azure_clu_endpoint
 
   - Frontend :
 
@@ -228,6 +229,6 @@ This handy restaurant bot simplifies your dining experience. It helps you find r
   - [x] Deploy the bot to Azure Bot Services
   - [] Deploy frontend on Azure
   - [] Deploy backend on Azure
-  - [] Deploy MySQL databse on Azure
+  - [] Set up CD (Continuous Deployment) on Azure
+  - [x] Deploy MySQL databse on Azure MySQL Flexible Server
   - [] Integrate them together
-  - [] Test it is working

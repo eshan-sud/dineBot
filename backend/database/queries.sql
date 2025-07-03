@@ -79,16 +79,16 @@ CREATE TABLE item_images (
 );
 
 -- Item Reviews
--- CREATE TABLE item_reviews (
---     id INT AUTO_INCREMENT PRIMARY KEY,
---     user_id INT,
---     menu_item_id INT,
---     rating INT CHECK (rating BETWEEN 1 AND 5),
---     comment TEXT,
---     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
---     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
---     FOREIGN KEY (menu_item_id) REFERENCES menu_items(id) ON DELETE CASCADE
--- );
+CREATE TABLE item_reviews (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    menu_item_id INT,
+    rating INT CHECK (rating BETWEEN 1 AND 5),
+    comment TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (menu_item_id) REFERENCES menu_items(id) ON DELETE CASCADE
+);
 
 -- Reservations
 CREATE TABLE reservations (
@@ -304,8 +304,8 @@ VALUES
 -- Menus
 INSERT INTO menus (restaurant_id, name, description, image_path)
 VALUES
-  (1, 'Main Menu', 'Delicious pizzas and pastas', 'images/menu_pizza_palace.jpg'),
-  (2, 'Daily Specials', 'Authentic Indian dishes', 'images/menu_pizza_palace.jpg');
+  (1, 'Main Menu', 'Delicious pizzas and pastas', 'menu_pizza_palace.jpg'),
+  (2, 'Daily Specials', 'Authentic Indian dishes', 'menu_pizza_palace.jpg');
 
 -- Menu Items
 INSERT INTO menu_items (menu_id, name, description, price)

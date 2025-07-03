@@ -5,10 +5,10 @@ const {
 } = require("@azure/ai-language-conversations");
 const { AzureKeyCredential } = require("@azure/core-auth");
 
-const project_name = process.env.AZURE_PROJECT_NAME;
-const deployment_name = process.env.AZURE_DEPLOYMENT_NAME;
-const endpoint = process.env.AZURE_ENDPOINT;
-const apiKey = process.env.AZURE_KEY;
+const project_name = process.env.AZURE_CLU_PROJECT_NAME;
+const deployment_name = process.env.AZURE_CLU_DEPLOYMENT_NAME;
+const endpoint = process.env.AZURE_CLU_ENDPOINT;
+const apiKey = process.env.AZURE_CLU_KEY;
 
 try {
   if (!endpoint || !apiKey) {

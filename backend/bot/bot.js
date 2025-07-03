@@ -553,7 +553,7 @@ class RestaurantBot extends ActivityHandler {
               this.userProfile.contextData.restaurantName
             );
             if (!result || !result.items || result.items.length === 0) {
-              reply = `😔 Sorry, I couldn't find a menu for "${this.userProfile.contextData.restaurantName}". Try another restaurant?`;
+              let reply = `😔 Sorry, I couldn't find a menu for "${this.userProfile.contextData.restaurantName}". Try another restaurant?`;
               await context.sendActivity(reply);
               break;
             }
