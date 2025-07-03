@@ -223,12 +223,12 @@ This handy restaurant bot simplifies your dining experience. It helps you find r
 
 <!-- TODO-FUTURE- [] Write tests -->
 
-- [] Deployment
+- [x] Deployment
 
   - [x] Deploy CLU service to Azure Language Services
   - [x] Deploy the bot to Azure Bot Services
-  - [] Deploy frontend on Azure
+  - [x] Deploy frontend on Azure
   - [x] Deploy backend on Azure
-  - [] Set up CD (Continuous Deployment) on Azure
   - [x] Deploy MySQL databse on Azure MySQL Flexible Server
-  - [] Integrate them together
+  - [x] Set up CD (Continuous Deployment) on Azure
+  - [x] Integrate them together

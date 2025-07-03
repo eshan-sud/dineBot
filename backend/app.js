@@ -15,7 +15,8 @@ const app = express();
 
 app.use(
   cors({
-    origin: "*", // Allow all for now
+    origin: "http://localhost:3000", // Allow localhost only for now
+    credentials: true,
   })
 );
 app.use(express.json());
