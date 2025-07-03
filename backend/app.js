@@ -15,8 +15,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:3000", // Allow frontend dev server
-    credentials: true, // Allow cookies or auth headers if used
+    origin: "*", // Allow all for now
   })
 );
 app.use(express.json());
