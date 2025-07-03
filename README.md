@@ -2,6 +2,40 @@
 
 My project for the completion of my Node.js internship at Celebal Technologies 2025
 
+- Website is live on : [link](https://purple-hill-0150e1600.2.azurestaticapps.net/)
+
+> **Note:** Backend may not work because it is on **free** tier & only runs for 60 compute minutes/day.
+
+
+---
+
+#### Sample Images (of the frontend:
+
+<img src="https://github.com/user-attachments/assets/37128736-7ee8-4917-a936-1212f63cbd5e" width="300" height="auto" /> 
+<img src="https://github.com/user-attachments/assets/27d93449-7743-419e-a6df-33b0653c3678" width="300" height="auto" />
+
+<br/>
+
+<img src="https://github.com/user-attachments/assets/d1ff4384-ccbc-471f-8051-a09132d0b665" width="300" height="auto" />
+<img src="https://github.com/user-attachments/assets/872e6b68-e13f-43a9-9e05-839cb5f5c020" width="300" height="auto" />
+
+---
+
+
+### Instructions received for the project:
+
+This handy restaurant bot simplifies your dining experience. It helps you find restaurants, browse menus, make reservations, and even place orders for delivery or pickup, all within a user-friendly chat interface.
+
+- Restaurant Discovery: Search for restaurants by cuisine, location, price range, or specific keywords.
+- Menu Exploration: Access digital menus with clear descriptions, pictures, and customer reviews.
+- Reservation Management: Make reservations for your desired date and time, specifying any special requests.
+- Ordering Made Easy: Place orders for delivery or pickup directly through the bot, adding or removing items with ease.
+- Payment Integration: Securely pay for your order using a connected payment method within the chat interface.
+- Order Tracking: Receive real-time updates on the status of your order, from confirmation to delivery (or pickup notification).
+- Table Management: Manage your reservations and orders in one place, allowing for easy cancellations or modifications.
+- Personalized Recommendations: Based on your past choices and preferences, the bot can suggest relevant restaurants and dishes.
+
+
 ### Start the Project:
 
 - Create `.env` in both frontend & backend workspaces
@@ -33,6 +67,7 @@ My project for the completion of my Node.js internship at Celebal Technologies 2
       npm install
       npm run dev:all
 
+
 ### Technologies Used:
 
 - Node.js
@@ -43,6 +78,7 @@ My project for the completion of my Node.js internship at Celebal Technologies 2
 - REST APIs
 - Microsoft Bot Emulator
 - Postman (testing APIs)
+
 
 #### Other Dependencies:
 
@@ -74,18 +110,6 @@ My project for the completion of my Node.js internship at Celebal Technologies 2
   - react-scripts
   - web-vitals
 
-### Instructions:
-
-This handy restaurant bot simplifies your dining experience. It helps you find restaurants, browse menus, make reservations, and even place orders for delivery or pickup, all within a user-friendly chat interface.
-
-- Restaurant Discovery: Search for restaurants by cuisine, location, price range, or specific keywords.
-- Menu Exploration: Access digital menus with clear descriptions, pictures, and customer reviews.
-- Reservation Management: Make reservations for your desired date and time, specifying any special requests.
-- Ordering Made Easy: Place orders for delivery or pickup directly through the bot, adding or removing items with ease.
-- Payment Integration: Securely pay for your order using a connected payment method within the chat interface.
-- Order Tracking: Receive real-time updates on the status of your order, from confirmation to delivery (or pickup notification).
-- Table Management: Manage your reservations and orders in one place, allowing for easy cancellations or modifications.
-- Personalized Recommendations: Based on your past choices and preferences, the bot can suggest relevant restaurants and dishes.
 
 ### TODO
 
