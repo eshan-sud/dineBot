@@ -13,7 +13,12 @@ const botRoutes = require("./routes/botRoutes");
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000", // Allow frontend dev server
+    credentials: true, // Allow cookies or auth headers if used
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
 app.use(errorHandler);
