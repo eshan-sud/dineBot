@@ -68,5 +68,5 @@ jobs:
         with:
           app-name: 'restaurant-bot-backend'
           slot-name: 'Production'
-          package: .
+          package: './backend'
           
