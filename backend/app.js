@@ -13,10 +13,30 @@ const botRoutes = require("./routes/botRoutes");
 
 const app = express();
 
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://purple-hill-0150e1600.2.azurestaticapps.net", // Frontend link
+];
+
 app.use(
   cors({
-    origin: "http://localhost:3000", // Allow localhost only for now
-    credentials: true,
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+    methods: ["GET", "POST"], // Allow necessary methods, including OPTIONS for preflight
+    allowedHeaders: [
+      "Origin",
+      "X-Requested-With",
+      "Content-Type",
+      "Accept",
+      "Authorization",
+      "Cookie",
+    ], // Ensure headers needed by the frontend are allowed
   })
 );
 app.use(express.json());

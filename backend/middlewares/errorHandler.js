@@ -1,10 +1,10 @@
 // backend/middlewares/errorHandler.js
 
-const errorHandler = (err, req, res, next) => {
-  console.error(err.stack);
+const errorHandler = (error, req, res, next) => {
+  console.error(error.stack);
   res.status(500).json({
     success: false,
-    message: err.message || "Server Error",
+    message: error.message || "Server Error",
   });
 };
 

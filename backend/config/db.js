@@ -1,6 +1,8 @@
 // backend/config/db.js
-const mysql = require("mysql2/promise");
+
 require("dotenv").config();
+const fs = require("fs");
+const mysql = require("mysql2/promise");
 
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
@@ -13,8 +15,8 @@ const pool = mysql.createPool({
   queueLimit: 0,
   ssl: {
     rejectUnauthorized: true, // required for Azure
+    ca: process.env.DB_CA_CERT,
   },
-  // ssl: { ca: fs.readFileSync("{ca-cert filename}") },
 });
 
 module.exports = pool;
